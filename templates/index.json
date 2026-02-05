@@ -1,4 +1,65 @@
 {
-    "sections": {},
-    "order": []
+    "sections": {
+        "circle_menu": {
+            "type": "custom-circle-menu",
+            "blocks": {
+                "menu_item_1": {
+                    "type": "circle_menu_item",
+                    "settings": {
+                        "preset_icon": "circlemenu1.svg",
+                        "text": "Food Containers"
+                    }
+                },
+                "menu_item_2": {
+                    "type": "circle_menu_item",
+                    "settings": {
+                        "preset_icon": "circlemenu2.svg",
+                        "text": "Cups & Lids"
+                    }
+                },
+                "menu_item_3": {
+                    "type": "circle_menu_item",
+                    "settings": {
+                        "preset_icon": "circlemenu3.svg",
+                        "text": "Plates & Bowls"
+                    }
+                },
+                "menu_item_4": {
+                    "type": "circle_menu_item",
+                    "settings": {
+                        "preset_icon": "circlemenu4.svg",
+                        "text": "Cutlery & Napkins"
+                    }
+                },
+                "menu_item_5": {
+                    "type": "circle_menu_item",
+                    "settings": {
+                        "preset_icon": "circlemenu5.svg",
+                        "text": "Carry Bags & Packaging"
+                    }
+                },
+                "menu_item_6": {
+                    "type": "circle_menu_item",
+                    "settings": {
+                        "preset_icon": "circlemenu6.svg",
+                        "text": "Eco Friendly"
+                    }
+                }
+            },
+            "block_order": [
+                "menu_item_1",
+                "menu_item_2",
+                "menu_item_3",
+                "menu_item_4",
+                "menu_item_5",
+                "menu_item_6"
+            ],
+            "settings": {
+                "heading": ""
+            }
+        }
+    },
+    "order": [
+        "circle_menu"
+    ]
 }

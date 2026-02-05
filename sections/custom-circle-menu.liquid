@@ -1,0 +1,178 @@
+{% schema %}
+{
+  "name": "Custom Circle Menu",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Menu"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 36
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#F6FEFD"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "circle_menu_item",
+      "name": "Menu Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "preset_icon",
+          "label": "Preset Icon",
+          "options": [
+            { "value": "none", "label": "Custom Image" },
+            { "value": "circlemenu1.svg", "label": "Circle Menu 1" },
+            { "value": "circlemenu2.svg", "label": "Circle Menu 2" },
+            { "value": "circlemenu3.svg", "label": "Circle Menu 3" },
+            { "value": "circlemenu4.svg", "label": "Circle Menu 4" },
+            { "value": "circlemenu5.svg", "label": "Circle Menu 5" },
+            { "value": "circlemenu6.svg", "label": "Circle Menu 6" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom Image"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Menu Item"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Circle Menu",
+      "blocks": [
+        {
+          "type": "circle_menu_item",
+          "settings": {
+            "preset_icon": "circlemenu1.svg",
+            "text": "Starters"
+          }
+        },
+        {
+          "type": "circle_menu_item",
+          "settings": {
+            "preset_icon": "circlemenu2.svg",
+            "text": "Mains"
+          }
+        },
+        {
+          "type": "circle_menu_item",
+          "settings": {
+            "preset_icon": "circlemenu3.svg",
+            "text": "Drinks"
+          }
+        },
+        {
+          "type": "circle_menu_item",
+          "settings": {
+            "preset_icon": "circlemenu4.svg",
+            "text": "Desserts"
+          }
+        },
+        {
+          "type": "circle_menu_item",
+          "settings": {
+            "preset_icon": "circlemenu5.svg",
+            "text": "Specials"
+          }
+        },
+        {
+          "type": "circle_menu_item",
+          "settings": {
+            "preset_icon": "circlemenu6.svg",
+            "text": "Kids"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{{ 'custom-circle-menu.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: {{ section.settings.bg_color }};
+    width: 100%;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="section-{{ section.id }}-padding">
+  <div class="custom-menu-container">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="custom-menu-heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+
+    <div class="custom-menu-grid">
+      {%- for block in section.blocks -%}
+        <a href="{{ block.settings.link }}" class="custom-menu-item" {{ block.shopify_attributes }}>
+          <div class="custom-menu-icon">
+            {%- if block.settings.preset_icon != 'none' -%}
+              <img
+                src="{{ block.settings.preset_icon | asset_url }}"
+                alt="{{ block.settings.text | escape }}"
+                loading="lazy"
+                width="100"
+                height="100"
+              >
+            {%- elsif block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'custom-menu-image' }}
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </div>
+          <span class="custom-menu-text">{{ block.settings.text | escape }}</span>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
