@@ -1,0 +1,131 @@
+/* assets/header.css */
+@import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Rethink Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    color: #121212;
+}
+
+.header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 90px;
+    /* Increased padding for more space */
+    background-color: #ffffff;
+    border-bottom: 2px solid rgb(221, 221, 221);
+    /* Lighter border */
+}
+
+.header-left {
+    flex: 0 0 auto;
+    min-width: 150px;
+}
+
+.header-logo {
+    display: block;
+}
+
+.header-logo img,
+.header-logo svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.header-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.header-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 40px;
+    /* Increased gap */
+}
+
+.header-menu-item {
+    display: inline-block;
+}
+
+.header-menu-link {
+    text-decoration: none;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 14px;
+    /* Slightly smaller, more refined */
+    color: #121212;
+    letter-spacing: 0.02em;
+    transition: opacity 0.3s ease;
+}
+
+.header-menu-link:hover {
+    opacity: 0.7;
+}
+
+.header-right {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+    /* Spacing between icons */
+    align-items: center;
+}
+
+.header-icon {
+    color: #149B77;
+    /* Teal color matching SVGs */
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    /* Fixed width for circle */
+    height: 40px;
+    /* Fixed height for circle */
+    border-radius: 50%;
+    /* Circle shape */
+    background-color: rgba(20, 155, 119, 0.08);
+    /* Light teal background */
+    transition: background-color 0.3s ease;
+}
+
+.header-icon:hover {
+    background-color: rgba(20, 155, 119, 0.15);
+    /* Slightly darker on hover */
+}
+
+.header-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+@media screen and (max-width: 1024px) {
+    .header-wrapper {
+        padding: 20px 30px;
+    }
+
+    .header-menu {
+        gap: 20px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .header-wrapper {
+        flex-wrap: wrap;
+        padding: 15px 20px;
+    }
+
+    .header-center {
+        order: 3;
+        width: 100%;
+        margin-top: 15px;
+        display: none;
+        /* Hide menu on mobile */
+    }
+}
