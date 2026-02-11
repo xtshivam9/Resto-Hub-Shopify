@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500;600;700&display=swap');
+
+.custom-hero-section {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  padding: 100px 20px 80px;
+  /* Adjust padding as needed for height */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 600px;
+  /* Ensure a minimum height */
+  overflow: hidden;
+  box-sizing: border-box;
+  font-family: 'Rethink Sans', sans-serif;
+}
+
+.custom-hero-content {
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.custom-hero-heading {
+  font-size: 40px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: #000;
+  max-width: 800px;
+  margin: 0 auto 15px;
+  font-family: 'Rethink Sans', sans-serif;
+}
+
+.custom-hero-description {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  margin-bottom: 35px;
+  font-family: 'Rethink Sans', sans-serif;
+  font-weight: 400;
+}
+
+.custom-hero-description p {
+  margin: 0;
+}
+
+.custom-hero-buttons {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 80px;
+  /* Increased space to separate from features */
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.custom-hero-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  padding: 0 35px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 13px;
+  /* Slightly smaller for elegance */
+  transition: all 0.3s ease;
+  min-width: 150px;
+  letter-spacing: 0.5px;
+  font-family: 'Rethink Sans', sans-serif;
+}
+
+.btn-primary {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #000;
+}
+
+.btn-primary:hover {
+  background-color: #fff;
+  border-color: #fff;
+  color: #000;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #000;
+  border: 1px solid #000;
+}
+
+.btn-secondary:hover {
+  background-color: #fff;
+  color: #000;
+  border-color: #fff;
+}
+
+.custom-hero-features {
+  display: flex;
+  gap: 60px;
+  /* Wider gap between features */
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+.custom-hero-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.custom-hero-feature-item img {
+  display: block;
+  width: 48px;
+  /* Increased size for visibility */
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.custom-hero-feature-item:hover img {
+  transform: translateY(-5px);
+  /* Floating effect on hover */
+}
+
+.custom-hero-feature-item span {
+  font-weight: 400;
+  font-size: 15px;
+  color: #000;
+  text-align: left;
+  font-family: 'Rethink Sans', sans-serif;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .custom-hero-section {
+    padding: 60px 20px;
+    min-height: auto;
+  }
+
+  .custom-hero-heading {
+    font-size: 28px;
+  }
+
+  .custom-hero-description {
+    font-size: 16px;
+  }
+
+  .custom-hero-buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .custom-hero-btn {
+    width: 100%;
+  }
+
+  .custom-hero-features {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+}

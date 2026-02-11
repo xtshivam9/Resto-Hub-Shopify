@@ -1,0 +1,15 @@
+{
+  "current": "Default",
+  "presets": {
+    "Default": {
+      "sections": {
+        "header": {
+          "type": "header",
+          "settings": {}
+        }
+      },
+      "content_for_index": [],
+      "settings": {}
+    }
+  }
+}

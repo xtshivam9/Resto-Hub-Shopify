@@ -1,0 +1,14 @@
+{% layout none %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{{ 'gift_cards.issued.title' | t: value: gift_card.balance | money_strip_html }}</title>
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+  </head>
+  <body>
+    <h1>{{ gift_card.balance | money }}</h1>
+    <p>{{ gift_card.code }}</p>
+  </body>
+</html>

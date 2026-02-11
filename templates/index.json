@@ -1,5 +1,39 @@
 {
     "sections": {
+        "custom_hero": {
+            "type": "custom-hero",
+            "blocks": {
+                "feature_1": {
+                    "type": "hero_feature",
+                    "settings": {
+                        "text": "Wholesale Prices"
+                    }
+                },
+                "feature_2": {
+                    "type": "hero_feature",
+                    "settings": {
+                        "text": "Canada-Wide Delivery"
+                    }
+                },
+                "feature_3": {
+                    "type": "hero_feature",
+                    "settings": {
+                        "text": "Food-Grade Certified"
+                    }
+                }
+            },
+            "block_order": [
+                "feature_1",
+                "feature_2",
+                "feature_3"
+            ],
+            "settings": {
+                "heading": "Canada’s Trusted Wholesale Supplier of Food Packaging & Disposable Supplies",
+                "description": "<p>Plates, Cups, Containers & More — Ready for Delivery Across Canada.</p>",
+                "button_1_text": "SHOP NOW",
+                "button_2_text": "BROWSE CATEGORIES"
+            }
+        },
         "circle_menu": {
             "type": "custom-circle-menu",
             "blocks": {
@@ -60,6 +94,7 @@
         }
     },
     "order": [
+        "custom_hero",
         "circle_menu"
     ]
 }

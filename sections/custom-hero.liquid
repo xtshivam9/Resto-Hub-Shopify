@@ -1,0 +1,152 @@
+{{ 'custom-hero.css' | asset_url | stylesheet_tag }}
+
+{% assign bg_image_url = 'hero1.svg' | asset_url %}
+{% if section.settings.background_image != blank %}
+  {% assign bg_image_url = section.settings.background_image | image_url: width: 2000 %}
+{% endif %}
+
+<div class="custom-hero-section" style="background-image: url({{ bg_image_url }});">
+  <div class="custom-hero-content">
+    {% if section.settings.heading != blank %}
+      <h1 class="custom-hero-heading" style="color: {{ section.settings.text_color }};">{{ section.settings.heading }}</h1>
+    {% endif %}
+    
+    {% if section.settings.description != blank %}
+      <div class="custom-hero-description" style="color: {{ section.settings.text_color }};">{{ section.settings.description }}</div>
+    {% endif %}
+    
+    <div class="custom-hero-buttons">
+      {% if section.settings.button_1_text != blank %}
+        <a href="{{ section.settings.button_1_link }}" class="custom-hero-btn btn-primary">{{ section.settings.button_1_text }}</a>
+      {% endif %}
+      
+      {% if section.settings.button_2_text != blank %}
+        <a href="{{ section.settings.button_2_link }}" class="custom-hero-btn btn-secondary">{{ section.settings.button_2_text }}</a>
+      {% endif %}
+    </div>
+    
+    <div class="custom-hero-features">
+      {% for block in section.blocks %}
+        <div class="custom-hero-feature-item">
+          {% assign icon_url = block.settings.icon | image_url: width: 50 %}
+          {% if block.settings.icon == blank %}
+             {% assign icon_name = 'float-icon' | append: forloop.index | append: '.svg' %}
+             {% assign icon_url = icon_name | asset_url %}
+          {% endif %}
+          
+          <img src="{{ icon_url }}" alt="{{ block.settings.text }}" width="40" height="40">
+          
+          {% if block.settings.text != blank %}
+            <span style="color: {{ section.settings.text_color }};">{{ block.settings.text }}</span>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Canada’s Trusted Wholesale Supplier of Food Packaging & Disposable Supplies"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Plates, Cups, Containers & More — Ready for Delivery Across Canada.</p>"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Button 1 (Primary)"
+    },
+    {
+      "type": "text",
+      "id": "button_1_text",
+      "label": "Button Text",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "button_1_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Button 2 (Secondary)"
+    },
+    {
+      "type": "text",
+      "id": "button_2_text",
+      "label": "Button Text",
+      "default": "BROWSE CATEGORIES"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Button Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hero_feature",
+      "name": "Feature Item",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Wholesale Prices"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Hero",
+      "blocks": [
+        {
+          "type": "hero_feature",
+          "settings": {
+            "text": "Wholesale Prices"
+          }
+        },
+        {
+          "type": "hero_feature",
+          "settings": {
+            "text": "Canada-Wide Delivery"
+          }
+        },
+        {
+          "type": "hero_feature",
+          "settings": {
+            "text": "Food-Grade Certified"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
