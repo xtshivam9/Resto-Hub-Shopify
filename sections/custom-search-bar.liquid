@@ -1,0 +1,69 @@
+{{ 'custom-search-bar.css' | asset_url | append: '?v=3' | stylesheet_tag }}
+
+<div class="custom-search-bar-section" style="background-color: {{ section.settings.section_background }};">
+  <div class="custom-search-container" style="background-color: {{ section.settings.bar_background }};">
+    <form action="{{ routes.search_url }}" method="get" role="search" class="custom-search-form">
+      <input
+        type="text"
+        name="q"
+        value="{{ search.terms | escape }}"
+        placeholder="{{ section.settings.placeholder_text }}"
+        class="custom-search-input"
+        aria-label="{{ section.settings.placeholder_text }}"
+      >
+      <input type="hidden" name="type" value="product">
+      <button type="submit" class="custom-search-button" style="background-color: {{ section.settings.button_color }}; color: {{ section.settings.button_text_color }};">
+        {{ section.settings.button_text }}
+      </button>
+    </form>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Search Bar",
+  "settings": [
+    {
+      "type": "color",
+      "id": "section_background",
+      "label": "Section Background Color",
+      "default": "transparent"
+    },
+    {
+      "type": "color",
+      "id": "bar_background",
+      "label": "Bar Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_text",
+      "label": "Placeholder Text",
+      "default": "Search what you are looking for"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "SEARCH"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Search Bar"
+    }
+  ]
+}
+{% endschema %}

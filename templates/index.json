@@ -34,6 +34,13 @@
                 "button_2_text": "BROWSE CATEGORIES"
             }
         },
+        "custom_search_bar": {
+            "type": "custom-search-bar",
+            "settings": {
+                "placeholder_text": "Search what you are looking for",
+                "button_text": "SEARCH"
+            }
+        },
         "circle_menu": {
             "type": "custom-circle-menu",
             "blocks": {
@@ -41,42 +48,70 @@
                     "type": "circle_menu_item",
                     "settings": {
                         "preset_icon": "circlemenu1.svg",
-                        "text": "Food Containers"
+                        "text": "Aluminium Containers"
                     }
                 },
                 "menu_item_2": {
                     "type": "circle_menu_item",
                     "settings": {
                         "preset_icon": "circlemenu2.svg",
-                        "text": "Cups & Lids"
+                        "text": "Cups"
                     }
                 },
                 "menu_item_3": {
                     "type": "circle_menu_item",
                     "settings": {
                         "preset_icon": "circlemenu3.svg",
-                        "text": "Plates & Bowls"
+                        "text": "Paper Plates"
                     }
                 },
                 "menu_item_4": {
                     "type": "circle_menu_item",
                     "settings": {
                         "preset_icon": "circlemenu4.svg",
-                        "text": "Cutlery & Napkins"
+                        "text": "Bagasse Products"
                     }
                 },
                 "menu_item_5": {
                     "type": "circle_menu_item",
                     "settings": {
                         "preset_icon": "circlemenu5.svg",
-                        "text": "Carry Bags & Packaging"
+                        "text": "Hinged Containers"
                     }
                 },
                 "menu_item_6": {
                     "type": "circle_menu_item",
                     "settings": {
                         "preset_icon": "circlemenu6.svg",
-                        "text": "Eco Friendly"
+                        "text": "Hygiene & Cleaning"
+                    }
+                },
+                "menu_item_7": {
+                    "type": "circle_menu_item",
+                    "settings": {
+                        "preset_icon": "circlemenu7.svg",
+                        "text": "Kraft Food Containers"
+                    }
+                },
+                "menu_item_8": {
+                    "type": "circle_menu_item",
+                    "settings": {
+                        "preset_icon": "circlemenu8.svg",
+                        "text": "Lids"
+                    }
+                },
+                "menu_item_9": {
+                    "type": "circle_menu_item",
+                    "settings": {
+                        "preset_icon": "circlemenu9.svg",
+                        "text": "Paper Bags"
+                    }
+                },
+                "menu_item_10": {
+                    "type": "circle_menu_item",
+                    "settings": {
+                        "preset_icon": "circlemenu10.svg",
+                        "text": "Plastic Containers"
                     }
                 }
             },
@@ -86,15 +121,58 @@
                 "menu_item_3",
                 "menu_item_4",
                 "menu_item_5",
-                "menu_item_6"
+                "menu_item_6",
+                "menu_item_7",
+                "menu_item_8",
+                "menu_item_9",
+                "menu_item_10"
             ],
             "settings": {
-                "heading": ""
+                "heading": "",
+                "padding_top": 0,
+                "padding_bottom": 0
             }
+        },
+        "trusted_businesses": {
+            "type": "custom-trusted-businesses",
+            "blocks": {
+                "trust_item_1": {
+                    "type": "trust_item",
+                    "settings": {
+                        "preset_icon": "trusted3.svg",
+                        "title": "",
+                        "subtitle": "Active Business Clients"
+                    }
+                },
+                "trust_item_2": {
+                    "type": "trust_item",
+                    "settings": {
+                        "preset_icon": "trusted2.svg",
+                        "title": "",
+                        "subtitle": "Ships to All Provinces"
+                    }
+                },
+                "trust_item_3": {
+                    "type": "trust_item",
+                    "settings": {
+                        "preset_icon": "trusted1.svg",
+                        "title": "",
+                        "subtitle": "Weekly Bulk Dispatches"
+                    }
+                }
+            },
+            "block_order": [
+                "trust_item_1",
+                "trust_item_2",
+                "trust_item_3"
+            ],
+            "settings": {}
         }
     },
     "order": [
         "custom_hero",
-        "circle_menu"
+        "custom_search_bar",
+        "circle_menu",
+        "trusted_businesses"
     ]
 }

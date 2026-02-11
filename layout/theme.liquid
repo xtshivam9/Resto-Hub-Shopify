@@ -8,6 +8,9 @@
     <title>{{ page_title }}</title>
     {{ content_for_header }}
     {{ 'header.css' | asset_url | stylesheet_tag }}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
   </head>
   <body>
     {% section 'header' %}

@@ -1,4 +1,4 @@
-{{ 'custom-hero.css' | asset_url | stylesheet_tag }}
+{{ 'custom-hero.css' | asset_url | append: '?v=3' | stylesheet_tag }}
 
 {% assign bg_image_url = 'hero1.svg' | asset_url %}
 {% if section.settings.background_image != blank %}

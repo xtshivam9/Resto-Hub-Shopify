@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500;600;700&display=swap');
+
+.custom-search-bar-section {
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;
+    margin-top: -40px;
+    margin-bottom: -40px;
+    /* Negative margin to overlap with hero/section above if needed, or just visual positioning */
+    position: relative;
+    z-index: 10;
+    font-family: 'Rethink Sans', sans-serif !important;
+    pointer-events: none;
+    /* Allow clicks through the container area */
+}
+
+.custom-search-container {
+    display: flex;
+    align-items: center;
+    padding: 8px 8px 8px 25px;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    /* Soft shadow for floating effect */
+    width: 100%;
+    max-width: 800px;
+    pointer-events: auto;
+    /* Re-enable clicks on the bar itself */
+}
+
+.custom-search-form {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.custom-search-input {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+    font-family: 'Rethink Sans', sans-serif !important;
+    padding-right: 10px;
+}
+
+.custom-search-input::placeholder {
+    color: #888;
+}
+
+.custom-search-button {
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+    font-family: 'Rethink Sans', sans-serif !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.custom-search-button:hover {
+    opacity: 0.9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .custom-search-bar-section {
+        margin-top: 0;
+        padding: 20px;
+        background-color: #f8f8f8;
+        /* Needs a background on mobile if it doesn't overlap perfectly */
+    }
+
+    .custom-search-container {
+        padding: 5px 5px 5px 20px;
+        box-shadow: none;
+        /* Simplify on mobile */
+        border: 1px solid #eee;
+    }
+
+    .custom-search-button {
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+}

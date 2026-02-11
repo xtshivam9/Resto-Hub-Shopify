@@ -1,0 +1,168 @@
+{% schema %}
+{
+  "name": "Trusted Businesses",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Trusted by Food Businesses Across Canada"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 80
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Trust Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "preset_icon",
+          "label": "Preset Icon",
+          "options": [
+            { "value": "none", "label": "Custom Image" },
+            { "value": "trusted1.svg", "label": "Cart Icon" },
+            { "value": "trusted2.svg", "label": "Map Icon" },
+            { "value": "trusted3.svg", "label": "10,000+ Graphic" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title (Optional)",
+          "info": "Leave blank if using graphic for title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Subtitle Text"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Color",
+          "default": "#149B77"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trusted Businesses",
+      "blocks": [
+        {
+          "type": "trust_item",
+          "settings": {
+            "preset_icon": "trusted3.svg",
+            "subtitle": "Active Business Clients"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "preset_icon": "trusted2.svg",
+            "subtitle": "Ships to All Provinces"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "preset_icon": "trusted1.svg",
+            "subtitle": "Weekly Bulk Dispatches"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{{ 'custom-trusted-businesses.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: {{ section.settings.bg_color }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="section-{{ section.id }}-padding">
+  <div class="trusted-businesses-container">
+    <div class="trusted-heading-column">
+      <h2 class="trusted-heading">{{ section.settings.heading | escape }}</h2>
+    </div>
+    
+    <div class="trusted-grid-column">
+      <div class="trusted-grid">
+        {%- for block in section.blocks -%}
+          <div class="trusted-item" {{ block.shopify_attributes }}>
+            <div class="trusted-icon-wrapper">
+              {%- if block.settings.preset_icon != 'none' -%}
+                <img
+                  src="{{ block.settings.preset_icon | asset_url }}"
+                  alt="{{ block.settings.subtitle | escape }}"
+                  class="trusted-icon"
+                  loading="lazy"
+                  width="150"
+                  height="150"
+                >
+              {%- elsif block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 300 | image_tag: loading: 'lazy', class: 'trusted-icon' }}
+              {%- endif -%}
+            </div>
+            
+            {%- if block.settings.title != blank -%}
+              <h3 class="trusted-title" style="color: {{ block.settings.title_color }}">{{ block.settings.title | escape }}</h3>
+            {%- endif -%}
+            
+            {%- if block.settings.subtitle != blank -%}
+              <p class="trusted-subtitle">{{ block.settings.subtitle | escape }}</p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
