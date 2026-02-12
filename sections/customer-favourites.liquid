@@ -1,0 +1,230 @@
+{% schema %}
+{
+  "name": "Customer Favourites",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Customer Favourites"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category_pill",
+      "name": "Category Pill",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Category"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "active",
+          "label": "Active State",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "product_card",
+      "name": "Product Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Product Image"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge Text",
+          "default": "BEST SELLER"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Product Title",
+          "default": "28oz Rectangle Plastic Container"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Salads, hot grains, takeaway"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "label": "Star Rating",
+          "default": 5
+        },
+        {
+          "type": "number",
+          "id": "reviews",
+          "label": "Review Count",
+          "default": 25
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "$25.02"
+        },
+        {
+          "type": "text",
+          "id": "compare_price",
+          "label": "Compare Price",
+          "default": "$28.03"
+        },
+        {
+          "type": "text",
+          "id": "unit_text",
+          "label": "Unit Text",
+          "default": "150PCS/BOX"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Favourites",
+      "blocks": [
+        { "type": "category_pill", "settings": { "label": "Food Containers" } },
+        { "type": "category_pill", "settings": { "label": "Cups & Lids" } },
+        { "type": "category_pill", "settings": { "label": "Plates & Bowls" } },
+        { "type": "category_pill", "settings": { "label": "Cutlery & Napkins" } },
+        { "type": "category_pill", "settings": { "label": "Carry Bags & Packagaing" } },
+        { "type": "category_pill", "settings": { "label": "Eco Friendly" } },
+        { "type": "product_card" },
+        { "type": "product_card" },
+        { "type": "product_card" },
+        { "type": "product_card" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{{ 'customer-favourites.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: {{ section.settings.bg_color }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="section-{{ section.id }}-padding most-ordered-section">
+  <div class="most-ordered-container">
+    <h2 class="most-ordered-heading">{{ section.settings.heading | escape }}</h2>
+
+    <div class="most-ordered-pills">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'category_pill' -%}
+          <a href="{{ block.settings.link | default: '#' }}" class="category-pill {% if block.settings.active %}active{% endif %}" {{ block.shopify_attributes }}>
+            {{ block.settings.label | escape }}
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="most-ordered-grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'product_card' -%}
+          <div class="mo-product-card" {{ block.shopify_attributes }}>
+            <div class="mo-image-wrapper">
+              {%- if block.settings.badge_text != blank -%}
+                <span class="mo-badge">{{ block.settings.badge_text }}</span>
+              {%- endif -%}
+              
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 600 | image_tag: class: 'mo-product-image', loading: 'lazy' }}
+              {%- else -%}
+                <img src="{{ 'box.svg' | asset_url }}" alt="{{ block.settings.title }}" class="mo-product-image" loading="lazy">
+              {%- endif -%}
+            </div>
+
+            <div class="mo-card-content">
+              <div class="mo-rating-row">
+                <div class="mo-stars">
+                  {%- for i in (1..5) -%}
+                    {%- if i <= block.settings.rating -%}
+                      <span class="star filled">★</span>
+                    {%- else -%}
+                      <span class="star empty">★</span>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+                <span class="mo-reviews">{{ block.settings.reviews }} Reviews</span>
+              </div>
+
+              <h3 class="mo-product-title">{{ block.settings.title | escape }}</h3>
+              <p class="mo-product-subtitle">{{ block.settings.subtitle | escape }}</p>
+
+              <div class="mo-price-row">
+                <div class="price-group">
+                  <span class="mo-price">{{ block.settings.price }}</span>
+                  {%- if block.settings.compare_price != blank -%}
+                    <span class="mo-compare-price">{{ block.settings.compare_price }}</span>
+                  {%- endif -%}
+                </div>
+                {%- if block.settings.unit_text != blank -%}
+                  <span class="mo-unit-text">{{ block.settings.unit_text }}</span>
+                {%- endif -%}
+              </div>
+
+              <button class="mo-add-btn">ADD TO CART</button>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>

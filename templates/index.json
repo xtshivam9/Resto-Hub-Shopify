@@ -166,13 +166,194 @@
                 "trust_item_2",
                 "trust_item_3"
             ],
-            "settings": {}
+            "settings": {
+                "padding_bottom": 4
+            }
+        },
+        "customer_favourites": {
+            "type": "customer-favourites",
+            "blocks": {
+                "pill_1": {
+                    "type": "category_pill",
+                    "settings": {
+                        "label": "Food Containers"
+                    }
+                },
+                "pill_2": {
+                    "type": "category_pill",
+                    "settings": {
+                        "label": "Cups & Lids"
+                    }
+                },
+                "pill_3": {
+                    "type": "category_pill",
+                    "settings": {
+                        "label": "Plates & Bowls"
+                    }
+                },
+                "pill_4": {
+                    "type": "category_pill",
+                    "settings": {
+                        "label": "Cutlery & Napkins"
+                    }
+                },
+                "pill_5": {
+                    "type": "category_pill",
+                    "settings": {
+                        "label": "Carry Bags & Packagaing"
+                    }
+                },
+                "pill_6": {
+                    "type": "category_pill",
+                    "settings": {
+                        "label": "Eco Friendly"
+                    }
+                },
+                "card_1": {
+                    "type": "product_card",
+                    "settings": {
+                        "title": "28oz Rectangle Plastic Container",
+                        "badge_text": "BEST SELLER",
+                        "subtitle": "Salads, hot grains, takeaway",
+                        "rating": 5,
+                        "reviews": 25,
+                        "price": "$25.02",
+                        "compare_price": "$28.03",
+                        "unit_text": "150PCS/CARTOON"
+                    }
+                },
+                "card_2": {
+                    "type": "product_card",
+                    "settings": {
+                        "title": "28oz Rectangle Plastic Container",
+                        "badge_text": "BEST SELLER",
+                        "subtitle": "Salads, hot grains, takeaway",
+                        "rating": 5,
+                        "reviews": 25,
+                        "price": "$25.02",
+                        "compare_price": "$28.03",
+                        "unit_text": "150PCS/CARTOON"
+                    }
+                },
+                "card_3": {
+                    "type": "product_card",
+                    "settings": {
+                        "title": "28oz Rectangle Plastic Container",
+                        "badge_text": "BEST SELLER",
+                        "subtitle": "Salads, hot grains, takeaway",
+                        "rating": 5,
+                        "reviews": 25,
+                        "price": "$25.02",
+                        "compare_price": "$28.03",
+                        "unit_text": "150PCS/CARTOON"
+                    }
+                },
+                "card_4": {
+                    "type": "product_card",
+                    "settings": {
+                        "title": "28oz Rectangle Plastic Container",
+                        "badge_text": "BEST SELLER",
+                        "subtitle": "Salads, hot grains, takeaway",
+                        "rating": 5,
+                        "reviews": 25,
+                        "price": "$25.02",
+                        "compare_price": "$28.03",
+                        "unit_text": "150PCS/CARTOON"
+                    }
+                }
+            },
+            "block_order": [
+                "pill_1",
+                "pill_2",
+                "pill_3",
+                "pill_4",
+                "pill_5",
+                "pill_6",
+                "card_1",
+                "card_2",
+                "card_3",
+                "card_4"
+            ],
+            "settings": {
+                "heading": "Customer Favourites",
+                "padding_top": 4,
+                "padding_bottom": 20
+            }
+        },
+        "new_arrivals": {
+            "type": "new-arrivals",
+            "blocks": {
+                "na_card_1": {
+                    "type": "na_product_card",
+                    "settings": {
+                        "badge_text": "BEST SELLER",
+                        "title": "28oz Rectangle Plastic Container",
+                        "subtitle": "Salads, hot grains, takeaway",
+                        "rating": 5,
+                        "reviews": 25,
+                        "price": "$25.02",
+                        "compare_price": "$28.03",
+                        "unit_text": "150PCS/BOX"
+                    }
+                },
+                "na_card_2": {
+                    "type": "na_product_card",
+                    "settings": {
+                        "badge_text": "BEST SELLER",
+                        "title": "28oz Rectangle Plastic Container",
+                        "subtitle": "Salads, hot grains, takeaway",
+                        "rating": 5,
+                        "reviews": 25,
+                        "price": "$25.02",
+                        "compare_price": "$28.03",
+                        "unit_text": "150PCS/BOX"
+                    }
+                },
+                "na_card_3": {
+                    "type": "na_product_card",
+                    "settings": {
+                        "badge_text": "BEST SELLER",
+                        "title": "28oz Rectangle Plastic Container",
+                        "subtitle": "Salads, hot grains, takeaway",
+                        "rating": 5,
+                        "reviews": 25,
+                        "price": "$25.02",
+                        "compare_price": "$28.03",
+                        "unit_text": "150PCS/BOX"
+                    }
+                },
+                "na_card_4": {
+                    "type": "na_product_card",
+                    "settings": {
+                        "badge_text": "BEST SELLER",
+                        "title": "28oz Rectangle Plastic Container",
+                        "subtitle": "Salads, hot grains, takeaway",
+                        "rating": 5,
+                        "reviews": 25,
+                        "price": "$25.02",
+                        "compare_price": "$28.03",
+                        "unit_text": "150PCS/BOX"
+                    }
+                }
+            },
+            "block_order": [
+                "na_card_1",
+                "na_card_2",
+                "na_card_3",
+                "na_card_4"
+            ],
+            "settings": {
+                "heading": "New Arrivals",
+                "padding_top": 20
+            }
         }
     },
     "order": [
         "custom_hero",
         "custom_search_bar",
         "circle_menu",
-        "trusted_businesses"
+        "trusted_businesses",
+        "customer_favourites",
+        "new_arrivals"
     ]
 }

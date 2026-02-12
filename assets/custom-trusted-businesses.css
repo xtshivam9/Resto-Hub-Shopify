@@ -3,7 +3,7 @@
 .trusted-businesses-container {
     max-width: 1600px;
     margin: 0 auto;
-    padding: 20px 110px 80px 110px;
+    padding: 20px 110px 0px 110px;
     display: flex;
     justify-content: space-between;
     align-items: center;
