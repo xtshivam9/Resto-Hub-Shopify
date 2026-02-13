@@ -4,33 +4,7 @@
   "tag": "footer",
   "class": "custom-footer-section",
   "settings": [
-    {
-      "type": "header",
-      "content": "CTA Banner"
-    },
-    {
-      "type": "text",
-      "id": "cta_heading",
-      "label": "CTA Heading",
-      "default": "Searching for reliable packing supply solutions in Canada?"
-    },
-    {
-      "type": "textarea",
-      "id": "cta_description",
-      "label": "CTA Description",
-      "default": "Built for businesses that depend on consistent, large-volume supply."
-    },
-    {
-      "type": "text",
-      "id": "cta_button_label",
-      "label": "CTA Button Label",
-      "default": "Browse all Categories"
-    },
-    {
-      "type": "url",
-      "id": "cta_button_link",
-      "label": "CTA Button Link"
-    },
+
     {
       "type": "header",
       "content": "Footer Settings"
@@ -183,91 +157,17 @@
   .custom-footer {
     background-color: {{ section.settings.bg_color }};
     color: {{ section.settings.text_color }};
-    padding: 0 0 30px; /* Removed top padding to allow negative margin overlap */
+    padding: 60px 0 30px;
     font-family: 'Rethink Sans', sans-serif;
     position: relative;
-    padding-top: 100px; /* Space for the floating banner */
-    margin-top: 200px; /* Added top margin to space from previous section */
+    margin-top: 0;
   }
 
-  .footer-cta-container {
-    max-width: 1100px; /* Slightly larger than 1000px, but smaller than 1200px */
-    margin: -150px auto 60px; /* Negative top margin to float slightly above footer container */
-    padding: 0;
-    position: relative;
-    z-index: 10;
-  }
-
-  .footer-cta-wrapper {
-    background-color: #239A71;
-    border-radius: 20px;
-    padding: 50px 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 40px;
-    color: #ffffff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .footer-cta-content {
-    flex: 1;
-  }
-
-  .footer-cta-heading {
-    font-family: 'Rethink Sans', sans-serif;
-    font-size: 40px;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 16px;
-    color: #ffffff;
-  }
-
-  .footer-cta-description {
-    font-family: 'Rethink Sans', sans-serif;
-    font-size: 18px;
-    line-height: 1.5;
-    color: rgba(255, 255, 255, 0.9);
-    margin: 0;
-  }
-
-  .footer-cta-button {
-    background-color: #ffffff;
-    color: #000000;
-    padding: 16px 32px;
-    border-radius: 100px;
-    font-family: 'Rethink Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    display: inline-block;
-  }
-
-  .footer-cta-button:hover {
-      opacity: 0.9;
-      transform: translateY(-2px);
-  }
-
-  @media screen and (max-width: 990px) {
-      .footer-cta-container {
-          padding: 0 20px;
-          margin-top: -100px;
-      }
-      .footer-cta-wrapper {
-          padding: 40px;
-          flex-direction: column;
-          align-items: flex-start;
-          text-align: left;
-      }
-      .footer-cta-heading {
-          font-size: 32px;
-      }
-       .footer-cta-button {
-          width: 100%;
-          text-align: center;
-      }
+  @media screen and (min-width: 990px) {
+    .custom-footer {
+      margin-top: -160px; /* Adjusted for true 50% overlap (covering padding + half banner) */
+      padding-top: 220px; /* Ensure content starts below the banner */
+    }
   }
 
   .footer-container {
@@ -538,23 +438,7 @@
 {% endstyle %}
 
 <div class="custom-footer">
-    {%- if section.settings.cta_heading != blank -%}
-    <div class="footer-cta-container">
-        <div class="footer-cta-wrapper">
-            <div class="footer-cta-content">
-                <h2 class="footer-cta-heading">{{ section.settings.cta_heading | escape }}</h2>
-                {%- if section.settings.cta_description != blank -%}
-                <p class="footer-cta-description">{{ section.settings.cta_description | escape }}</p>
-                {%- endif -%}
-            </div>
-            {%- if section.settings.cta_button_label != blank -%}
-            <a href="{{ section.settings.cta_button_link | default: '#' }}" class="footer-cta-button">
-                {{ section.settings.cta_button_label | escape }}
-            </a>
-            {%- endif -%}
-        </div>
-    </div>
-    {%- endif -%}
+
   <div class="footer-container">
     <div class="footer-grid">
       <!-- Column 1: Brand -->

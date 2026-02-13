@@ -113,6 +113,8 @@
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    width: 100%;
   }
 
   @media screen and (min-width: 750px) {
@@ -123,7 +125,8 @@
   }
 
   .eco-container {
-    max-width: 1200px;
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+    max-width: 1340px; /* Increased width to accommodate single line heading */
     margin: 0 auto;
     padding: 24px 20px;
     display: flex;
@@ -133,10 +136,11 @@
     background-color: {{ section.settings.bg_color }};
     color: #ffffff;
     font-family: 'Rethink Sans', sans-serif;
-    border-radius: 20px;
+    border-radius: 28.3347px; /* Matched specific radius */
     position: relative;
     width: 100%;
-    text-align: center; /* Center text on mobile */
+    text-align: center;
+    /* overflow: hidden; Removed to allow image breakout */
   }
   
   @media screen and (min-width: 990px) {
@@ -144,22 +148,26 @@
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      gap: 30px;
-      padding: 20px 30px;
-      min-height: 300px;
-      text-align: left; /* Reset to left on desktop */
+      gap: 40px; /* Increased gap */
+      padding: 20px 40px 24px; /* Adjusted padding */
+      min-height: 240px; /* Aggressively reduced min-height */
+      text-align: left;
+      margin-bottom: 80px; /* Add space for breakout image */
     }
   }
 
   .eco-content {
-    flex: 1;
-    max-width: 480px; /* Reduced max-width for text */
+    flex: 2; /* Give significantly more space to text */
+    max-width: 100%; /* Allow full usage of flex space */
     width: 100%;
     z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .eco-image-wrapper {
-    flex: 1;
+    flex: 1; /* Image takes less space */
     width: 100%;
     display: flex;
     justify-content: center;
@@ -168,104 +176,125 @@
     position: relative;
   }
 
-  .eco-image {
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-    object-fit: contain;
-    max-width: 100%;
-    display: block;
-    transition: transform 0.3s ease;
-  }
-
   @media screen and (min-width: 990px) {
+    .eco-image-wrapper {
+      justify-content: flex-end; /* Align image to right */
+      align-self: flex-end; /* Align wrapper to bottom */
+    }
+
     .eco-image {
-      width: 60%;
+      width: auto;
       max-width: 100%;
-      margin: 0 auto;
-      transform: none;
-      z-index: 1;
-      display: block;
+      height: auto;
+      max-height: 400px; /* Reduced max-height (was 500px) */
+      margin: 0;
+      transform: translateY(20%); /* Push image down to overlap border */
+      z-index: 10; /* Ensure it sits on top */
     }
   }
 
   .eco-heading {
     font-family: 'Rethink Sans', sans-serif;
-    font-size: 24px; /* Reduced mobile font size */
+    font-size: 32px; /* Increased mobile font size */
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1.1; /* Tighter line height */
     margin-bottom: 12px;
     color: #ffffff;
   }
 
   .eco-description {
     font-family: 'Rethink Sans', sans-serif;
-    font-size: 14px;
+    font-size: 18px; /* Increased mobile font size */
     line-height: 1.5;
-    margin-bottom: 20px;
+    margin-bottom: 40px; /* Increased gap before features */
     color: rgba(255, 255, 255, 0.9);
+    max-width: 650px; /* Increased max-width */
   }
   
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 990px) {
       .eco-heading {
-          font-size: 32px; /* Reduced desktop font size */
+          font-size: 46px; /* Slightly reduced to ensure fit */
+          white-space: nowrap; /* Force single line */
       }
       .eco-description {
-          font-size: 16px;
+          font-size: 20px; /* Increased desktop font size */
       }
   }
 
   .eco-features {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-bottom: 24px;
+    gap: 20px;
+    margin-bottom: 56px; /* Increased gap before button */
+    width: 100%;
   }
 
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 990px) {
     .eco-features {
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 20px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); /* 3 equal columns to force wrapping */
+      gap: 10px; /* Tighter gap between columns */
+      align-items: start;
     }
   }
 
   .eco-feature {
     display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    flex: 1 1 120px;
+    align-items: stretch; /* Stretch bar to match text height */
+    gap: 14px; /* Reduced gap between bar and text */
   }
 
   .eco-feature-bar {
-    width: 3px;
-    height: 100%;
-    min-height: 36px;
+    width: 6px; /* Thicker bar */
     background-color: {{ section.settings.accent_color }};
-    border-radius: 2px;
+    border-radius: 4px;
     flex-shrink: 0;
   }
 
   .eco-feature-text {
     font-family: 'Rethink Sans', sans-serif;
-    font-size: 13px;
-    line-height: 1.4;
-    font-weight: 500;
+    font-size: 20px; /* Increased feature text size for mobile */
+    line-height: 1.2;
+    font-weight: 600; /* Bold text */
     color: #ffffff;
+    align-self: center; /* Center text vertically with bar */
+  }
+
+  @media screen and (min-width: 990px) {
+      .eco-feature-text {
+          font-size: 24px; /* Significantly increased for desktop */
+          line-height: 1.15; /* Tighter line height for 2-line look */
+      }
+
+      /* Specific widths to force 2-line layouts */
+      .eco-feature:nth-child(1) .eco-feature-text {
+          max-width: 280px; /* "Compostable & recyclable options" */
+      }
+
+      .eco-feature:nth-child(2) .eco-feature-text {
+          max-width: 200px; /* "Eco-friendly materials" */
+      }
+      
+      .eco-feature:nth-child(3) .eco-feature-text {
+          max-width: 380px; /* "Suitable for sustainability-focused businesses" */
+      }
   }
 
   .eco-btn {
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     background-color: #ffffff;
     color: {{ section.settings.bg_color }};
-    padding: 12px 24px;
+    padding: 16px 32px;
     border-radius: 100px;
     font-family: 'Rethink Sans', sans-serif;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 700;
     text-decoration: none;
     transition: all 0.3s ease;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    align-self: flex-start; /* Prevent full width in flex column */
   }
 
   .eco-btn:hover {
@@ -274,42 +303,53 @@
     opacity: 0.95;
   }
 
-  @media screen and (max-width: 480px) {
-    .eco-container {
-      padding: 20px 16px;
-      border-radius: 16px;
-      gap: 16px;
-    }
-
-    .eco-heading {
-      font-size: 20px;
-      margin-bottom: 8px;
-    }
-
-    .eco-description {
-      font-size: 13px;
-      margin-bottom: 14px;
-    }
-
-    .eco-feature-text {
-      font-size: 12px;
-    }
-
-    .eco-features {
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
+  @media screen and (max-width: 989px) {
     .eco-btn {
-      padding: 10px 20px;
-      font-size: 12px;
+        align-self: center; /* Center button on mobile */
     }
-
-    .eco-image {
-      max-width: 280px;
+    
+    .eco-description {
+        margin-left: auto;
+        margin-right: auto;
     }
   }
 
+  @media screen and (max-width: 480px) {
+    .eco-container {
+      padding: 32px 20px;
+      border-radius: 20px;
+      gap: 24px;
+    }
+
+    .eco-heading {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .eco-description {
+      font-size: 15px;
+      margin-bottom: 24px;
+    }
+
+    .eco-feature-text {
+      font-size: 14px;
+    }
+
+    .eco-features {
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .eco-btn {
+      padding: 14px 28px;
+      font-size: 14px;
+      width: 100%; /* Full width button on very small screens */
+    }
+
+    .eco-image {
+      max-width: 100%;
+    }
+  }
 {% endstyle %}
 
 <div class="section-{{ section.id }}-padding">

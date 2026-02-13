@@ -518,6 +518,17 @@
                 "feat_3"
             ],
             "settings": {}
+        },
+        "cta_banner": {
+            "type": "cta-banner",
+            "settings": {
+                "heading": "Searching for reliable packing supply solutions in Canada?",
+                "description": "Built for businesses that depend on consistent, large-volume supply.",
+                "button_text": "Browse all Categories",
+                "button_link": "shopify:\/\/collections\/all",
+                "bg_color": "#139D72",
+                "text_color": "#FFFFFF"
+            }
         }
     },
     "order": [
@@ -531,6 +542,7 @@
         "who_we_serve",
         "why_choose_us",
         "right_packaging",
-        "eco_friendly"
+        "eco_friendly",
+        "cta_banner"
     ]
 }
