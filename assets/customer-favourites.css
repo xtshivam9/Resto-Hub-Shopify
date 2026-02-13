@@ -236,10 +236,50 @@
 
 @media screen and (max-width: 600px) {
     .most-ordered-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
 
     .most-ordered-container {
-        padding: 0 20px;
+        padding: 0 16px;
+    }
+
+    .most-ordered-heading {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .most-ordered-pills {
+        gap: 8px;
+        margin-bottom: 24px;
+    }
+
+    .category-pill {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    .mo-product-title {
+        font-size: 14px;
+    }
+
+    .mo-product-subtitle {
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    .mo-price {
+        font-size: 15px;
+    }
+
+    .mo-add-btn {
+        padding: 10px;
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .most-ordered-grid {
+        grid-template-columns: 1fr;
     }
 }

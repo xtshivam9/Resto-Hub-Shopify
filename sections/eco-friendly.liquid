@@ -1,0 +1,351 @@
+{% schema %}
+{
+  "name": "Eco Friendly",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Compostable & Eco-Friendly Options"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "High-performance materials that don’t compromise on quality."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#006348"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color (Bars)",
+      "default": "#009B72"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Explore Eco Friendly Products →"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "eco_feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Feature Text",
+          "default": "Compostable & recyclable options"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Eco Friendly",
+      "blocks": [
+        {
+          "type": "eco_feature",
+          "settings": {
+            "text": "Compostable & recyclable options"
+          }
+        },
+        {
+          "type": "eco_feature",
+          "settings": {
+            "text": "Eco-friendly materials"
+          }
+        },
+        {
+          "type": "eco_feature",
+          "settings": {
+            "text": "Suitable for sustainability-focused businesses"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  @import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap');
+
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .eco-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+    background-color: {{ section.settings.bg_color }};
+    color: #ffffff;
+    font-family: 'Rethink Sans', sans-serif;
+    border-radius: 20px;
+    position: relative;
+    width: 100%;
+    text-align: center; /* Center text on mobile */
+  }
+  
+  @media screen and (min-width: 990px) {
+    .eco-container {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+      padding: 20px 30px;
+      min-height: 300px;
+      text-align: left; /* Reset to left on desktop */
+    }
+  }
+
+  .eco-content {
+    flex: 1;
+    max-width: 480px; /* Reduced max-width for text */
+    width: 100%;
+    z-index: 2;
+  }
+
+  .eco-image-wrapper {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    position: relative;
+  }
+
+  .eco-image {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: contain;
+    max-width: 100%;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  @media screen and (min-width: 990px) {
+    .eco-image {
+      width: 60%;
+      max-width: 100%;
+      margin: 0 auto;
+      transform: none;
+      z-index: 1;
+      display: block;
+    }
+  }
+
+  .eco-heading {
+    font-family: 'Rethink Sans', sans-serif;
+    font-size: 24px; /* Reduced mobile font size */
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    color: #ffffff;
+  }
+
+  .eco-description {
+    font-family: 'Rethink Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  @media screen and (min-width: 750px) {
+      .eco-heading {
+          font-size: 32px; /* Reduced desktop font size */
+      }
+      .eco-description {
+          font-size: 16px;
+      }
+  }
+
+  .eco-features {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .eco-features {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+  }
+
+  .eco-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    flex: 1 1 120px;
+  }
+
+  .eco-feature-bar {
+    width: 3px;
+    height: 100%;
+    min-height: 36px;
+    background-color: {{ section.settings.accent_color }};
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .eco-feature-text {
+    font-family: 'Rethink Sans', sans-serif;
+    font-size: 13px;
+    line-height: 1.4;
+    font-weight: 500;
+    color: #ffffff;
+  }
+
+  .eco-btn {
+    display: inline-block;
+    background-color: #ffffff;
+    color: {{ section.settings.bg_color }};
+    padding: 12px 24px;
+    border-radius: 100px;
+    font-family: 'Rethink Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .eco-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    opacity: 0.95;
+  }
+
+  @media screen and (max-width: 480px) {
+    .eco-container {
+      padding: 20px 16px;
+      border-radius: 16px;
+      gap: 16px;
+    }
+
+    .eco-heading {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .eco-description {
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    .eco-feature-text {
+      font-size: 12px;
+    }
+
+    .eco-features {
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .eco-btn {
+      padding: 10px 20px;
+      font-size: 12px;
+    }
+
+    .eco-image {
+      max-width: 280px;
+    }
+  }
+
+{% endstyle %}
+
+<div class="section-{{ section.id }}-padding">
+  <div class="eco-container">
+    <div class="eco-content">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="eco-heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.description != blank -%}
+        <p class="eco-description">{{ section.settings.description | escape }}</p>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="eco-features">
+          {%- for block in section.blocks -%}
+            <div class="eco-feature" {{ block.shopify_attributes }}>
+              <div class="eco-feature-bar"></div>
+              <div class="eco-feature-text">{{ block.settings.text | escape }}</div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.button_text != blank -%}
+        <a href="{{ section.settings.button_link | default: '#' }}" class="eco-btn">
+          {{ section.settings.button_text | escape }}
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="eco-image-wrapper">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 800 | image_tag: class: 'eco-image', loading: 'lazy' }}
+      {%- else -%}
+        <img src="{{ 'eco-friendly.svg' | asset_url }}" alt="Eco Friendly Packaging" class="eco-image" loading: 'lazy' width="600" height="400">
+      {%- endif -%}
+    </div>
+  </div>
+</div>

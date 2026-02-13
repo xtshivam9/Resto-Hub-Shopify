@@ -1,0 +1,309 @@
+{% schema %}
+{
+  "name": "Why Choose Us",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Why Choose Resto Supply Hub?"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Section Image"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit_item",
+      "name": "Benefit Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Benefit Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Description of the benefit."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Choose Us",
+      "blocks": [
+        {
+          "type": "benefit_item",
+          "settings": {
+            "title": "Consistent Quality at Scale",
+            "description": "Products tested for industrial kitchens and high-heat."
+          }
+        },
+        {
+          "type": "benefit_item",
+          "settings": {
+            "title": "Canada-Based Warehousing",
+            "description": "No cross-border shipping delays or hidden duties."
+          }
+        },
+        {
+          "type": "benefit_item",
+          "settings": {
+            "title": "Reliable Stock Availability",
+            "description": "Buffer stocks maintained to prevent your business outages."
+          }
+        },
+        {
+          "type": "benefit_item",
+          "settings": {
+            "title": "Human B2B Sales Support",
+            "description": "Dedicated account managers for complex bulk orders."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  @import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap');
+
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    overflow: hidden; /* Prevent horizontal scroll if needed */
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .why-choose-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    /* align-items: center; */ /* Can center vertically if desired */
+  }
+
+  @media screen and (min-width: 990px) {
+    .why-choose-container {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 100px;
+      padding: 0 8rem;
+    }
+
+    .why-choose-content {
+      flex: 1.2;
+    }
+
+    .why-choose-image-wrapper {
+      flex: 0.8;
+    }
+  }
+
+  .why-choose-content {
+    /* flex: 1;  Removed as it's handled in media query now or defaults to block */
+    max-width: 100%;
+  }
+
+  .why-choose-heading {
+    font-family: 'Rethink Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 120%;
+    color: #000000;
+    margin-bottom: 3rem;
+  }
+  
+  @media screen and (min-width: 750px) {
+      .why-choose-heading {
+          font-size: 40px;
+      }
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+ @media screen and (min-width: 750px) {
+    .benefits-grid {
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 40px;
+      row-gap: 40px;
+    }
+ }
+
+  .benefit-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .benefit-icon {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    background-color: #248f6f;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-top: 2px; /* Slight optical adjustment to align with text cap height */
+  }
+  
+  .benefit-icon svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+  }
+
+  .benefit-text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .benefit-title {
+    font-family: 'Rethink Sans', sans-serif;
+    font-weight: 700;
+    font-size: 21px; /* Slightly reduced to ensure single line */
+    line-height: 120%;
+    color: #000000;
+    margin: 0;
+  }
+
+  .benefit-description {
+    font-family: 'Rethink Sans', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    color: #4A4A4A;
+    margin: 0;
+    max-width: 320px; /* Force wrapping to 2 lines */
+  }
+
+  .why-choose-image-wrapper {
+    flex: 0.7;
+    width: 100%;
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
+  .why-choose-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    border-radius: 24px;
+  }
+
+  @media screen and (max-width: 480px) {
+    .why-choose-container {
+      padding: 0 1rem;
+      gap: 30px;
+    }
+
+    .why-choose-heading {
+      font-size: 26px;
+      margin-bottom: 1.5rem;
+    }
+
+    .benefit-title {
+      font-size: 18px;
+    }
+
+    .benefit-description {
+      font-size: 14px;
+      max-width: 100%;
+    }
+
+    .benefits-grid {
+      gap: 24px;
+    }
+
+    .why-choose-image-wrapper {
+      border-radius: 16px;
+    }
+
+    .why-choose-image {
+      border-radius: 16px;
+    }
+  }
+{% endstyle %}
+
+<div class="section-{{ section.id }}-padding">
+  <div class="why-choose-container">
+    <div class="why-choose-content">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="why-choose-heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+
+      <div class="benefits-grid">
+        {%- for block in section.blocks -%}
+          <div class="benefit-item" {{ block.shopify_attributes }}>
+            <div class="benefit-icon">
+                <!-- Standard checkmark SVG -->
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <div class="benefit-text-content">
+                <h3 class="benefit-title">{{ block.settings.title | escape }}</h3>
+                {%- if block.settings.description != blank -%}
+                  <p class="benefit-description">{{ block.settings.description | escape }}</p>
+                {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <div class="why-choose-image-wrapper">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 800 | image_tag: class: 'why-choose-image', loading: 'lazy' }}
+      {%- else -%}
+         <!-- Fallback to asset if not selected in customizer -->
+         <img src="{{ 'choose.svg' | asset_url }}" alt="Why Choose Us" class="why-choose-image" loading="lazy" width="600" height="600">
+      {%- endif -%}
+    </div>
+  </div>
+</div>

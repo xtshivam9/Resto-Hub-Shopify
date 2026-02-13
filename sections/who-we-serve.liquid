@@ -1,0 +1,390 @@
+{% schema %}
+{
+  "name": "Who We Serve",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Who We Serve"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 36
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "who_service_card",
+      "name": "Service Card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "preset_image",
+          "label": "Preset Image",
+          "options": [
+            { "value": "none", "label": "Custom Image" },
+            { "value": "serve1.svg", "label": "Serve 1" },
+            { "value": "serve2.svg", "label": "Serve 2" },
+            { "value": "serve3.svg", "label": "Serve 3" },
+            { "value": "serve4.svg", "label": "Serve 4" },
+            { "value": "serve5.svg", "label": "Serve 5" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Service Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Short description of the service provided."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "VIEW PRODUCTS →"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Who We Serve",
+      "blocks": [
+        {
+          "type": "who_service_card",
+          "settings": {
+            "title": "Restaurants & QSRs",
+            "description": "Durable containers built for high-heat and long-distance transport."
+          }
+        },
+        {
+          "type": "who_service_card",
+          "settings": {
+            "title": "Cafés & Coffee Chains"
+          }
+        },
+        {
+          "type": "who_service_card",
+          "settings": {
+            "title": "Food Trucks & Cloud Kitchens"
+          }
+        },
+        {
+          "type": "who_service_card",
+          "settings": {
+            "title": "Catering Companies"
+          }
+        },
+        {
+          "type": "who_service_card",
+          "settings": {
+            "title": "Event Planners"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  @import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap');
+
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: {{ section.settings.bg_color }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .who-we-serve-container {
+    max-width: 1440px; /* Adjust max-width as per design guidelines if needed */
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .who-we-serve-heading {
+    font-family: 'Rethink Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 120%;
+    color: #000000;
+    margin-bottom: 2rem;
+  }
+
+  .who-we-serve-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 16px;
+    padding-bottom: 20px; /* Space for scrollbar */
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #248f6f #E0E0E0; /* thumb track */
+  }
+
+  /* Custom Scrollbar for Webkit */
+  .who-we-serve-grid::-webkit-scrollbar {
+    height: 6px; /* Height of horizontal scrollbar */
+  }
+
+  .who-we-serve-grid::-webkit-scrollbar-track {
+    background: #E0E0E0;
+    border-radius: 4px;
+  }
+
+  .who-we-serve-grid::-webkit-scrollbar-thumb {
+    background-color: #248f6f; /* Green color from Promo Bar */
+    border-radius: 4px;
+  }
+
+  .service-card {
+    min-width: 280px; /* Minimum width for cards to ensure scrolling */
+    flex: 0 0 280px;
+    scroll-snap-align: start;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-decoration: none;
+    color: {{ section.settings.text_color }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .service-card {
+      min-width: 300px;
+      flex: 0 0 300px;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+     /* Optional: On very large screens, logic tocenter or keep scrolling? 
+        User asked for scrollbar like image, so likely always scrollable or at least flex.
+        If we want 5 items to fit perfectly without scroll on large screens:
+     */
+    .who-we-serve-grid {
+      /* justify-content: center; */ /* Uncomment to center if items allow */
+    }
+  }
+  
+  .service-card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    z-index: 1;
+  }
+
+  .service-card:hover .service-card-image {
+    transform: scale(1.05);
+  }
+
+  .service-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.8) 100%);
+    z-index: 2;
+  }
+
+  .service-card-content {
+    position: relative;
+    z-index: 3;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .service-card-title {
+    font-family: 'Rethink Sans', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 120%;
+    color: {{ section.settings.text_color }};
+    margin: 0;
+  }
+
+  .service-card-description {
+    font-family: 'Rethink Sans', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 140%;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .service-card-button {
+    font-family: 'Rethink Sans', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 100%;
+    text-transform: uppercase;
+    color: {{ section.settings.text_color }};
+    margin-top: 8px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .service-card:hover .service-card-button {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    .service-card-button {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .who-we-serve-container {
+      padding: 0 1rem;
+    }
+
+    .who-we-serve-heading {
+      font-size: 24px;
+      margin-bottom: 1.2rem;
+    }
+
+    .service-card {
+      min-width: 220px;
+      flex: 0 0 220px;
+    }
+
+    .who-we-serve-grid {
+      gap: 12px;
+    }
+
+    .service-card-title {
+      font-size: 16px;
+    }
+
+    .service-card-description {
+      font-size: 13px;
+    }
+  }
+{% endstyle %}
+
+<div class="section-{{ section.id }}-padding">
+  <div class="who-we-serve-container">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="who-we-serve-heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+
+    <div class="who-we-serve-grid">
+      {%- for block in section.blocks -%}
+        <div class="service-card" {{ block.shopify_attributes }}>
+          {%- if block.settings.preset_image != 'none' -%}
+            <img
+              src="{{ block.settings.preset_image | asset_url }}"
+              alt="{{ block.settings.title | escape }}"
+              class="service-card-image"
+              loading="lazy"
+              width="600"
+              height="800"
+            >
+          {%- elsif block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 600 | image_tag: class: 'service-card-image', loading: 'lazy' }}
+          {%- else -%}
+            {{ 'image' | placeholder_svg_tag: 'service-card-image' }}
+          {%- endif -%}
+          
+          <div class="service-card-overlay"></div>
+
+          <div class="service-card-content">
+            <h3 class="service-card-title">{{ block.settings.title | escape }}</h3>
+            
+            {%- if block.settings.description != blank -%}
+              <p class="service-card-description">{{ block.settings.description | escape }}</p>
+            {%- endif -%}
+
+            {%- if block.settings.link != blank -%}
+              <a href="{{ block.settings.link }}" class="service-card-button">
+                {{ block.settings.button_text | escape }}
+              </a>
+            {%- else -%}
+              <span class="service-card-button">{{ block.settings.button_text | escape }}</span>
+            {%- endif -%}
+          
+          </div>
+          {%- if block.settings.link != blank -%}
+             <a href="{{ block.settings.link }}" style="position:absolute; inset:0; z-index:4;" aria-label="{{ block.settings.title }}"></a>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>

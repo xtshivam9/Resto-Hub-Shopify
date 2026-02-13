@@ -1,0 +1,549 @@
+{% schema %}
+{
+  "name": "Right Packaging",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Find the Right Packaging for Your Business"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Compare bulk packaging by size, capacity, and use case. All products sold in wholesale cartons. Volume pricing available."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "packaging_product",
+      "name": "Product Card",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Highlight Card",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge_text_1",
+          "label": "Badge 1 Text (Green)",
+          "default": "BULK ONLY"
+        },
+        {
+          "type": "text",
+          "id": "badge_text_2",
+          "label": "Badge 2 Text (Grey)",
+          "default": "MOQ APPLIES"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Product Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Product Title",
+          "default": "Kraft Foldable Paper Box"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "$35.99"
+        },
+        {
+            "type": "text",
+            "id": "capacity",
+            "label": "Capacity",
+            "default": "24oz / 32oz"
+        },
+        {
+            "type": "text",
+            "id": "material",
+            "label": "Material",
+            "default": "Kraft Paper + PLA Lining"
+        },
+        {
+            "type": "text",
+            "id": "case_pack",
+            "label": "Case Pack",
+            "default": "500 pcs/carton"
+        },
+        {
+            "type": "text",
+            "id": "best_use_case",
+            "label": "Best Use Case",
+            "default": "Salads, hot grains, takeaway"
+        },
+        {
+           "type": "url",
+           "id": "product_link",
+           "label": "Product Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Right Packaging",
+      "blocks": [
+        {
+          "type": "packaging_product"
+        },
+        {
+          "type": "packaging_product"
+        },
+        {
+          "type": "packaging_product",
+          "settings": {
+            "highlight": true
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  @import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap');
+
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: #F8FBFB; /* Light background from image */
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .rp-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    font-family: 'Rethink Sans', sans-serif;
+  }
+
+  .rp-heading {
+    font-family: 'Rethink Sans', sans-serif; /* Explicitly set */
+    font-style: normal;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 120%;
+    text-align: center;
+    color: #000000;
+    margin-bottom: 0.5rem;
+  }
+  
+  .rp-subheading {
+    font-family: 'Rethink Sans', sans-serif; /* Explicitly set */
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    text-align: center;
+    color: #4A4A4A;
+    max-width: 800px;
+    margin: 0 auto 3.5rem auto;
+  }
+  
+  @media screen and (min-width: 750px) {
+      .rp-heading {
+          font-size: 40px;
+      }
+      .rp-subheading {
+        font-size: 18px;
+      }
+  }
+
+  .rp-grid-wrapper {
+      display: flex;
+      gap: 20px;
+      align-items: center; /* Center cards in column */
+      flex-direction: column; /* Stack on mobile */
+      padding-bottom: 20px; 
+  }
+  
+  .rp-card {
+      width: 100%; /* Full width on mobile */
+      max-width: 350px; /* But not too wide */
+  }
+
+  @media screen and (min-width: 768px) {
+      .rp-grid-wrapper {
+        flex-direction: row;
+        overflow-x: auto;
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
+      .rp-card {
+          width: 280px; /* Fixed width for scrolling */
+          max-width: none;
+      }
+  }
+
+  @media screen and (min-width: 990px) {
+      .rp-grid-wrapper {
+        justify-content: center;
+        overflow: visible;
+      }
+  }
+
+  /* Labels Column */
+  .rp-labels-column {
+      display: none; /* Hidden on mobile, shown on desktop */
+      flex-direction: column;
+      /* Adjusted for new alignment: 
+         Card Top Padding (20) + Image (180) + Img Margin (16) + Title (54) + Title Margin (20) = ~290px
+      */
+      padding-top: 290px; 
+      gap: 0;
+      min-width: 140px; 
+      margin-right: 10px;
+  }
+
+  @media screen and (min-width: 990px) {
+      .rp-labels-column {
+          display: flex;
+      }
+  }
+
+  .rp-label {
+      font-family: 'Rethink Sans', sans-serif; /* Explicitly set */
+      font-weight: 700; 
+      font-size: 15px; /* Increased from 13px */
+      color: #000000;
+      height: 60px; /* Fixed height to match data rows */
+      display: flex;
+      align-items: center;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+  }
+
+  /* Product Cards */
+  .rp-card {
+      background: #FFFFFF;
+      border-radius: 12px;
+      padding: 20px;
+      min-width: 280px;
+      flex: 0 0 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      border: 1px solid #f0f0f0; 
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.03);
+  }
+
+
+
+  .rp-image-container {
+      width: 100%;
+      height: 180px; /* Taller image area */
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      position: relative;
+  }
+
+  .rp-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+  }
+  
+  .rp-badge-container {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap; 
+      justify-content: flex-end;
+  }
+
+  .rp-badge {
+      padding: 6px 12px;
+      border-radius: 50px; /* Pill shape */
+      font-family: 'Rethink Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 1;
+      white-space: nowrap;
+  }
+  
+  .rp-badge.green {
+      background-color: #D1F0E4; /* Mint background */
+      color: #0E8345; /* Dark Green/Teal text */
+  }
+  
+  .rp-badge.grey {
+      background-color: #E8E8E8; /* Light grey bg */
+      color: #000000; /* Black text */
+  }
+
+  .rp-title {
+      font-family: 'Rethink Sans', sans-serif;
+      font-weight: 500;
+      font-size: 15px;
+      color: #000000;
+      margin-bottom: 20px;
+      width: 100%;
+      padding: 0 16px;
+      border: 1px solid #E0E0E0;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 54px; /* Fixed height dropdown style */
+      background-color: #fff;
+      cursor: default; /* visual only */
+  }
+  
+  .rp-title::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-right: 1.5px solid #333;
+      border-bottom: 1.5px solid #333;
+      transform: rotate(45deg);
+      margin-bottom: 3px;
+      margin-left: 10px;
+      flex-shrink: 0;
+  }
+
+  /* Data Rows */
+  .rp-data-row {
+      width: 100%;
+      height: 60px; /* Fixed height for alignment */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Rethink Sans', sans-serif;
+      font-size: 15px;
+      color: #000000;
+      text-align: center;
+      border-bottom: 1px solid transparent; 
+  }
+  
+  /* Optional: faint divider lines if needed, image doesn't show clearly but adds structure */
+  /* .rp-data-row:not(:last-child) { border-bottom: 1px solid #f5f5f5; } */
+
+  .rp-data-row.price {
+      font-weight: 700;
+      font-size: 18px;
+  }
+
+  /* Labels inline for mobile */
+  .rp-mobile-label {
+      display: block;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      margin-right: 8px;
+      color: #888;
+      min-width: 80px;
+      text-align: left;
+  }
+
+  @media screen and (min-width: 990px) {
+      .rp-mobile-label {
+          display: none;
+      }
+      
+      .rp-data-row {
+          flex-direction: column; 
+          justify-content: center;
+      }
+  }
+
+  .rp-add-btn {
+      margin-top: 24px; 
+      width: 90%; /* Slightly smaller than container */
+      background-color: #000000;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 100px;
+      padding: 14px 20px;
+      font-family: 'Rethink Sans', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.3s;
+      text-decoration: none;
+      display: block; /* Center in flex column */
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      letter-spacing: 0.05em;
+  }
+
+  .rp-add-btn:hover {
+      opacity: 0.9;
+      color: #fff;
+  }
+
+  @media screen and (max-width: 768px) {
+      .rp-card {
+          min-width: 0;
+          flex: 1 1 100%;
+          max-width: 100%;
+      }
+
+      .rp-heading {
+          font-size: 26px;
+      }
+
+      .rp-subheading {
+          font-size: 14px;
+          margin-bottom: 2rem;
+      }
+
+      .rp-data-row {
+          justify-content: flex-start;
+          text-align: left;
+          padding: 0 4px;
+          height: 50px;
+          font-size: 14px;
+      }
+
+      .rp-data-row.price {
+          font-size: 16px;
+      }
+
+      .rp-title {
+          font-size: 14px;
+          height: 48px;
+          padding: 0 12px;
+      }
+
+      .rp-add-btn {
+          width: 100%;
+          margin-top: 16px;
+          padding: 12px 16px;
+          font-size: 12px;
+      }
+  }
+
+  @media screen and (max-width: 480px) {
+      .rp-container {
+          padding: 0 1rem;
+      }
+
+      .rp-heading {
+          font-size: 22px;
+      }
+
+      .rp-subheading {
+          font-size: 13px;
+      }
+
+      .rp-image-container {
+          height: 160px;
+      }
+  }
+
+{% endstyle %}
+
+<div class="section-{{ section.id }}-padding">
+  <div class="rp-container">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="rp-heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="rp-subheading">{{ section.settings.subheading | escape }}</p>
+    {%- endif -%}
+
+    <div class="rp-grid-wrapper">
+        <!-- Labels Column (Desktop Only) -->
+        <div class="rp-labels-column">
+            <div class="rp-label">Price</div>
+            <div class="rp-label">Capacity</div>
+            <div class="rp-label">Material</div>
+            <div class="rp-label">Case Pack</div>
+            <div class="rp-label">Best Use Case</div>
+        </div>
+
+        {%- for block in section.blocks -%}
+            <div class="rp-card {% if block.settings.highlight %}highlighted{% endif %}" {{ block.shopify_attributes }}>
+                
+                <div class="rp-image-container">
+                    {%- if block.settings.image != blank -%}
+                        {{ block.settings.image | image_url: width: 600 | image_tag: class: 'rp-image', loading: 'lazy' }}
+                    {%- else -%}
+                        <img src="{{ 'box.svg' | asset_url }}" alt="Packaging Box" class="rp-image" loading: 'lazy' width="400" height="300">
+                    {%- endif -%}
+                    
+                    <div class="rp-badge-container">
+                        {%- if block.settings.badge_text_1 != blank -%}
+                            <div class="rp-badge green">{{ block.settings.badge_text_1 }}</div>
+                        {%- endif -%}
+                        {%- if block.settings.badge_text_2 != blank -%}
+                            <div class="rp-badge grey">{{ block.settings.badge_text_2 }}</div>
+                        {%- endif -%}
+                    </div>
+                </div>
+
+                <div class="rp-title">
+                    {{ block.settings.title }}
+                </div>
+
+                <div class="rp-data-row price">
+                    <span class="rp-mobile-label">Price</span> {{ block.settings.price }}
+                </div>
+                 <div class="rp-data-row">
+                    <span class="rp-mobile-label">Capacity</span> {{ block.settings.capacity }}
+                </div>
+                 <div class="rp-data-row">
+                    <span class="rp-mobile-label">Material</span> {{ block.settings.material }}
+                </div>
+                 <div class="rp-data-row">
+                    <span class="rp-mobile-label">Case Pack</span> {{ block.settings.case_pack }}
+                </div>
+                 <div class="rp-data-row">
+                    <span class="rp-mobile-label">Best Use Case</span> {{ block.settings.best_use_case }}
+                </div>
+
+                <a href="{{ block.settings.product_link | default: '#' }}" class="rp-add-btn">
+                    Add to Cart
+                </a>
+            </div>
+        {%- endfor -%}
+    </div>
+  </div>
+</div>

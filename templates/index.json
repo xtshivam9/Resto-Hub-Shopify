@@ -346,6 +346,178 @@
                 "heading": "New Arrivals",
                 "padding_top": 20
             }
+        },
+        "promo_marquee": {
+            "type": "promo-marquee"
+        },
+        "who_we_serve": {
+            "type": "who-we-serve",
+            "blocks": {
+                "card_1": {
+                    "type": "who_service_card",
+                    "settings": {
+                        "preset_image": "serve1.svg",
+                        "title": "Restaurants & QSRs",
+                        "description": "Durable containers built for high-heat and long-distance transport."
+                    }
+                },
+                "card_2": {
+                    "type": "who_service_card",
+                    "settings": {
+                        "preset_image": "serve2.svg",
+                        "title": "Cafés & Coffee Chains"
+                    }
+                },
+                "card_3": {
+                    "type": "who_service_card",
+                    "settings": {
+                        "preset_image": "serve3.svg",
+                        "title": "Food Trucks & Cloud Kitchens"
+                    }
+                },
+                "card_4": {
+                    "type": "who_service_card",
+                    "settings": {
+                        "preset_image": "serve4.svg",
+                        "title": "Catering Companies"
+                    }
+                },
+                "card_5": {
+                    "type": "who_service_card",
+                    "settings": {
+                        "preset_image": "serve5.svg",
+                        "title": "Event Planners"
+                    }
+                }
+            },
+            "block_order": [
+                "card_1",
+                "card_2",
+                "card_3",
+                "card_4",
+                "card_5"
+            ],
+            "settings": {
+                "heading": "Who We Serve"
+            }
+        },
+        "why_choose_us": {
+            "type": "why-choose-us",
+            "blocks": {
+                "benefit_1": {
+                    "type": "benefit_item",
+                    "settings": {
+                        "title": "Consistent Quality at Scale",
+                        "description": "Products tested for industrial kitchens and high-heat."
+                    }
+                },
+                "benefit_2": {
+                    "type": "benefit_item",
+                    "settings": {
+                        "title": "Canada-Based Warehousing",
+                        "description": "No cross-border shipping delays or hidden duties."
+                    }
+                },
+                "benefit_3": {
+                    "type": "benefit_item",
+                    "settings": {
+                        "title": "Reliable Stock Availability",
+                        "description": "Buffer stocks maintained to prevent your business outages."
+                    }
+                },
+                "benefit_4": {
+                    "type": "benefit_item",
+                    "settings": {
+                        "title": "Human B2B Sales Support",
+                        "description": "Dedicated account managers for complex bulk orders."
+                    }
+                }
+            },
+            "block_order": [
+                "benefit_1",
+                "benefit_2",
+                "benefit_3",
+                "benefit_4"
+            ],
+            "settings": {
+                "heading": "Why Choose Resto Supply Hub?"
+            }
+        },
+        "right_packaging": {
+            "type": "right-packaging",
+            "blocks": {
+                "pack_1": {
+                    "type": "packaging_product",
+                    "settings": {
+                        "title": "Kraft Foldable Paper Box",
+                        "price": "$35.99",
+                        "capacity": "24oz / 32oz",
+                        "material": "Kraft Paper + PLA Lining",
+                        "case_pack": "500 pcs/carton",
+                        "best_use_case": "Salads, hot grains, takeaway"
+                    }
+                },
+                "pack_2": {
+                    "type": "packaging_product",
+                    "settings": {
+                        "title": "Kraft Foldable Paper Box",
+                        "price": "$35.99",
+                        "capacity": "24oz / 32oz",
+                        "material": "Kraft Paper + PLA Lining",
+                        "case_pack": "500 pcs/carton",
+                        "best_use_case": "Salads, hot grains, takeaway"
+                    }
+                },
+                "pack_3": {
+                    "type": "packaging_product",
+                    "settings": {
+                        "highlight": true,
+                        "title": "Kraft Foldable Paper Box",
+                        "price": "$35.99",
+                        "capacity": "24oz / 32oz",
+                        "material": "Kraft Paper + PLA Lining",
+                        "case_pack": "500 pcs/carton",
+                        "best_use_case": "Salads, hot grains, takeaway"
+                    }
+                }
+            },
+            "block_order": [
+                "pack_1",
+                "pack_2",
+                "pack_3"
+            ],
+            "settings": {
+                "heading": "Find the Right Packaging for Your Business"
+            }
+        },
+        "eco_friendly": {
+            "type": "eco-friendly",
+            "blocks": {
+                "feat_1": {
+                    "type": "eco_feature",
+                    "settings": {
+                        "text": "Compostable & recyclable options"
+                    }
+                },
+                "feat_2": {
+                    "type": "eco_feature",
+                    "settings": {
+                        "text": "Eco-friendly materials"
+                    }
+                },
+                "feat_3": {
+                    "type": "eco_feature",
+                    "settings": {
+                        "text": "Suitable for sustainability-focused businesses"
+                    }
+                }
+            },
+            "block_order": [
+                "feat_1",
+                "feat_2",
+                "feat_3"
+            ],
+            "settings": {}
         }
     },
     "order": [
@@ -354,6 +526,11 @@
         "circle_menu",
         "trusted_businesses",
         "customer_favourites",
-        "new_arrivals"
+        "new_arrivals",
+        "promo_marquee",
+        "who_we_serve",
+        "why_choose_us",
+        "right_packaging",
+        "eco_friendly"
     ]
 }

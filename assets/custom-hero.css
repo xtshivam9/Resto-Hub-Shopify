@@ -141,33 +141,85 @@
 }
 
 
-/* Responsive Adjustments */
+/* Responsive Adjustments — Tablet */
+@media (max-width: 1024px) {
+  .custom-hero-section {
+    padding: 80px 20px 60px;
+    min-height: 480px;
+  }
+
+  .custom-hero-heading {
+    font-size: 34px;
+  }
+
+  .custom-hero-buttons {
+    margin-bottom: 50px;
+  }
+
+  .custom-hero-features {
+    gap: 30px;
+  }
+}
+
+/* Responsive Adjustments — Mobile */
 @media (max-width: 768px) {
   .custom-hero-section {
-    padding: 60px 20px;
+    padding: 60px 20px 50px;
     min-height: auto;
   }
 
   .custom-hero-heading {
     font-size: 28px;
+    max-width: 100%;
   }
 
   .custom-hero-description {
-    font-size: 16px;
+    font-size: 15px;
+    margin-bottom: 25px;
   }
 
   .custom-hero-buttons {
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 320px;
   }
 
   .custom-hero-btn {
     width: 100%;
+    min-width: auto;
   }
 
   .custom-hero-features {
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
     align-items: center;
+    padding-left: 0;
+  }
+
+  .custom-hero-feature-item {
+    width: auto;
+    justify-content: center;
+  }
+
+  .custom-hero-feature-item img {
+    width: 40px;
+  }
+
+  .custom-hero-feature-item span {
+    font-size: 13px;
+    text-align: left;
+  }
+}
+
+/* Responsive Adjustments — Small Mobile */
+@media (max-width: 480px) {
+  .custom-hero-heading {
+    font-size: 24px;
+  }
+
+  .custom-hero-description {
+    font-size: 14px;
   }
 }

@@ -1,0 +1,672 @@
+{% schema %}
+{
+  "name": "Custom Footer",
+  "tag": "footer",
+  "class": "custom-footer-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "CTA Banner"
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "CTA Heading",
+      "default": "Searching for reliable packing supply solutions in Canada?"
+    },
+    {
+      "type": "textarea",
+      "id": "cta_description",
+      "label": "CTA Description",
+      "default": "Built for businesses that depend on consistent, large-volume supply."
+    },
+    {
+      "type": "text",
+      "id": "cta_button_label",
+      "label": "CTA Button Label",
+      "default": "Browse all Categories"
+    },
+    {
+      "type": "url",
+      "id": "cta_button_link",
+      "label": "CTA Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Footer Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Brand Column"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Logo Width",
+      "default": 60
+    },
+    {
+        "type": "text",
+        "id": "brand_title",
+        "label": "Brand Title",
+        "default": "RESTO SUPPLY HUB"
+    },
+    {
+      "type": "textarea",
+      "id": "brand_description",
+      "label": "Brand Description",
+      "default": "B2B food-grade packaging and cleaning solutions for the Canadian hospitality sector."
+    },
+    {
+      "type": "url",
+      "id": "social_facebook",
+      "label": "Facebook Link"
+    },
+    {
+      "type": "url",
+      "id": "social_instagram",
+      "label": "Instagram Link"
+    },
+    {
+      "type": "header",
+      "content": "Quick Links"
+    },
+    {
+      "type": "text",
+      "id": "menu_1_heading",
+      "label": "Menu 1 Heading",
+      "default": "Quick Links"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_1",
+      "label": "Menu 1"
+    },
+    {
+      "type": "header",
+      "content": "Customer Support"
+    },
+    {
+      "type": "text",
+      "id": "menu_2_heading",
+      "label": "Menu 2 Heading",
+      "default": "Customer Support"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_2",
+      "label": "Menu 2"
+    },
+    {
+      "type": "header",
+      "content": "Contact Info"
+    },
+    {
+      "type": "text",
+      "id": "contact_heading",
+      "label": "Contact Heading",
+      "default": "Contact Info"
+    },
+    {
+      "type": "html",
+      "id": "address_html",
+      "label": "Address HTML",
+      "default": "1200 Logistics Way, GTA Warehouse Region, ON"
+    },
+    {
+      "type": "text",
+      "id": "phone_text",
+      "label": "Phone Text",
+      "default": "1-800-RESTO-SH (Direct B2B)"
+    },
+     {
+      "type": "text",
+      "id": "email_text",
+      "label": "Email Text",
+      "default": "sales@restosupplyhub.ca"
+    },
+    {
+      "type": "text",
+      "id": "hours_text",
+      "label": "Hours Text",
+      "default": "Mon–Fri, 8 AM – 6 PM EST"
+    },
+    {
+      "type": "header",
+      "content": "Bottom Bar"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright Text",
+      "default": "Resto Supply Hub Inc. All rights reserved."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show Payment Icons",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Footer"
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  @import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap');
+
+  .custom-footer {
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    padding: 0 0 30px; /* Removed top padding to allow negative margin overlap */
+    font-family: 'Rethink Sans', sans-serif;
+    position: relative;
+    padding-top: 100px; /* Space for the floating banner */
+    margin-top: 200px; /* Added top margin to space from previous section */
+  }
+
+  .footer-cta-container {
+    max-width: 1100px; /* Slightly larger than 1000px, but smaller than 1200px */
+    margin: -150px auto 60px; /* Negative top margin to float slightly above footer container */
+    padding: 0;
+    position: relative;
+    z-index: 10;
+  }
+
+  .footer-cta-wrapper {
+    background-color: #239A71;
+    border-radius: 20px;
+    padding: 50px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .footer-cta-content {
+    flex: 1;
+  }
+
+  .footer-cta-heading {
+    font-family: 'Rethink Sans', sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    color: #ffffff;
+  }
+
+  .footer-cta-description {
+    font-family: 'Rethink Sans', sans-serif;
+    font-size: 18px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+  }
+
+  .footer-cta-button {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 16px 32px;
+    border-radius: 100px;
+    font-family: 'Rethink Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    display: inline-block;
+  }
+
+  .footer-cta-button:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+  }
+
+  @media screen and (max-width: 990px) {
+      .footer-cta-container {
+          padding: 0 20px;
+          margin-top: -100px;
+      }
+      .footer-cta-wrapper {
+          padding: 40px;
+          flex-direction: column;
+          align-items: flex-start;
+          text-align: left;
+      }
+      .footer-cta-heading {
+          font-size: 32px;
+      }
+       .footer-cta-button {
+          width: 100%;
+          text-align: center;
+      }
+  }
+
+  .footer-container {
+    max-width: 1588px;
+    margin: 0 auto;
+    padding: 0 80px;
+  }
+
+  .footer-grid {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .footer-col {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .footer-col-brand {
+    flex: 2;
+    max-width: 400px;
+  }
+
+  .footer-brand-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+  }
+
+  .footer-logo {
+    display: block;
+    width: {{ section.settings.logo_width }}px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .footer-brand-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      font-family: 'Rethink Sans', sans-serif;
+  }
+
+  .footer-description {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #A1A1AA;
+    margin-bottom: 30px;
+    max-width: 320px;
+    font-family: 'Rethink Sans', sans-serif;
+  }
+
+  .footer-socials {
+    display: flex;
+    gap: 12px;
+  }
+
+  .social-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #222;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+
+  .social-icon:hover {
+    background-color: #333;
+  }
+  
+  .social-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+  }
+
+  .footer-col-heading {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: #FFFFFF;
+    font-family: 'Rethink Sans', sans-serif;
+  }
+
+  .footer-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-menu-item {
+    margin-bottom: 14px;
+  }
+
+  .footer-menu-link {
+    color: #A1A1AA;
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 0.2s;
+    font-family: 'Rethink Sans', sans-serif;
+  }
+
+  .footer-menu-link:hover {
+    color: #FFFFFF;
+  }
+
+  .contact-info p {
+    margin: 0 0 16px;
+    color: #A1A1AA;
+    font-size: 15px;
+    line-height: 1.6;
+    font-family: 'Rethink Sans', sans-serif;
+    display: flex;
+    gap: 5px;
+  }
+
+  .contact-label {
+      font-weight: 700;
+      color: #A1A1AA;
+      min-width: 60px; /* Optional: aligns values if desired, but flex gap is usually enough */
+  }
+
+  /* Bottom Bar */
+  .footer-bottom {
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .copyright {
+    color: #52525B;
+    font-size: 14px;
+    font-family: 'Rethink Sans', sans-serif;
+  }
+
+  .payment-icons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .payment-icon {
+      width: 44px;
+      height: auto;
+      border-radius: 4px;
+      background: white; /* Fallback */
+      padding: 0;
+      overflow: hidden;
+  }
+  
+  .payment-icon svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+  }
+
+  @media screen and (max-width: 900px) {
+    .footer-grid {
+        flex-direction: column;
+        gap: 40px;
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .payment-icons {
+        margin-top: 10px;
+    }
+
+    .footer-container {
+        padding: 0 20px;
+    }
+
+    .footer-col {
+        min-width: auto;
+    }
+
+    .footer-col-brand {
+        max-width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .custom-footer {
+        margin-top: 120px;
+        padding-top: 80px;
+    }
+
+    .footer-cta-container {
+        margin-top: -100px;
+        padding: 0 16px;
+    }
+
+    .footer-cta-wrapper {
+        padding: 30px 20px;
+        gap: 24px;
+    }
+
+    .footer-cta-heading {
+        font-size: 24px;
+    }
+
+    .footer-cta-description {
+        font-size: 15px;
+    }
+
+    .footer-cta-button {
+        padding: 14px 24px;
+        font-size: 14px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .custom-footer {
+        margin-top: 100px;
+        padding-top: 60px;
+    }
+
+    .footer-cta-container {
+        margin-top: -80px;
+    }
+
+    .footer-cta-heading {
+        font-size: 22px;
+    }
+
+    .footer-cta-description {
+        font-size: 14px;
+    }
+
+    .footer-brand-title {
+        font-size: 16px;
+    }
+
+    .footer-col-heading {
+        font-size: 16px;
+        margin-bottom: 16px;
+    }
+
+    .footer-menu-link {
+        font-size: 14px;
+    }
+
+    .contact-info p {
+        font-size: 14px;
+    }
+
+    .footer-container {
+        padding: 0 16px;
+    }
+  }
+{% endstyle %}
+
+<div class="custom-footer">
+    {%- if section.settings.cta_heading != blank -%}
+    <div class="footer-cta-container">
+        <div class="footer-cta-wrapper">
+            <div class="footer-cta-content">
+                <h2 class="footer-cta-heading">{{ section.settings.cta_heading | escape }}</h2>
+                {%- if section.settings.cta_description != blank -%}
+                <p class="footer-cta-description">{{ section.settings.cta_description | escape }}</p>
+                {%- endif -%}
+            </div>
+            {%- if section.settings.cta_button_label != blank -%}
+            <a href="{{ section.settings.cta_button_link | default: '#' }}" class="footer-cta-button">
+                {{ section.settings.cta_button_label | escape }}
+            </a>
+            {%- endif -%}
+        </div>
+    </div>
+    {%- endif -%}
+  <div class="footer-container">
+    <div class="footer-grid">
+      <!-- Column 1: Brand -->
+      <div class="footer-col footer-col-brand">
+        <div class="footer-brand-header">
+            {%- if section.settings.logo != blank -%}
+            {{ section.settings.logo | image_url: width: 300 | image_tag: class: 'footer-logo', loading: 'lazy' }}
+            {%- else -%}
+             <img src="{{ 'logo.svg' | asset_url }}" alt="Resto Supply Hub" class="footer-logo" width="{{ section.settings.logo_width }}" height="auto">
+            {%- endif -%}
+            {%- if section.settings.brand_title != blank -%}
+                <span class="footer-brand-title">{{ section.settings.brand_title }}</span>
+            {%- endif -%}
+        </div>
+        
+        {%- if section.settings.brand_description != blank -%}
+          <div class="footer-description">
+            {{ section.settings.brand_description }}
+          </div>
+        {%- endif -%}
+
+        <div class="footer-socials">
+            <!-- Facebook Icon -->
+            <a href="{{ section.settings.social_facebook | default: '#' }}" class="social-icon" aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z"/></svg>
+            </a>
+            <!-- Instagram Icon -->
+            <a href="{{ section.settings.social_instagram | default: '#' }}" class="social-icon" aria-label="Instagram">
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069-3.204 0-3.584-.012-4.849-.069-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+        </div>
+      </div>
+
+      <!-- Column 2: Quick Links -->
+      <div class="footer-col">
+        <h3 class="footer-col-heading">{{ section.settings.menu_1_heading }}</h3>
+        <ul class="footer-menu">
+          {%- if section.settings.menu_1 != blank -%}
+             {%- for link in section.settings.menu_1.links -%}
+                <li class="footer-menu-item">
+                    <a href="{{ link.url }}" class="footer-menu-link">{{ link.title }}</a>
+                </li>
+             {%- endfor -%}
+          {%- else -%}
+            <!-- Fallback links for visualization -->
+            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Shop All</a></li>
+            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Categories</a></li>
+            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Most Popular</a></li>
+            <li class="footer-menu-item"><a href="#" class="footer-menu-link">New Arrivals</a></li>
+            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Eco Packaging</a></li>
+            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Why Us</a></li>
+            <li class="footer-menu-item"><a href="#" class="footer-menu-link">About</a></li>
+            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Contact</a></li>
+          {%- endif -%}
+        </ul>
+      </div>
+
+      <!-- Column 3: Customer Support -->
+      <div class="footer-col">
+        <h3 class="footer-col-heading">{{ section.settings.menu_2_heading }}</h3>
+        <ul class="footer-menu">
+           {%- if section.settings.menu_2 != blank -%}
+             {%- for link in section.settings.menu_2.links -%}
+                <li class="footer-menu-item">
+                    <a href="{{ link.url }}" class="footer-menu-link">{{ link.title }}</a>
+                </li>
+             {%- endfor -%}
+          {%- else -%}
+             <!-- Fallback links -->
+            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Shipping Info</a></li>
+            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Returns & Refunds</a></li>
+            <li class="footer-menu-item"><a href="#" class="footer-menu-link">FAQ</a></li>
+            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Privacy & Terms</a></li>
+            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Accessibility</a></li>
+          {%- endif -%}
+        </ul>
+      </div>
+
+      <!-- Column 4: Contact Info -->
+      <div class="footer-col">
+        <h3 class="footer-col-heading">{{ section.settings.contact_heading }}</h3>
+        <div class="contact-info">
+            {% if section.settings.address_html != blank %}
+             <p><span class="contact-label">Address:</span> <span>{{ section.settings.address_html }}</span></p>
+            {% endif %}
+            
+            {% if section.settings.phone_text != blank %}
+             <p><span class="contact-label">Phone:</span> <span>{{ section.settings.phone_text }}</span></p>
+            {% endif %}
+
+            {% if section.settings.email_text != blank %}
+             <p><span class="contact-label">Email:</span> <span>{{ section.settings.email_text }}</span></p>
+            {% endif %}
+
+            {% if section.settings.hours_text != blank %}
+             <p><span class="contact-label">Hours:</span> <span>{{ section.settings.hours_text }}</span></p>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom">
+      <div class="copyright">
+        &copy; {{ 'now' | date: "%Y" }} {{ section.settings.copyright_text }}
+      </div>
+      
+      {%- if section.settings.show_payment_icons -%}
+      <div class="payment-icons">
+          <img src="{{ 'logo2.svg' | asset_url }}" alt="Payment Methods" width="240" height="auto" loading="lazy">
+      </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

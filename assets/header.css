@@ -117,8 +117,13 @@ body {
 
 @media screen and (max-width: 768px) {
     .header-wrapper {
-        flex-wrap: wrap;
-        padding: 15px 20px;
+        flex-wrap: nowrap;
+        padding: 12px 15px;
+        gap: 10px;
+    }
+
+    .header-left {
+        min-width: 120px;
     }
 
     .header-center {
@@ -127,5 +132,19 @@ body {
         margin-top: 15px;
         display: none;
         /* Hide menu on mobile */
+    }
+
+    .header-right {
+        gap: 16px;
+    }
+
+    .header-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .header-icon svg {
+        width: 20px;
+        height: 20px;
     }
 }

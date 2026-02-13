@@ -200,10 +200,40 @@
 
 @media screen and (max-width: 600px) {
     .new-arrivals-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
 
     .new-arrivals-container {
-        padding: 0 20px;
+        padding: 0 16px;
+    }
+
+    .new-arrivals-heading {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .na-product-title {
+        font-size: 14px;
+    }
+
+    .na-product-subtitle {
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    .na-price {
+        font-size: 15px;
+    }
+
+    .na-add-btn {
+        padding: 10px;
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .new-arrivals-grid {
+        grid-template-columns: 1fr;
     }
 }
