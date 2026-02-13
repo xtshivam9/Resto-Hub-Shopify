@@ -187,7 +187,7 @@
               {%- if block.settings.image != blank -%}
                 {{ block.settings.image | image_url: width: 600 | image_tag: class: 'mo-product-image', loading: 'lazy' }}
               {%- else -%}
-                <img src="{{ 'box.svg' | asset_url }}" alt="{{ block.settings.title }}" class="mo-product-image" loading="lazy">
+                <img src="{{ 'box.png' | asset_url }}" alt="{{ block.settings.title }}" class="mo-product-image" loading="lazy">
               {%- endif -%}
             </div>
 
