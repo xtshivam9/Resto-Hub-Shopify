@@ -1,0 +1,108 @@
+.fbt-section {
+    max-width: 1440px;
+    margin: 60px auto;
+    padding: 0 20px;
+    font-family: 'Rethink Sans', sans-serif;
+}
+
+.fbt-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.fbt-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.fbt-card {
+    display: flex;
+    align-items: center;
+    background: #F1F9F8;
+    border-radius: 13px;
+    padding: 15px;
+    gap: 20px;
+    position: relative;
+}
+
+.fbt-image-container {
+    width: 100px;
+    height: 100px;
+    border-radius: 9px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.fbt-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.fbt-info {
+    flex: 1;
+}
+
+.fbt-product-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+    text-decoration: none;
+    color: #000;
+}
+
+.fbt-desc {
+    font-size: 14px;
+    color: #A1A1A1;
+    margin-bottom: 5px;
+}
+
+.fbt-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.fbt-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+}
+
+.fbt-compare-price {
+    font-size: 14px;
+    text-decoration: line-through;
+    color: #A1A1A1;
+}
+
+.fbt-add-btn {
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+
+@media (max-width: 600px) {
+    .fbt-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .fbt-add-btn {
+        position: static;
+        margin-top: 10px;
+        width: 100%;
+    }
+}

@@ -1,0 +1,260 @@
+{{ 'main-product-custom.css' | asset_url | stylesheet_tag }}
+<!-- Main Product Custom Section -->
+
+
+<div class="main-product-custom">
+  <div class="product-container">
+    
+    <!-- Left Column: Images -->
+    <div class="product-gallery">
+      <div class="main-image-container">
+        {% if product.featured_image %}
+          <img src="{{ product.featured_image | img_url: 'master' }}" alt="{{ product.featured_image.alt | escape }}" class="main-image" id="MainImage">
+        {% else %}
+           {{ 'product-1' | placeholder_svg_tag: 'main-image' }}
+        {% endif %}
+      </div>
+      
+      {% if product.images.size > 1 %}
+        <div class="thumbnail-list">
+          {% for image in product.images limit: 4 %}
+            <div class="thumbnail-item {% if forloop.first %}active{% endif %}" onclick="changeImage('{{ image | img_url: 'master' }}', this)">
+              <img src="{{ image | img_url: 'medium' }}" alt="{{ image.alt | escape }}" class="thumbnail-image">
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Right Column: Product Info -->
+    <div class="product-info">
+      
+      <div class="reviews-stars">
+        <div class="stars">
+           {% for i in (1..5) %}
+             <span class="star-icon">★</span>
+           {% endfor %}
+        </div>
+        <span class="review-count">25 Reviews</span>
+      </div>
+
+      <span class="vendor-sku">Resto Supply Hub | SKU: {{ product.selected_or_first_available_variant.sku }}</span>
+
+      <h1 class="product-title">{{ product.title }}</h1>
+      
+      {% if section.settings.ideal_for_text != blank %}
+        <div class="ideal-for">{{ section.settings.ideal_for_text }}</div>
+      {% endif %}
+
+      <div class="price-container">
+        <span class="current-price">{{ product.price | money }}</span>
+        {% if product.compare_at_price > product.price %}
+            <span class="compare-price">{{ product.compare_at_price | money }}</span>
+            <span class="discount-badge">
+                {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}% OFF
+            </span>
+        {% endif %}
+      </div>
+      
+      {% if section.settings.unit_label != blank %}
+        <span class="unit-price-label">{{ section.settings.unit_label }}</span>
+      {% endif %}
+
+
+      <div class="feature-icons-grid">
+        <!-- Static Feature: Capacity -->
+        <div class="feature-item">
+            <img src="{{ 'capacity.svg' | asset_url }}" class="feature-icon-img" alt="Capacity 28 oz">
+            <span class="feature-label">Capacity 28 oz</span>
+        </div>
+        <!-- Static Feature: Plastic -->
+        <div class="feature-item">
+            <img src="{{ 'plastic.svg' | asset_url }}" class="feature-icon-img" alt="Plastic">
+            <span class="feature-label">Plastic</span>
+        </div>
+        <!-- Static Feature: Leak-resistant -->
+        <div class="feature-item">
+            <img src="{{ 'leak.svg' | asset_url }}" class="feature-icon-img" alt="Leak-resistant">
+            <span class="feature-label">Leak-resistant</span>
+        </div>
+        <!-- Static Feature: Clear Design -->
+        <div class="feature-item">
+            <img src="{{ 'clear-design.svg' | asset_url }}" class="feature-icon-img" alt="Clear Design">
+            <span class="feature-label">Clear Design</span>
+        </div>
+      </div>
+
+      <label class="quantity-label">Quantity</label>
+      
+      {% form 'product', product %}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        
+        <div class="actions-row">
+            <div class="qty-selector">
+                <button type="button" class="qty-btn minus" onclick="updateQty(-1)">-</button>
+                <div class="qty-circle"></div>
+                <input type="number" id="Quantity" name="quantity" value="1" min="1" class="qty-input">
+                <div class="qty-circle-plus"></div>
+                <button type="button" class="qty-btn plus" onclick="updateQty(1)">+</button>
+            </div>
+
+            <button type="submit" name="add" class="add-to-cart-btn">
+                Add to Cart
+            </button>
+        </div>
+      {% endform %}
+
+      <div class="shipping-info">
+        <div class="shipping-item">
+            <!-- Delivery Icon -->
+            <!-- Delivery Icon -->
+            <img src="{{ 'estimated.svg' | asset_url }}" class="shipping-icon" alt="Estimated Arrival">
+            <div>
+                <div class="shipping-text-primary">Estimated Arrival</div>
+                <div class="shipping-text-secondary">Tracked delivery: 1 - 3 business days</div>
+                <span class="shipping-link">View Shipping Options</span>
+            </div>
+        </div>
+        
+        <div class="shipping-item">
+            <!-- Store Icon -->
+            <img src="{{ 'pickup.svg' | asset_url }}" class="shipping-icon" alt="Pickup available">
+            <div>
+                 <div class="shipping-text-primary">Pickup available</div>
+                 <div class="shipping-text-secondary">349 Bowes Rd. Usually ready in 24 hours</div>
+                 <span class="shipping-link">View Store Information</span>
+            </div>
+        </div>
+      </div>
+
+
+
+      <!-- Frequently Bought Together Section -->
+      <div class="fbt-container">
+        {% if section.settings.fbt_heading != blank %}
+          <h3 class="fbt-heading">{{ section.settings.fbt_heading }}</h3>
+        {% endif %}
+
+        <div class="fbt-list">
+          {% for block in section.blocks %}
+            {% if block.type == 'fbt_product' %}
+              {% assign fbt_product = all_products[block.settings.product] %}
+              {% if fbt_product != blank %}
+                <div class="fbt-item">
+                  <div class="fbt-image-wrapper">
+                    <img src="{{ fbt_product.featured_image | img_url: '100x100', crop: 'center' }}" alt="{{ fbt_product.title }}" class="fbt-item-image">
+                  </div>
+                  <div class="fbt-item-info">
+                    <a href="{{ fbt_product.url }}" class="fbt-item-title">{{ fbt_product.title }}</a>
+                    {% if block.settings.description != blank %}
+                       <div class="fbt-item-desc">{{ block.settings.description }}</div>
+                    {% endif %}
+                    
+                    <div class="fbt-item-price-row">
+                        <span class="fbt-item-price">{{ fbt_product.price | money }}</span>
+                         {% if fbt_product.compare_at_price > fbt_product.price %}
+                           <span class="fbt-item-compare-price">{{ fbt_product.compare_at_price | money }}</span>
+                         {% endif %}
+                    </div>
+                  </div>
+                  
+                  <div class="fbt-item-action">
+                    {% form 'product', fbt_product %}
+                        <input type="hidden" name="id" value="{{ fbt_product.selected_or_first_available_variant.id }}">
+                        <button type="submit" class="fbt-add-btn">ADD +</button>
+                    {% endform %}
+                  </div>
+                </div>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<script>
+  function changeImage(src, element) {
+    document.getElementById('MainImage').src = src;
+    document.querySelectorAll('.thumbnail-item').forEach(el => el.classList.remove('active'));
+    element.classList.add('active');
+  }
+
+  function updateQty(change) {
+    const input = document.getElementById('Quantity');
+    let value = parseInt(input.value);
+    value += change;
+    if (value < 1) value = 1;
+    input.value = value;
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Main Product Custom",
+  "settings": [
+    {
+      "type": "text",
+      "id": "ideal_for_text",
+      "label": "Ideal For Text",
+      "default": "Ideal For: Salads, hot grains, takeaway"
+    },
+    {
+       "type": "text",
+       "id": "unit_label",
+       "label": "Unit Label",
+       "default": "150PCS/BOX"
+    },
+    {
+      "type": "text",
+      "id": "fbt_heading",
+      "label": "Frequently Bought Heading",
+      "default": "Frequently Brought Together"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature_icon",
+      "name": "Feature Icon",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon Image"
+        },
+        {
+          "type": "html",
+          "id": "svg_code",
+          "label": "SVG Code (Overrides Image)"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Feature"
+        }
+      ]
+    },
+    {
+       "type": "fbt_product",
+       "name": "FBT Product",
+       "settings": [
+         {
+           "type": "product",
+           "id": "product",
+           "label": "Product"
+         },
+         {
+           "type": "text",
+           "id": "description",
+           "label": "Short Description",
+           "default": "Salads, hot grains, takeaway"
+         }
+       ]
+    }
+  ]
+}
+{% endschema %}

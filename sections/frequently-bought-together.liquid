@@ -1,0 +1,75 @@
+{{ 'frequently-bought-together.css' | asset_url | stylesheet_tag }}
+
+<div class="fbt-section">
+  <h2 class="fbt-title">{{ section.settings.heading }}</h2>
+  
+  <div class="fbt-grid">
+    {% for block in section.blocks %}
+      {% assign product = all_products[block.settings.product] %}
+      {% if product != blank %}
+        <div class="fbt-card">
+           <div class="fbt-image-container">
+             <img src="{{ product.featured_image | img_url: '200x200' }}" alt="{{ product.title }}" class="fbt-image">
+           </div>
+           
+           <div class="fbt-info">
+             <a href="{{ product.url }}" class="fbt-product-title">{{ product.title }}</a>
+             <div class="fbt-desc">Salads, hot grains, takeaway</div>
+             
+             <div class="fbt-price-row">
+               <span class="fbt-price">{{ product.price | money }}</span>
+               {% if product.compare_at_price > product.price %}
+                 <span class="fbt-compare-price">{{ product.compare_at_price | money }}</span>
+               {% endif %}
+             </div>
+           </div>
+           
+           {% form 'product', product %}
+             <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+             <button type="submit" class="fbt-add-btn">ADD +</button>
+           {% endform %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Frequently Bought",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Frequently Brought Together"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Frequently Bought Together",
+      "blocks": [
+        {
+          "type": "product"
+        },
+        {
+           "type": "product"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

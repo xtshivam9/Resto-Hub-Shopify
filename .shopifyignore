@@ -11,3 +11,13 @@
 #
 # Ignore templates and sections with a regular expression:
 #   /(templates|sections)/.*\.json/
+
+# Ignore large SVG files to prevent 502 errors during sync
+assets/hero1.svg
+assets/serve1.svg
+assets/serve3.svg
+assets/serve5.svg
+assets/box.svg
+assets/choose.svg
+assets/serve2.svg
+assets/serve4.svg

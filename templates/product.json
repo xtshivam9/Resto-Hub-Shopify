@@ -1,0 +1,147 @@
+{
+    "sections": {
+        "main": {
+            "type": "main-product-custom",
+            "blocks": {
+                "feature-1": {
+                    "type": "feature_icon",
+                    "settings": {
+                        "label": "Capacity 28 oz",
+                        "svg_code": "<svg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M10 20L14 48C14.11 50.4 16 52 18.4 52H41.6C44 52 45.89 50.4 46 48L50 20H10Z\" stroke=\"#149B77\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M6 20H54\" stroke=\"#149B77\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><path d=\"M12 20L15 14H45L48 20\" stroke=\"#149B77\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M18 16H42\" stroke=\"#149B77\" stroke-width=\"1\"/></svg>"
+                    }
+                },
+                "feature-2": {
+                    "type": "feature_icon",
+                    "settings": {
+                        "label": "Plastic",
+                        "svg_code": "<svg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M30 42L12 33L30 24L48 33L30 42Z\" stroke=\"#149B77\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M30 33L12 24L30 15L48 24L30 33Z\" stroke=\"#149B77\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M30 51L12 42\" stroke=\"#149B77\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M48 42L30 51\" stroke=\"#149B77\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/></svg>"
+                    }
+                },
+                "feature-3": {
+                    "type": "feature_icon",
+                    "settings": {
+                        "label": "Leak-resistant",
+                        "svg_code": "<svg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"30\" cy=\"30\" r=\"20\" stroke=\"#149B77\" stroke-width=\"1.5\"/><path d=\"M16 44L44 16\" stroke=\"#149B77\" stroke-width=\"1.5\"/><path d=\"M30 20C30 20 35 25 35 29C35 31.76 32.76 34 30 34C27.24 34 25 31.76 25 29C25 25 30 20 30 20Z\" stroke=\"#149B77\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/></svg>"
+                    }
+                },
+                "feature-4": {
+                    "type": "feature_icon",
+                    "settings": {
+                        "label": "Clear Design",
+                        "svg_code": "<svg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"26\" cy=\"26\" r=\"13\" stroke=\"#149B77\" stroke-width=\"1.5\"/><circle cx=\"36\" cy=\"36\" r=\"13\" stroke=\"#149B77\" stroke-width=\"1.5\" stroke-dasharray=\"3 3\"/></svg>"
+                    }
+                },
+                "fbt-1": {
+                    "type": "fbt_product",
+                    "settings": {
+                        "product": "28oz-rectangle-plastic-container",
+                        "description": "Salads, hot grains, takeaway"
+                    }
+                },
+                "fbt-2": {
+                    "type": "fbt_product",
+                    "settings": {
+                        "product": "28oz-rectangle-plastic-container",
+                        "description": "Salads, hot grains, takeaway"
+                    }
+                }
+            },
+            "block_order": [
+                "feature-1",
+                "feature-2",
+                "feature-3",
+                "feature-4",
+                "fbt-1",
+                "fbt-2"
+            ],
+            "settings": {
+                "fbt_heading": "Frequently Brought Together"
+            }
+        },
+        "product-tabs": {
+            "type": "product-details-tabs",
+            "settings": {}
+        },
+        "promo-bar": {
+            "type": "promo-marquee",
+            "settings": {}
+        },
+        "right-packaging": {
+            "type": "right-packaging",
+            "blocks": {
+                "card-1": {
+                    "type": "packaging_product",
+                    "settings": {}
+                },
+                "card-2": {
+                    "type": "packaging_product",
+                    "settings": {}
+                },
+                "card-3": {
+                    "type": "packaging_product",
+                    "settings": {
+                        "highlight": true
+                    }
+                }
+            },
+            "block_order": [
+                "card-1",
+                "card-2",
+                "card-3"
+            ],
+            "settings": {
+                "heading": "Compare With Another Products",
+                "subheading": ""
+            }
+        },
+        "new-arrivals": {
+            "type": "new-arrivals",
+            "blocks": {
+                "na-card-1": {
+                    "type": "na_product_card",
+                    "settings": {}
+                },
+                "na-card-2": {
+                    "type": "na_product_card",
+                    "settings": {}
+                },
+                "na-card-3": {
+                    "type": "na_product_card",
+                    "settings": {}
+                },
+                "na-card-4": {
+                    "type": "na_product_card",
+                    "settings": {}
+                }
+            },
+            "block_order": [
+                "na-card-1",
+                "na-card-2",
+                "na-card-3",
+                "na-card-4"
+            ],
+            "settings": {
+                "heading": "You May Also Like"
+            }
+        },
+        "cta_banner": {
+            "type": "cta-banner",
+            "settings": {
+                "heading": "Searching for reliable packing supply solutions in Canada?",
+                "description": "Built for businesses that depend on consistent, large-volume supply.",
+                "button_text": "Browse all Categories",
+                "button_link": "shopify:\/\/collections\/all",
+                "bg_color": "#139D72",
+                "text_color": "#FFFFFF"
+            }
+        }
+    },
+    "order": [
+        "main",
+        "product-tabs",
+        "promo-bar",
+        "right-packaging",
+        "new-arrivals",
+        "cta_banner"
+    ]
+}

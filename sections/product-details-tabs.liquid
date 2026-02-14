@@ -1,0 +1,70 @@
+{{ 'product-details-tabs.css' | asset_url | stylesheet_tag }}
+
+<div class="product-tabs-section">
+  <div class="tabs-nav">
+    <button class="tab-btn active" onclick="openTab(event, 'Description')">Description</button>
+    <button class="tab-btn" onclick="openTab(event, 'Details')">Details & Dimensions</button>
+    <button class="tab-btn" onclick="openTab(event, 'Materials')">Materials</button>
+  </div>
+  
+  <div id="Description" class="tab-content active">
+    {{ section.settings.description_content }}
+  </div>
+  
+  <div id="Details" class="tab-content">
+    {{ section.settings.details_content }}
+  </div>
+  
+  <div id="Materials" class="tab-content">
+    {{ section.settings.materials_content }}
+  </div>
+</div>
+
+<script>
+  function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+      tabcontent[i].classList.remove('active');
+    }
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    document.getElementById(tabName).classList.add('active');
+    evt.currentTarget.className += " active";
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Product Details Tabs",
+  "settings": [
+    {
+       "type": "richtext",
+       "id": "description_content",
+       "label": "Description Content",
+       "default": "<ul><li>28 oz capacity, perfect for full meals, entrees, or combo dishes.</li><li>Contains 150 containers with fitted lids.</li><li>Commonly used in meal prep services, takeout, and catering.</li><li>Rectangular shape optimizes space and stacking.</li><li>Sturdy plastic construction resists cracking under heat or pressure.</li></ul>"
+    },
+    {
+       "type": "richtext",
+       "id": "details_content",
+       "label": "Details & Dimensions Content",
+       "default": "<ul><li>Dimensions: 8 x 5 x 2 inches.</li><li>Weight: 1.5 lbs.</li></ul>"
+    },
+    {
+       "type": "richtext",
+       "id": "materials_content",
+       "label": "Materials Content",
+       "default": "<ul><li>Made from BPA-free, food-grade polypropylene plastic.</li><li>Microwave and dishwasher safe.</li></ul>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Details Tabs"
+    }
+  ]
+}
+{% endschema %}

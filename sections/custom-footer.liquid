@@ -164,10 +164,17 @@
   }
 
   @media screen and (min-width: 990px) {
+    {% if template == 'index' or template contains 'product' %}
     .custom-footer {
       margin-top: -160px; /* Adjusted for true 50% overlap (covering padding + half banner) */
       padding-top: 220px; /* Ensure content starts below the banner */
     }
+    {% else %}
+    .custom-footer {
+      margin-top: 0;
+      padding-top: 60px;
+    }
+    {% endif %}
   }
 
   .footer-container {
