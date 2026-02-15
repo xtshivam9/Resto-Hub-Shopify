@@ -150,11 +150,17 @@
     }
 
     .trusted-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
 
     .trusted-item {
-        padding: 24px;
+        padding: 20px 10px;
+    }
+
+    /* Make the last item span full width if it's the odd one out (e.g. 3rd item) */
+    .trusted-item:nth-child(odd):last-child {
+        grid-column: span 2;
     }
 
     .trusted-title {

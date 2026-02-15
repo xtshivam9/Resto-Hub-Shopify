@@ -200,8 +200,26 @@
 
 @media screen and (max-width: 600px) {
     .new-arrivals-grid {
-        grid-template-columns: repeat(2, 1fr);
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
         gap: 12px;
+        padding-bottom: 8px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        /* scroll-padding-left removed for center alignment */
+    }
+
+    .new-arrivals-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .na-product-card {
+        min-width: 60%;
+        max-width: 60%;
+        flex: 0 0 60%;
+        scroll-snap-align: center;
     }
 
     .new-arrivals-container {
@@ -229,11 +247,5 @@
     .na-add-btn {
         padding: 10px;
         font-size: 12px;
-    }
-}
-
-@media screen and (max-width: 400px) {
-    .new-arrivals-grid {
-        grid-template-columns: 1fr;
     }
 }

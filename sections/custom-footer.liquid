@@ -348,7 +348,7 @@
   @media screen and (max-width: 900px) {
     .footer-grid {
         flex-direction: column;
-        gap: 40px;
+        gap: 0;
     }
     
     .footer-bottom {
@@ -405,8 +405,8 @@
 
   @media screen and (max-width: 480px) {
     .custom-footer {
-        margin-top: 100px;
-        padding-top: 60px;
+        margin-top: -160px;
+        padding-top: 220px;
     }
 
     .footer-cta-container {
@@ -440,6 +440,54 @@
 
     .footer-container {
         padding: 0 16px;
+    }
+  }
+
+  /* Footer Accordion for Mobile */
+  @media screen and (max-width: 768px) {
+    .footer-accordion .footer-col-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        margin-bottom: 0;
+        padding: 16px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    .footer-accordion .footer-col-heading .footer-toggle-icon {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-right: 2px solid #A1A1AA;
+        border-bottom: 2px solid #A1A1AA;
+        transform: rotate(45deg);
+        transition: transform 0.3s ease;
+        flex-shrink: 0;
+        margin-left: 10px;
+    }
+
+    .footer-accordion.active .footer-col-heading .footer-toggle-icon {
+        transform: rotate(-135deg);
+    }
+
+    .footer-accordion .footer-accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .footer-accordion.active .footer-accordion-content {
+        max-height: 500px;
+        padding-top: 12px;
+    }
+  }
+
+  @media screen and (min-width: 769px) {
+    .footer-toggle-icon {
+        display: none !important;
     }
   }
 {% endstyle %}
@@ -480,69 +528,75 @@
       </div>
 
       <!-- Column 2: Quick Links -->
-      <div class="footer-col">
-        <h3 class="footer-col-heading">{{ section.settings.menu_1_heading }}</h3>
-        <ul class="footer-menu">
-          {%- if section.settings.menu_1 != blank -%}
-             {%- for link in section.settings.menu_1.links -%}
-                <li class="footer-menu-item">
-                    <a href="{{ link.url }}" class="footer-menu-link">{{ link.title }}</a>
-                </li>
-             {%- endfor -%}
-          {%- else -%}
-            <!-- Fallback links for visualization -->
-            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Shop All</a></li>
-            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Categories</a></li>
-            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Most Popular</a></li>
-            <li class="footer-menu-item"><a href="#" class="footer-menu-link">New Arrivals</a></li>
-            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Eco Packaging</a></li>
-            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Why Us</a></li>
-            <li class="footer-menu-item"><a href="#" class="footer-menu-link">About</a></li>
-            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Contact</a></li>
-          {%- endif -%}
-        </ul>
+      <div class="footer-col footer-accordion">
+        <h3 class="footer-col-heading" onclick="toggleFooterAccordion(this)">{{ section.settings.menu_1_heading }} <span class="footer-toggle-icon"></span></h3>
+        <div class="footer-accordion-content">
+          <ul class="footer-menu">
+            {%- if section.settings.menu_1 != blank -%}
+               {%- for link in section.settings.menu_1.links -%}
+                  <li class="footer-menu-item">
+                      <a href="{{ link.url }}" class="footer-menu-link">{{ link.title }}</a>
+                  </li>
+               {%- endfor -%}
+            {%- else -%}
+              <!-- Fallback links for visualization -->
+              <li class="footer-menu-item"><a href="#" class="footer-menu-link">Shop All</a></li>
+              <li class="footer-menu-item"><a href="#" class="footer-menu-link">Categories</a></li>
+              <li class="footer-menu-item"><a href="#" class="footer-menu-link">Most Popular</a></li>
+              <li class="footer-menu-item"><a href="#" class="footer-menu-link">New Arrivals</a></li>
+              <li class="footer-menu-item"><a href="#" class="footer-menu-link">Eco Packaging</a></li>
+              <li class="footer-menu-item"><a href="#" class="footer-menu-link">Why Us</a></li>
+              <li class="footer-menu-item"><a href="#" class="footer-menu-link">About</a></li>
+              <li class="footer-menu-item"><a href="#" class="footer-menu-link">Contact</a></li>
+            {%- endif -%}
+          </ul>
+        </div>
       </div>
 
       <!-- Column 3: Customer Support -->
-      <div class="footer-col">
-        <h3 class="footer-col-heading">{{ section.settings.menu_2_heading }}</h3>
-        <ul class="footer-menu">
-           {%- if section.settings.menu_2 != blank -%}
-             {%- for link in section.settings.menu_2.links -%}
-                <li class="footer-menu-item">
-                    <a href="{{ link.url }}" class="footer-menu-link">{{ link.title }}</a>
-                </li>
-             {%- endfor -%}
-          {%- else -%}
-             <!-- Fallback links -->
-            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Shipping Info</a></li>
-            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Returns & Refunds</a></li>
-            <li class="footer-menu-item"><a href="#" class="footer-menu-link">FAQ</a></li>
-            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Privacy & Terms</a></li>
-            <li class="footer-menu-item"><a href="#" class="footer-menu-link">Accessibility</a></li>
-          {%- endif -%}
-        </ul>
+      <div class="footer-col footer-accordion">
+        <h3 class="footer-col-heading" onclick="toggleFooterAccordion(this)">{{ section.settings.menu_2_heading }} <span class="footer-toggle-icon"></span></h3>
+        <div class="footer-accordion-content">
+          <ul class="footer-menu">
+             {%- if section.settings.menu_2 != blank -%}
+               {%- for link in section.settings.menu_2.links -%}
+                  <li class="footer-menu-item">
+                      <a href="{{ link.url }}" class="footer-menu-link">{{ link.title }}</a>
+                  </li>
+               {%- endfor -%}
+            {%- else -%}
+               <!-- Fallback links -->
+              <li class="footer-menu-item"><a href="#" class="footer-menu-link">Shipping Info</a></li>
+              <li class="footer-menu-item"><a href="#" class="footer-menu-link">Returns & Refunds</a></li>
+              <li class="footer-menu-item"><a href="#" class="footer-menu-link">FAQ</a></li>
+              <li class="footer-menu-item"><a href="#" class="footer-menu-link">Privacy & Terms</a></li>
+              <li class="footer-menu-item"><a href="#" class="footer-menu-link">Accessibility</a></li>
+            {%- endif -%}
+          </ul>
+        </div>
       </div>
 
       <!-- Column 4: Contact Info -->
-      <div class="footer-col">
-        <h3 class="footer-col-heading">{{ section.settings.contact_heading }}</h3>
-        <div class="contact-info">
-            {% if section.settings.address_html != blank %}
-             <p><span class="contact-label">Address:</span> <span>{{ section.settings.address_html }}</span></p>
-            {% endif %}
-            
-            {% if section.settings.phone_text != blank %}
-             <p><span class="contact-label">Phone:</span> <span>{{ section.settings.phone_text }}</span></p>
-            {% endif %}
+      <div class="footer-col footer-accordion">
+        <h3 class="footer-col-heading" onclick="toggleFooterAccordion(this)">{{ section.settings.contact_heading }} <span class="footer-toggle-icon"></span></h3>
+        <div class="footer-accordion-content">
+          <div class="contact-info">
+              {% if section.settings.address_html != blank %}
+               <p><span class="contact-label">Address:</span> <span>{{ section.settings.address_html }}</span></p>
+              {% endif %}
+              
+              {% if section.settings.phone_text != blank %}
+               <p><span class="contact-label">Phone:</span> <span>{{ section.settings.phone_text }}</span></p>
+              {% endif %}
 
-            {% if section.settings.email_text != blank %}
-             <p><span class="contact-label">Email:</span> <span>{{ section.settings.email_text }}</span></p>
-            {% endif %}
+              {% if section.settings.email_text != blank %}
+               <p><span class="contact-label">Email:</span> <span>{{ section.settings.email_text }}</span></p>
+              {% endif %}
 
-            {% if section.settings.hours_text != blank %}
-             <p><span class="contact-label">Hours:</span> <span>{{ section.settings.hours_text }}</span></p>
-            {% endif %}
+              {% if section.settings.hours_text != blank %}
+               <p><span class="contact-label">Hours:</span> <span>{{ section.settings.hours_text }}</span></p>
+              {% endif %}
+          </div>
         </div>
       </div>
     </div>
@@ -561,3 +615,11 @@
     </div>
   </div>
 </div>
+
+<script>
+  function toggleFooterAccordion(heading) {
+    if (window.innerWidth > 768) return;
+    var accordion = heading.closest('.footer-accordion');
+    accordion.classList.toggle('active');
+  }
+</script>

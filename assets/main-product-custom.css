@@ -4,6 +4,7 @@
     padding: 30px 40px;
     font-family: 'Rethink Sans', sans-serif;
     color: #000;
+    overflow-x: hidden;
 }
 
 .product-container,
@@ -22,6 +23,10 @@
     flex: 0 0 48%;
     padding-right: 20px;
     min-width: 300px;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 20px;
+    align-self: flex-start;
 }
 
 .main-image-container {
@@ -100,7 +105,7 @@
     font-size: 16px;
     font-weight: 500;
     color: rgba(0, 0, 0, 0.5);
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     display: block;
 }
 
@@ -260,16 +265,31 @@
     background: transparent;
 }
 
+/* Hide default number input arrows */
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.qty-input {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
 .qty-circle {
     width: 40px;
     height: 40px;
     background: #D8EFEC;
     border-radius: 50%;
     position: absolute;
-    left: 11px;
+    left: 6px;
     z-index: -1;
     top: 50%;
     transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .qty-circle-plus {
@@ -278,19 +298,32 @@
     background: #149B77;
     border-radius: 50%;
     position: absolute;
-    right: 11px;
+    right: 6px;
     z-index: -1;
     top: 50%;
     transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Overriding colors for buttons inside selector */
 .qty-btn.minus {
     color: #000;
+    width: 40px;
+    padding: 0;
+    margin-left: 0;
+    position: relative;
+    z-index: 2;
 }
 
 .qty-btn.plus {
     color: #fff;
+    width: 40px;
+    padding: 0;
+    margin-right: 0;
+    position: relative;
+    z-index: 2;
 }
 
 
@@ -309,6 +342,7 @@
     min-width: 270px;
     transition: background 0.3s;
     letter-spacing: 1.5px;
+    box-sizing: border-box;
 }
 
 .add-to-cart-btn:hover {
@@ -356,41 +390,12 @@
     margin-top: 6px;
 }
 
-@media (max-width: 768px) {
-    .product-container {
-        flex-direction: column;
-    }
-
-    .product-gallery,
-    .product-info {
-        flex: 0 0 100%;
-    }
-
-    .feature-icons-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .actions-row {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .qty-selector {
-        width: 100%;
-    }
-
-    .shipping-info {
-        flex-direction: column;
-    }
-}
-
 /* Frequently Bought Together (Inside Main Product) */
 .fbt-container {
     margin-top: 40px;
     margin-left: 10px;
     margin-right: 10px;
-    padding-top: 30px;
-    border-top: 1px solid #e5e5e5;
+    padding-top: 20px;
 }
 
 .fbt-heading {
@@ -408,18 +413,18 @@
 
 .fbt-item {
     display: flex;
-    align-items: center;
-    background: #F1F9F8;
+    align-items: flex-start;
+    background: #F4FBFA;
     border: 1px solid #C8E6E2;
     border-radius: 12px;
-    padding: 24px 40px;
-    gap: 20px;
-    justify-content: space-between;
+    padding: 12px;
+    gap: 12px;
+    position: relative;
 }
 
 .fbt-image-wrapper {
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
     border-radius: 12px;
     overflow: hidden;
     flex-shrink: 0;
@@ -433,52 +438,56 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    padding: 5px;
+    padding: 0;
 }
 
 .fbt-item-info {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    justify-content: flex-start;
+    padding-top: 5px;
 }
 
 .fbt-item-title {
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 700;
     color: #000;
     text-decoration: none;
-    line-height: 1.3;
+    line-height: 1.2;
+    margin-bottom: 5px;
 }
 
 .fbt-item-desc {
-    font-size: 14px;
-    color: #888;
+    font-size: 15px;
+    color: #999;
     font-weight: 500;
+    margin-bottom: 12px;
 }
 
 .fbt-item-price-row {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-top: 5px;
+    margin-top: 0;
 }
 
 .fbt-item-price {
-    font-size: 19px;
-    font-weight: 800;
+    font-size: 20px;
+    font-weight: 700;
     color: #000;
 }
 
 .fbt-item-compare-price {
-    font-size: 14px;
+    font-size: 16px;
     text-decoration: line-through;
-    color: #aaa;
+    color: #bbb;
     font-weight: 500;
 }
 
 .fbt-item-action {
     flex-shrink: 0;
+    padding-top: 5px;
 }
 
 .fbt-add-btn {
@@ -486,9 +495,9 @@
     color: #fff;
     border: none;
     border-radius: 50px;
-    padding: 10px 24px;
-    font-size: 13px;
-    font-weight: 700;
+    padding: 8px 24px;
+    font-size: 14px;
+    font-weight: 600;
     text-transform: uppercase;
     cursor: pointer;
     transition: background 0.3s;
@@ -499,19 +508,349 @@
     background: #333;
 }
 
-@media (max-width: 480px) {
-    .fbt-item {
-        flex-wrap: wrap;
+/* ===================== */
+/* Tablet: max-width 768px */
+/* ===================== */
+@media (max-width: 768px) {
+    .main-product-custom {
+        padding: 20px 20px;
     }
 
-    .fbt-item-action {
+    .product-container {
+        flex-direction: column;
+    }
+
+    .product-gallery,
+    .product-info {
+        flex: 0 0 100%;
         width: 100%;
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 5px;
+        min-width: unset;
+        padding-left: 0;
+        padding-right: 0;
+        position: static;
+    }
+
+    .product-gallery {
+        margin-bottom: 25px;
+    }
+
+    .main-image-container {
+        aspect-ratio: auto;
+        height: auto;
+    }
+
+    .main-image {
+        height: auto;
+    }
+
+    .thumbnail-list {
+        gap: 8px;
+    }
+
+    .thumbnail-item {
+        width: calc((100% - 24px) / 4);
+    }
+
+    .product-title {
+        font-size: 30px;
+    }
+
+    .ideal-for {
+        font-size: 17px;
+        margin-bottom: 15px;
+    }
+
+    .current-price {
+        font-size: 28px;
+    }
+
+    .compare-price {
+        font-size: 22px;
+    }
+
+    .discount-badge {
+        font-size: 14px;
+        padding: 3px 10px;
+    }
+
+    .unit-price-label {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .feature-icons-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+    }
+
+    .feature-item {
+        height: 100px;
+        padding: 8px 4px;
+    }
+
+    .feature-icon-img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .feature-label {
+        font-size: 12px;
+    }
+
+    .actions-row {
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .qty-selector {
+        width: 140px;
+        height: 48px;
+        flex-shrink: 0;
+    }
+
+    .add-to-cart-btn {
+        min-width: unset;
+        flex: 1;
+        height: 48px;
+        font-size: 14px;
+        padding: 0 20px;
+    }
+
+    .shipping-info {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .shipping-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .shipping-text-primary {
+        font-size: 14px;
+    }
+
+    .shipping-text-secondary {
+        font-size: 12px;
+    }
+
+    .shipping-link {
+        font-size: 13px;
+    }
+
+    /* FBT on Tablet */
+    .fbt-container {
+        margin-top: 30px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .fbt-image-wrapper {
+        width: 100px;
+        height: 100px;
+    }
+
+    .fbt-item-title {
+        font-size: 16px;
+    }
+
+    .fbt-item-desc {
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+    .fbt-item-price {
+        font-size: 18px;
+    }
+
+    .fbt-item-compare-price {
+        font-size: 14px;
+    }
+}
+
+/* ===================== */
+/* Mobile: max-width 480px */
+/* ===================== */
+@media (max-width: 480px) {
+    .main-product-custom {
+        padding: 15px 15px;
+    }
+
+    .reviews-stars {
+        gap: 6px;
+        margin-bottom: 10px;
+    }
+
+    .star-icon {
+        font-size: 22px;
+    }
+
+    .review-count {
+        font-size: 13px;
+    }
+
+    .vendor-sku {
+        font-size: 13px;
+        margin-bottom: 6px;
+    }
+
+    .product-title {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    .ideal-for {
+        font-size: 15px;
+        line-height: 20px;
+        margin-bottom: 12px;
+    }
+
+    .price-container {
+        gap: 12px;
+        margin-bottom: 8px;
+    }
+
+    .current-price {
+        font-size: 24px;
+    }
+
+    .compare-price {
+        font-size: 18px;
+    }
+
+    .discount-badge {
+        font-size: 12px;
+        padding: 3px 8px;
+    }
+
+    .unit-price-label {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .feature-icons-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .feature-item {
+        height: 90px;
+        padding: 8px 4px;
+    }
+
+    .feature-icon-img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .feature-label {
+        font-size: 11px;
+    }
+
+    .quantity-label {
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+
+    .actions-row {
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .qty-selector {
+        width: 140px;
+        height: 48px;
+        flex-shrink: 0;
+    }
+
+    .add-to-cart-btn {
+        min-width: unset;
+        flex: 1;
+        height: 48px;
+        font-size: 14px;
+    }
+
+    .shipping-info {
+        flex-direction: column;
+        gap: 15px;
+        padding-top: 15px;
+    }
+
+    .shipping-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .shipping-text-primary {
+        font-size: 14px;
+    }
+
+    .shipping-text-secondary {
+        font-size: 12px;
+    }
+
+    .shipping-link {
+        font-size: 13px;
+    }
+
+    /* FBT on Mobile */
+    .fbt-container {
+        margin-top: 20px;
+        margin-left: 0;
+        margin-right: 0;
+        overflow-x: hidden;
+    }
+
+    .fbt-heading {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+
+    .fbt-list {
+        gap: 10px;
+    }
+
+    .fbt-item {
+        flex-wrap: nowrap;
+        padding: 10px;
+        gap: 10px;
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    .fbt-image-wrapper {
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+    }
+
+    .fbt-item-info {
+        padding-top: 2px;
+    }
+
+    .fbt-item-title {
+        font-size: 14px;
+        margin-bottom: 3px;
+    }
+
+    .fbt-item-desc {
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+
+    .fbt-item-price {
+        font-size: 16px;
+    }
+
+    .fbt-item-compare-price {
+        font-size: 13px;
     }
 
     .fbt-add-btn {
-        width: 100%;
+        padding: 6px 14px;
+        font-size: 11px;
     }
 }

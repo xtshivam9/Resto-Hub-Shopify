@@ -236,8 +236,31 @@
 
 @media screen and (max-width: 600px) {
     .most-ordered-grid {
-        grid-template-columns: repeat(2, 1fr);
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
         gap: 12px;
+        padding-bottom: 20px;
+        /* Space for scrollbar */
+        grid-template-columns: none;
+        /* Reset grid */
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        /* Firefox */
+        padding-right: 16px;
+        /* End padding */
+    }
+
+    .most-ordered-grid::-webkit-scrollbar {
+        display: none;
+        /* Chrome/Safari */
+    }
+
+    .mo-product-card {
+        min-width: 42%;
+        /* Show 2.x cards to peek the next one */
+        flex: 0 0 42%;
+        scroll-snap-align: start;
     }
 
     .most-ordered-container {
@@ -275,11 +298,5 @@
     .mo-add-btn {
         padding: 10px;
         font-size: 12px;
-    }
-}
-
-@media screen and (max-width: 400px) {
-    .most-ordered-grid {
-        grid-template-columns: 1fr;
     }
 }
