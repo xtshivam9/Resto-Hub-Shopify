@@ -101,14 +101,15 @@
 }
 
 .mo-product-image {
-    position: absolute;
+    position: absolute !important;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
     object-fit: cover;
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    display: block;
 }
 
 .mo-badge {
