@@ -12,6 +12,15 @@
     },
     {
       "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "label": "Products to Show Per Tab",
+      "default": 4
+    },
+    {
+      "type": "range",
       "id": "padding_top",
       "min": 0,
       "max": 100,
@@ -40,86 +49,19 @@
   "blocks": [
     {
       "type": "category_pill",
-      "name": "Category Pill",
+      "name": "Category Tab",
       "settings": [
         {
           "type": "text",
           "id": "label",
-          "label": "Label",
+          "label": "Tab Label",
           "default": "Category"
         },
         {
-          "type": "url",
-          "id": "link",
-          "label": "Link"
-        },
-        {
-          "type": "checkbox",
-          "id": "active",
-          "label": "Active State",
-          "default": false
-        }
-      ]
-    },
-    {
-      "type": "product_card",
-      "name": "Product Card",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Product Image"
-        },
-        {
-          "type": "text",
-          "id": "badge_text",
-          "label": "Badge Text",
-          "default": "BEST SELLER"
-        },
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Product Title",
-          "default": "28oz Rectangle Plastic Container"
-        },
-        {
-          "type": "text",
-          "id": "subtitle",
-          "label": "Subtitle",
-          "default": "Salads, hot grains, takeaway"
-        },
-        {
-          "type": "range",
-          "id": "rating",
-          "min": 0,
-          "max": 5,
-          "step": 1,
-          "label": "Star Rating",
-          "default": 5
-        },
-        {
-          "type": "number",
-          "id": "reviews",
-          "label": "Review Count",
-          "default": 25
-        },
-        {
-          "type": "text",
-          "id": "price",
-          "label": "Price",
-          "default": "$25.02"
-        },
-        {
-          "type": "text",
-          "id": "compare_price",
-          "label": "Compare Price",
-          "default": "$28.03"
-        },
-        {
-          "type": "text",
-          "id": "unit_text",
-          "label": "Unit Text",
-          "default": "150PCS/BOX"
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection",
+          "info": "Pick the collection whose products will show under this tab"
         }
       ]
     }
@@ -132,12 +74,8 @@
         { "type": "category_pill", "settings": { "label": "Cups & Lids" } },
         { "type": "category_pill", "settings": { "label": "Plates & Bowls" } },
         { "type": "category_pill", "settings": { "label": "Cutlery & Napkins" } },
-        { "type": "category_pill", "settings": { "label": "Carry Bags & Packagaing" } },
-        { "type": "category_pill", "settings": { "label": "Eco Friendly" } },
-        { "type": "product_card" },
-        { "type": "product_card" },
-        { "type": "product_card" },
-        { "type": "product_card" }
+        { "type": "category_pill", "settings": { "label": "Carry Bags & Packaging" } },
+        { "type": "category_pill", "settings": { "label": "Eco Friendly" } }
       ]
     }
   ]
@@ -161,70 +99,154 @@
   }
 {% endstyle %}
 
+{%- assign products_limit = section.settings.products_to_show -%}
+
 <div class="section-{{ section.id }}-padding most-ordered-section">
   <div class="most-ordered-container">
     <h2 class="most-ordered-heading">{{ section.settings.heading | escape }}</h2>
 
-    <div class="most-ordered-pills">
+    <!-- Category Pill Tabs -->
+    <div class="most-ordered-pills" id="cf-pills-{{ section.id }}">
       {%- for block in section.blocks -%}
-        {%- if block.type == 'category_pill' -%}
-          <a href="{{ block.settings.link | default: '#' }}" class="category-pill {% if block.settings.active %}active{% endif %}" {{ block.shopify_attributes }}>
-            {{ block.settings.label | escape }}
-          </a>
-        {%- endif -%}
+        <button
+          type="button"
+          class="category-pill {% if forloop.first %}active{% endif %}"
+          data-tab-index="{{ forloop.index0 }}"
+          data-section-id="{{ section.id }}"
+          {{ block.shopify_attributes }}
+        >
+          {{ block.settings.label | escape }}
+        </button>
       {%- endfor -%}
     </div>
 
-    <div class="most-ordered-grid">
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'product_card' -%}
-          <div class="mo-product-card" {{ block.shopify_attributes }}>
-            <div class="mo-image-wrapper">
-              {%- if block.settings.badge_text != blank -%}
-                <span class="mo-badge">{{ block.settings.badge_text }}</span>
-              {%- endif -%}
-              
-              {%- if block.settings.image != blank -%}
-                {{ block.settings.image | image_url: width: 600 | image_tag: class: 'mo-product-image', loading: 'lazy' }}
-              {%- else -%}
-                <img src="{{ 'box.png' | asset_url }}" alt="{{ block.settings.title }}" class="mo-product-image" loading="lazy">
-              {%- endif -%}
-            </div>
+    <!-- Tab Content: one product grid per pill -->
+    {%- for block in section.blocks -%}
+      <div
+        class="most-ordered-grid cf-tab-content"
+        data-tab-index="{{ forloop.index0 }}"
+        style="{% unless forloop.first %}display:none;{% endunless %}"
+        id="cf-grid-{{ section.id }}-{{ forloop.index0 }}"
+      >
+        {%- if block.settings.collection != blank -%}
+          {%- for product in block.settings.collection.products limit: products_limit -%}
+            <div class="mo-product-card">
+              <div class="mo-image-wrapper">
+                {%- if product.available == false -%}
+                  <span class="mo-badge mo-badge--sold-out">SOLD OUT</span>
+                {%- elsif product.compare_at_price > product.price -%}
+                  <span class="mo-badge">BEST SELLER</span>
+                {%- endif -%}
 
-            <div class="mo-card-content">
-              <div class="mo-rating-row">
-                <div class="mo-stars">
-                  {%- for i in (1..5) -%}
-                    {%- if i <= block.settings.rating -%}
-                      <span class="star filled">★</span>
-                    {%- else -%}
-                      <span class="star empty">★</span>
-                    {%- endif -%}
-                  {%- endfor -%}
-                </div>
-                <span class="mo-reviews">{{ block.settings.reviews }} Reviews</span>
-              </div>
-
-              <h3 class="mo-product-title">{{ block.settings.title | escape }}</h3>
-              <p class="mo-product-subtitle">{{ block.settings.subtitle | escape }}</p>
-
-              <div class="mo-price-row">
-                <div class="price-group">
-                  <span class="mo-price">{{ block.settings.price }}</span>
-                  {%- if block.settings.compare_price != blank -%}
-                    <span class="mo-compare-price">{{ block.settings.compare_price }}</span>
-                  {%- endif -%}
-                </div>
-                {%- if block.settings.unit_text != blank -%}
-                  <span class="mo-unit-text">{{ block.settings.unit_text }}</span>
+                {%- if product.featured_image != blank -%}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 600 }}"
+                    alt="{{ product.title | escape }}"
+                    class="mo-product-image"
+                    loading="lazy"
+                    width="600"
+                    height="600"
+                  >
+                {%- else -%}
+                  <img src="{{ 'box.png' | asset_url }}" alt="{{ product.title | escape }}" class="mo-product-image" loading="lazy">
                 {%- endif -%}
               </div>
 
-              <button class="mo-add-btn">ADD TO CART</button>
+              <div class="mo-card-content">
+                <div class="mo-rating-row">
+                  <div class="mo-stars">
+                    <span class="star filled">★</span>
+                    <span class="star filled">★</span>
+                    <span class="star filled">★</span>
+                    <span class="star filled">★</span>
+                    <span class="star filled">★</span>
+                  </div>
+                  <span class="mo-reviews">25 Reviews</span>
+                </div>
+
+                <h3 class="mo-product-title">
+                  <a href="{{ product.url }}">{{ product.title | escape }}</a>
+                </h3>
+                <p class="mo-product-description">{{ product.description | strip_html | truncate: 80 }}</p>
+
+                <div class="mo-price-row">
+                  <div class="price-group">
+                    <span class="mo-price">{{ product.price | money }}</span>
+                    {%- if product.compare_at_price > product.price -%}
+                      <span class="mo-compare-price">{{ product.compare_at_price | money }}</span>
+                    {%- endif -%}
+                  </div>
+                  {%- if product.metafields.custom.unit_text != blank -%}
+                    <span class="mo-unit-text">{{ product.metafields.custom.unit_text }}</span>
+                  {%- endif -%}
+                </div>
+
+                <button class="mo-add-btn" type="button">ADD TO CART</button>
+              </div>
             </div>
-          </div>
+          {%- endfor -%}
+        {%- else -%}
+          {%- comment -%} Placeholder cards when no collection is assigned {%- endcomment -%}
+          {%- for i in (1..products_limit) -%}
+            <div class="mo-product-card">
+              <div class="mo-image-wrapper">
+                <span class="mo-badge">BEST SELLER</span>
+                <img src="{{ 'box.png' | asset_url }}" alt="Placeholder product" class="mo-product-image" loading="lazy">
+              </div>
+              <div class="mo-card-content">
+                <div class="mo-rating-row">
+                  <div class="mo-stars">
+                    <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+                  </div>
+                  <span class="mo-reviews">25 Reviews</span>
+                </div>
+                <h3 class="mo-product-title">28oz Rectangle Plastic Container</h3>
+                <p class="mo-product-subtitle">Salads, hot grains, takeaway</p>
+                <div class="mo-price-row">
+                  <div class="price-group">
+                    <span class="mo-price">$25.02</span>
+                    <span class="mo-compare-price">$28.03</span>
+                  </div>
+                  <span class="mo-unit-text">150PCS/CARTON</span>
+                </div>
+                <button class="mo-add-btn" type="button">ADD TO CART</button>
+              </div>
+            </div>
+          {%- endfor -%}
         {%- endif -%}
-      {%- endfor -%}
-    </div>
+      </div>
+    {%- endfor -%}
+
   </div>
 </div>
+
+<script>
+  (function() {
+    var sectionId = '{{ section.id }}';
+    var pillsContainer = document.getElementById('cf-pills-' + sectionId);
+    if (!pillsContainer) return;
+
+    pillsContainer.addEventListener('click', function(e) {
+      var pill = e.target.closest('.category-pill');
+      if (!pill) return;
+
+      // Update active pill
+      pillsContainer.querySelectorAll('.category-pill').forEach(function(p) {
+        p.classList.remove('active');
+      });
+      pill.classList.add('active');
+
+      var tabIndex = pill.getAttribute('data-tab-index');
+
+      // Show/hide tab grids
+      var section = pill.closest('.most-ordered-section');
+      section.querySelectorAll('.cf-tab-content').forEach(function(grid) {
+        if (grid.getAttribute('data-tab-index') === tabIndex) {
+          grid.style.display = '';
+        } else {
+          grid.style.display = 'none';
+        }
+      });
+    });
+  })();
+</script>

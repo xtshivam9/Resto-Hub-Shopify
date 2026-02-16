@@ -200,65 +200,13 @@
                 "pill_5": {
                     "type": "category_pill",
                     "settings": {
-                        "label": "Carry Bags & Packagaing"
+                        "label": "Carry Bags & Packaging"
                     }
                 },
                 "pill_6": {
                     "type": "category_pill",
                     "settings": {
                         "label": "Eco Friendly"
-                    }
-                },
-                "card_1": {
-                    "type": "product_card",
-                    "settings": {
-                        "title": "28oz Rectangle Plastic Container",
-                        "badge_text": "BEST SELLER",
-                        "subtitle": "Salads, hot grains, takeaway",
-                        "rating": 5,
-                        "reviews": 25,
-                        "price": "$25.02",
-                        "compare_price": "$28.03",
-                        "unit_text": "150PCS/CARTOON"
-                    }
-                },
-                "card_2": {
-                    "type": "product_card",
-                    "settings": {
-                        "title": "28oz Rectangle Plastic Container",
-                        "badge_text": "BEST SELLER",
-                        "subtitle": "Salads, hot grains, takeaway",
-                        "rating": 5,
-                        "reviews": 25,
-                        "price": "$25.02",
-                        "compare_price": "$28.03",
-                        "unit_text": "150PCS/CARTOON"
-                    }
-                },
-                "card_3": {
-                    "type": "product_card",
-                    "settings": {
-                        "title": "28oz Rectangle Plastic Container",
-                        "badge_text": "BEST SELLER",
-                        "subtitle": "Salads, hot grains, takeaway",
-                        "rating": 5,
-                        "reviews": 25,
-                        "price": "$25.02",
-                        "compare_price": "$28.03",
-                        "unit_text": "150PCS/CARTOON"
-                    }
-                },
-                "card_4": {
-                    "type": "product_card",
-                    "settings": {
-                        "title": "28oz Rectangle Plastic Container",
-                        "badge_text": "BEST SELLER",
-                        "subtitle": "Salads, hot grains, takeaway",
-                        "rating": 5,
-                        "reviews": 25,
-                        "price": "$25.02",
-                        "compare_price": "$28.03",
-                        "unit_text": "150PCS/CARTOON"
                     }
                 }
             },
@@ -268,14 +216,11 @@
                 "pill_3",
                 "pill_4",
                 "pill_5",
-                "pill_6",
-                "card_1",
-                "card_2",
-                "card_3",
-                "card_4"
+                "pill_6"
             ],
             "settings": {
                 "heading": "Customer Favourites",
+                "products_to_show": 4,
                 "padding_top": 4,
                 "padding_bottom": 20
             }
