@@ -194,17 +194,12 @@
                   data-product-id="{{ block.settings.product.id }}"
                   data-variant-id="{{ block.settings.product.selected_or_first_available_variant.id }}"
                   {% unless block.settings.product.available %}disabled{% endunless %}
-                {% else %}
-                  disabled
-                  title="No product selected"
                 {% endif %}
               >
-                {% if block.settings.product != blank and block.settings.product.available %}
-                  ADD TO CART
-                {% elsif block.settings.product != blank %}
+                {% if block.settings.product != blank and block.settings.product.available == false %}
                   SOLD OUT
                 {% else %}
-                  NO PRODUCT
+                  ADD TO CART
                 {% endif %}
               </button>
             </div>

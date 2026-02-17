@@ -141,6 +141,27 @@
   .why-choose-content {
     /* flex: 1;  Removed as it's handled in media query now or defaults to block */
     max-width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Mobile Reordering: Heading -> Image -> Benefits */
+  @media screen and (max-width: 989px) {
+      .why-choose-content {
+          display: contents; /* Unwrap content to let children participate in parent flex */
+      }
+      
+      .why-choose-heading {
+          order: 1;
+      }
+      
+      .why-choose-image-wrapper {
+          order: 2;
+      }
+      
+      .benefits-grid {
+          order: 3;
+      }
   }
 
   .why-choose-heading {

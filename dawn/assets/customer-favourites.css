@@ -293,31 +293,27 @@
 
 @media screen and (max-width: 600px) {
     .most-ordered-grid {
-        display: flex;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
         gap: 12px;
-        padding-bottom: 20px;
-        /* Space for scrollbar */
-        grid-template-columns: none;
-        /* Reset grid */
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        /* Firefox */
-        padding-right: 16px;
-        /* End padding */
+        /* Reset flex/scroll properties */
+        overflow-x: visible;
+        scroll-snap-type: none;
+        padding-bottom: 0;
+        padding-right: 0;
+        margin-bottom: 20px;
     }
 
     .most-ordered-grid::-webkit-scrollbar {
         display: none;
-        /* Chrome/Safari */
     }
 
     .mo-product-card {
-        min-width: 42%;
-        /* Show 2.x cards to peek the next one */
-        flex: 0 0 42%;
-        scroll-snap-align: start;
+        /* Remove fixed widths for carousel */
+        min-width: auto;
+        flex: auto;
+        scroll-snap-align: none;
+        width: 100%;
     }
 
     .most-ordered-container {
@@ -332,11 +328,24 @@
     .most-ordered-pills {
         gap: 8px;
         margin-bottom: 24px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding-bottom: 5px;
+        /* Tiny padding for scrollbar space if needed, though hidden */
+    }
+
+    .most-ordered-pills::-webkit-scrollbar {
+        display: none;
     }
 
     .category-pill {
         padding: 8px 14px;
         font-size: 13px;
+        flex: 0 0 auto;
+        white-space: nowrap;
     }
 
     .mo-product-title {

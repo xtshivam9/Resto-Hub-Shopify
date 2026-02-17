@@ -139,6 +139,7 @@
 {% endschema %}
 
 {% style %}
+  /* Trigger Sync */
   @import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap');
 
   .section-{{ section.id }}-padding {
@@ -564,15 +565,32 @@
   }
 
   @media screen and (max-width: 768px) {
+      .rp-subheading {
+          display: none;
+      }
+
       .rp-card {
-          min-width: 0;
-          flex: 1 1 100%;
-          max-width: 100%;
+          min-width: calc(50% - 3px); /* 50% - half of 6px gap */
+          flex: 0 0 calc(50% - 3px);
+          max-width: calc(50% - 3px);
           box-sizing: border-box;
+          scroll-snap-align: start;
+          padding: 10px; /* Reduced padding */
       }
 
       .rp-grid-wrapper {
-          overflow-x: hidden;
+          flex-direction: row;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          justify-content: flex-start;
+          align-items: flex-start;
+          gap: 6px; /* Reduced gap from 12px */
+          padding-bottom: 20px;
+          padding-right: 16px; 
+      }
+
+      .rp-grid-wrapper::-webkit-scrollbar {
+          display: none;
       }
 
       .rp-heading {
@@ -585,34 +603,66 @@
       }
 
       .rp-data-row {
-          justify-content: flex-start;
-          text-align: left;
-          padding: 0 4px;
-          height: 50px;
-          font-size: 14px;
+          justify-content: space-between; /* Align Label Left, Value Right */
+          text-align: right; 
+          padding: 3px 0; /* Tighter padding */
+          min-height: 20px; /* Flexible height */
+          font-size: 11px; /* Increased from 10px */
+          width: 100%;
+          border-bottom: 1px solid #f9f9f9; /* Subtle divider */
+          color: #000000; /* Force Black */
+          font-weight: 700; /* Force Bold */
       }
 
-      .rp-data-row.price {
-          font-size: 16px;
+      .rp-value {
+          text-align: right;
+          max-width: 70%; /* Allow more space for value */
+          line-height: 1.2;
+          color: #000000; /* Force Black */
+          font-weight: 700; /* Force Bold */
+      }
+
+      .rp-mobile-label {
+          text-align: left;
+           font-size: 10px; /* Increased from 9px */
+           color: #000000; /* Force Black */
+           font-weight: 700; /* Force Bold */
+           margin-right: 4px;
+           min-width: auto; /* Remove fixed width */
+           letter-spacing: 0.02em;
       }
 
       .rp-title {
-          font-size: 14px;
-          height: 48px;
-          padding: 0 12px;
+          font-size: 11px;
+          height: 32px; /* Even smaller dropdown height */
+          padding: 0 8px;
+          margin-bottom: 8px;
+          /* Ensure single line */
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+      }
+      
+      .rp-selected-text {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-right: 4px; /* Space for arrow */
+          width: 100%;
+          display: block;
       }
 
       .rp-add-btn {
           width: 100%;
-          margin-top: 16px;
-          padding: 12px 16px;
-          font-size: 12px;
+          margin-top: 10px;
+          padding: 8px 12px;
+          font-size: 10px; 
       }
   }
 
   @media screen and (max-width: 480px) {
       .rp-container {
-          padding: 0 1rem;
+          padding: 0 6px; /* Reduced from 1rem to 6px */
       }
 
       .rp-heading {
@@ -692,19 +742,19 @@
                 </div>
 
                 <div class="rp-data-row price">
-                    <span class="rp-mobile-label">Price</span> {{ block.settings.price }}
+                    <span class="rp-mobile-label">Price</span> <span class="rp-value">{{ block.settings.price }}</span>
                 </div>
                  <div class="rp-data-row">
-                    <span class="rp-mobile-label">Capacity</span> {{ block.settings.capacity }}
+                    <span class="rp-mobile-label">Capacity</span> <span class="rp-value">{{ block.settings.capacity }}</span>
                 </div>
                  <div class="rp-data-row">
-                    <span class="rp-mobile-label">Material</span> {{ block.settings.material }}
+                    <span class="rp-mobile-label">Material</span> <span class="rp-value">{{ block.settings.material }}</span>
                 </div>
                  <div class="rp-data-row">
-                    <span class="rp-mobile-label">Case Pack</span> {{ block.settings.case_pack }}
+                    <span class="rp-mobile-label">Case Pack</span> <span class="rp-value">{{ block.settings.case_pack }}</span>
                 </div>
                  <div class="rp-data-row">
-                    <span class="rp-mobile-label">Best Use Case</span> {{ block.settings.best_use_case }}
+                    <span class="rp-mobile-label">Best Use Case</span> <span class="rp-value">{{ block.settings.best_use_case }}</span>
                 </div>
 
                 <a href="{{ block.settings.product_link | default: '#' }}" class="rp-add-btn">

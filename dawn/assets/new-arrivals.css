@@ -1,4 +1,4 @@
-/* New Arrivals Section Styles */
+/* New Arrivals Section Styles - Trigger Sync */
 
 .new-arrivals-section {
     font-family: 'Rethink Sans', sans-serif;
@@ -235,14 +235,16 @@
 @media screen and (max-width: 600px) {
     .new-arrivals-grid {
         display: flex;
+        /* Switch to flex for carousel */
+        flex-direction: row;
+        flex-wrap: nowrap;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        gap: 12px;
-        padding-bottom: 8px;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        /* scroll-padding-left removed for center alignment */
+        gap: 6px;
+        /* Reduced gap to match Right Packaging */
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        justify-content: flex-start;
     }
 
     .new-arrivals-grid::-webkit-scrollbar {
@@ -250,10 +252,12 @@
     }
 
     .na-product-card {
-        min-width: 60%;
-        max-width: 60%;
-        flex: 0 0 60%;
-        scroll-snap-align: center;
+        /* Fixed widths for carousel (2 per screen) */
+        min-width: calc(50% - 3px);
+        max-width: calc(50% - 3px);
+        flex: 0 0 calc(50% - 3px);
+        scroll-snap-align: start;
+        width: auto;
     }
 
     .new-arrivals-container {
