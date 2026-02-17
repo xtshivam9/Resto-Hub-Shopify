@@ -5,7 +5,30 @@
   {% assign bg_image_url = section.settings.background_image | image_url: width: 2000 %}
 {% endif %}
 
-<div class="custom-hero-section" style="background-image: url({{ bg_image_url }});">
+{% assign mobile_bg_image_url = 'mobile.svg' | asset_url %}
+{% if section.settings.mobile_background_image != blank %}
+  {% assign mobile_bg_image_url = section.settings.mobile_background_image | image_url: width: 1000 %}
+{% endif %}
+
+<style>
+  #shopify-section-{{ section.id }} .custom-hero-section {
+    background-image: url({{ bg_image_url }});
+  }
+  @media screen and (max-width: 767px) {
+    #shopify-section-{{ section.id }} .custom-hero-section {
+      background-image: url({{ mobile_bg_image_url }});
+      background-size: 100% 100%;
+      background-position: center top;
+      background-repeat: no-repeat;
+      min-height: 380px;
+      padding-top: 50px;
+      padding-bottom: 90px;
+      margin-bottom: -40px;
+    }
+  }
+</style>
+
+<div class="custom-hero-section">
   <div class="custom-hero-content">
     {% if section.settings.heading != blank %}
       <h1 class="custom-hero-heading" style="color: {{ section.settings.text_color }};">{{ section.settings.heading }}</h1>
@@ -52,7 +75,12 @@
     {
       "type": "image_picker",
       "id": "background_image",
-      "label": "Background Image"
+      "label": "Background Image (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_background_image",
+      "label": "Background Image (Mobile)"
     },
     {
       "type": "text",

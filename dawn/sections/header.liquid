@@ -1,10 +1,17 @@
 {% comment %} sections/header.liquid {% endcomment %}
 
 {{ 'header.css' | asset_url | stylesheet_tag }}
+{{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
+{{ 'component-menu-drawer.css' | asset_url | stylesheet_tag }}
+{{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}
+{{ 'component-cart.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'cart-notification.js' | asset_url }}" defer="defer"></script>
 
 <header class="header-wrapper">
   {% comment %} Left: Logo {% endcomment %}
   <div class="header-left">
+    {% render 'header-drawer' %}
     <a href="{{ routes.root_url }}" class="header-logo">
       {%- if section.settings.logo != blank -%}
         {{ section.settings.logo | image_url: width: section.settings.logo_width | image_tag: loading: 'eager', alt: shop.name }}
@@ -92,6 +99,32 @@
       "label": "Menu"
     },
     {
+      "type": "select",
+      "id": "menu_type_desktop",
+      "options": [
+        {
+          "value": "dropdown",
+          "label": "Dropdown"
+        },
+        {
+          "value": "mega",
+          "label": "Mega Menu"
+        },
+        {
+          "value": "drawer",
+          "label": "Drawer"
+        }
+      ],
+      "default": "dropdown",
+      "label": "Desktop menu type"
+    },
+    {
+      "type": "color_scheme",
+      "id": "menu_color_scheme",
+      "label": "Menu color scheme",
+      "default": "scheme-1"
+    },
+    {
       "type": "header",
       "content": "Icons"
     },
@@ -106,6 +139,12 @@
       "id": "show_cart_icon",
       "default": true,
       "label": "Show cart icon"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_customer_avatar",
+      "default": true,
+      "label": "Enable customer avatar"
     }
   ],
   "presets": [

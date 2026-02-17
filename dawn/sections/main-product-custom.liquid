@@ -38,7 +38,7 @@
         <span class="review-count">25 Reviews</span>
       </div>
 
-      <span class="vendor-sku">Resto Supply Hub | SKU: {{ product.selected_or_first_available_variant.sku }}</span>
+      <span class="vendor-sku">{{ section.settings.sku_prefix }}{{ product.selected_or_first_available_variant.sku }}</span>
 
       <h1 class="product-title">{{ product.title }}</h1>
       
@@ -62,29 +62,24 @@
 
 
       <div class="feature-icons-grid">
-        <!-- Static Feature: Capacity -->
-        <div class="feature-item">
-            <img src="{{ 'capacity.svg' | asset_url }}" class="feature-icon-img" alt="Capacity 28 oz">
-            <span class="feature-label">Capacity 28 oz</span>
-        </div>
-        <!-- Static Feature: Plastic -->
-        <div class="feature-item">
-            <img src="{{ 'plastic.svg' | asset_url }}" class="feature-icon-img" alt="Plastic">
-            <span class="feature-label">Plastic</span>
-        </div>
-        <!-- Static Feature: Leak-resistant -->
-        <div class="feature-item">
-            <img src="{{ 'leak.svg' | asset_url }}" class="feature-icon-img" alt="Leak-resistant">
-            <span class="feature-label">Leak-resistant</span>
-        </div>
-        <!-- Static Feature: Clear Design -->
-        <div class="feature-item">
-            <img src="{{ 'clear-design.svg' | asset_url }}" class="feature-icon-img" alt="Clear Design">
-            <span class="feature-label">Clear Design</span>
-        </div>
+        {% for block in section.blocks %}
+            {% if block.type == 'feature_icon' %}
+                <div class="feature-item" {{ block.shopify_attributes }}>
+                    {% if block.settings.svg_code != blank %}
+                        {{ block.settings.svg_code }}
+                    {% elsif block.settings.icon != blank %}
+                         {{ block.settings.icon | image_url: width: 40 | image_tag: class: 'feature-icon-img', loading: 'lazy' }}
+                    {% else %}
+                        <!-- Fallback or placeholder -->
+                        <img src="{{ 'capacity.svg' | asset_url }}" class="feature-icon-img" alt="Feature">
+                    {% endif %}
+                    <span class="feature-label">{{ block.settings.label }}</span>
+                </div>
+            {% endif %}
+        {% endfor %}
       </div>
 
-      <label class="quantity-label">Quantity</label>
+      <label class="quantity-label">{{ section.settings.quantity_label }}</label>
       
       {% form 'product', product %}
         <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
@@ -99,30 +94,36 @@
             </div>
 
             <button type="submit" name="add" class="add-to-cart-btn">
-                Add to Cart
+                {{ section.settings.add_to_cart_text }}
             </button>
         </div>
       {% endform %}
 
       <div class="shipping-info">
         <div class="shipping-item">
-            <!-- Delivery Icon -->
-            <!-- Delivery Icon -->
-            <img src="{{ 'estimated.svg' | asset_url }}" class="shipping-icon" alt="Estimated Arrival">
+            {% if section.settings.shipping_icon_1 != blank %}
+                {{ section.settings.shipping_icon_1 | image_url: width: 24 | image_tag: class: 'shipping-icon' }}
+            {% else %}
+               <img src="{{ 'estimated.svg' | asset_url }}" class="shipping-icon" alt="Estimated Arrival">
+            {% endif %}
+            
             <div>
-                <div class="shipping-text-primary">Estimated Arrival</div>
-                <div class="shipping-text-secondary">Tracked delivery: 1 - 3 business days</div>
-                <span class="shipping-link">View Shipping Options</span>
+                <div class="shipping-text-primary">{{ section.settings.shipping_heading_1 }}</div>
+                <div class="shipping-text-secondary">{{ section.settings.shipping_text_1 }}</div>
+                <a href="{{ section.settings.shipping_link_url_1 | default: '#' }}" class="shipping-link">{{ section.settings.shipping_link_text_1 }}</a>
             </div>
         </div>
         
         <div class="shipping-item">
-            <!-- Store Icon -->
-            <img src="{{ 'pickup.svg' | asset_url }}" class="shipping-icon" alt="Pickup available">
+             {% if section.settings.shipping_icon_2 != blank %}
+                {{ section.settings.shipping_icon_2 | image_url: width: 24 | image_tag: class: 'shipping-icon' }}
+            {% else %}
+                <img src="{{ 'pickup.svg' | asset_url }}" class="shipping-icon" alt="Pickup available">
+            {% endif %}
             <div>
-                 <div class="shipping-text-primary">Pickup available</div>
-                 <div class="shipping-text-secondary">349 Bowes Rd. Usually ready in 24 hours</div>
-                 <span class="shipping-link">View Store Information</span>
+                 <div class="shipping-text-primary">{{ section.settings.shipping_heading_2 }}</div>
+                 <div class="shipping-text-secondary">{{ section.settings.shipping_text_2 }}</div>
+                 <a href="{{ section.settings.shipping_link_url_2 | default: '#' }}" class="shipping-link">{{ section.settings.shipping_link_text_2 }}</a>
             </div>
         </div>
       </div>
@@ -207,6 +208,92 @@
        "id": "unit_label",
        "label": "Unit Label",
        "default": "150PCS/BOX"
+    },
+    {
+      "type": "text",
+      "id": "sku_prefix",
+      "label": "SKU Prefix",
+      "default": "Resto Supply Hub | SKU: "
+    },
+    {
+      "type": "text",
+      "id": "quantity_label",
+      "label": "Quantity Label",
+      "default": "Quantity"
+    },
+    {
+      "type": "text",
+      "id": "add_to_cart_text",
+      "label": "Add to Cart Button Text",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "header",
+      "content": "Shipping Info 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "shipping_icon_1",
+      "label": "Icon 1"
+    },
+    {
+      "type": "text",
+      "id": "shipping_heading_1",
+      "label": "Heading 1",
+      "default": "Estimated Arrival"
+    },
+    {
+      "type": "text",
+      "id": "shipping_text_1",
+      "label": "Text 1",
+      "default": "Tracked delivery: 1 - 3 business days"
+    },
+    {
+      "type": "text",
+      "id": "shipping_link_text_1",
+      "label": "Link Text 1",
+      "default": "View Shipping Options"
+    },
+     {
+      "type": "url",
+      "id": "shipping_link_url_1",
+      "label": "Link URL 1"
+    },
+    {
+      "type": "header",
+      "content": "Shipping Info 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "shipping_icon_2",
+      "label": "Icon 2"
+    },
+    {
+      "type": "text",
+      "id": "shipping_heading_2",
+      "label": "Heading 2",
+      "default": "Pickup available"
+    },
+    {
+      "type": "text",
+      "id": "shipping_text_2",
+      "label": "Text 2",
+      "default": "349 Bowes Rd. Usually ready in 24 hours"
+    },
+    {
+      "type": "text",
+      "id": "shipping_link_text_2",
+      "label": "Link Text 2",
+      "default": "View Store Information"
+    },
+    {
+      "type": "url",
+      "id": "shipping_link_url_2",
+      "label": "Link URL 2"
+    },
+    {
+      "type": "header",
+      "content": "Frequently Bought Together"
     },
     {
       "type": "text",

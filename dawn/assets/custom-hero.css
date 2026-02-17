@@ -179,11 +179,13 @@
   }
 
   .custom-hero-buttons {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 12px;
     margin-bottom: 40px;
     width: 100%;
     align-items: center;
+    justify-content: center;
   }
 
   .custom-hero-btn {
@@ -196,19 +198,24 @@
 
   .custom-hero-features {
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 10px;
     align-items: flex-start;
     padding-left: 0;
-    justify-content: space-around;
-    flex-wrap: nowrap;
+    justify-content: center;
   }
 
   .custom-hero-feature-item {
-    width: 30%;
+    width: 45%;
     justify-content: flex-start;
     flex-direction: column;
     gap: 8px;
     text-align: center;
+  }
+
+  .custom-hero-feature-item:nth-child(1) {
+    width: 100%;
+    margin-bottom: 10px;
   }
 
   .custom-hero-feature-item img {

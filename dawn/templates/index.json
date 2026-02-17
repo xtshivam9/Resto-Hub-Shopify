@@ -113,6 +113,27 @@
                         "preset_icon": "circlemenu10.svg",
                         "text": "Plastic Containers"
                     }
+                },
+                "menu_item_11": {
+                    "type": "circle_menu_item",
+                    "settings": {
+                        "preset_icon": "circlemenu11.svg",
+                        "text": "Poly Bags"
+                    }
+                },
+                "menu_item_12": {
+                    "type": "circle_menu_item",
+                    "settings": {
+                        "preset_icon": "circlemenu12.svg",
+                        "text": "Portion Cups"
+                    }
+                },
+                "menu_item_13": {
+                    "type": "circle_menu_item",
+                    "settings": {
+                        "preset_icon": "circlemenu13.svg",
+                        "text": "Paper Cups"
+                    }
                 }
             },
             "block_order": [
@@ -125,7 +146,10 @@
                 "menu_item_7",
                 "menu_item_8",
                 "menu_item_9",
-                "menu_item_10"
+                "menu_item_10",
+                "menu_item_11",
+                "menu_item_12",
+                "menu_item_13"
             ],
             "settings": {
                 "heading": "",

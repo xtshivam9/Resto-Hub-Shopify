@@ -35,6 +35,52 @@
       "unit": "px",
       "label": "Bottom Padding",
       "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Labels & Text"
+    },
+    {
+      "type": "text",
+      "id": "label_price",
+      "label": "Price Label",
+      "default": "Price"
+    },
+    {
+      "type": "text",
+      "id": "label_capacity",
+      "label": "Capacity Label",
+      "default": "Capacity"
+    },
+    {
+      "type": "text",
+      "id": "label_material",
+      "label": "Material Label",
+      "default": "Material"
+    },
+    {
+      "type": "text",
+      "id": "label_case_pack",
+      "label": "Case Pack Label",
+      "default": "Case Pack"
+    },
+    {
+      "type": "text",
+      "id": "label_use_case",
+      "label": "Use Case Label",
+      "default": "Best Use Case"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search Placeholder",
+      "default": "Search..."
     }
   ],
   "blocks": [
@@ -692,11 +738,11 @@
     <div class="rp-grid-wrapper">
         <!-- Labels Column (Desktop Only) -->
         <div class="rp-labels-column">
-            <div class="rp-label">Price</div>
-            <div class="rp-label">Capacity</div>
-            <div class="rp-label">Material</div>
-            <div class="rp-label">Case Pack</div>
-            <div class="rp-label">Best Use Case</div>
+            <div class="rp-label">{{ section.settings.label_price }}</div>
+            <div class="rp-label">{{ section.settings.label_capacity }}</div>
+            <div class="rp-label">{{ section.settings.label_material }}</div>
+            <div class="rp-label">{{ section.settings.label_case_pack }}</div>
+            <div class="rp-label">{{ section.settings.label_use_case }}</div>
         </div>
 
         {%- for block in section.blocks -%}
@@ -726,7 +772,7 @@
                     </div>
                     <div class="rp-dropdown-menu">
                         <div class="rp-search-container">
-                            <input type="text" class="rp-search-input" placeholder="Search..." onkeyup="filterOptions(this)">
+                            <input type="text" class="rp-search-input" placeholder="{{ section.settings.search_placeholder }}" onkeyup="filterOptions(this)">
                             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="rp-search-icon">
                                 <path d="M7.33333 12.6667C10.2789 12.6667 12.6667 10.2789 12.6667 7.33333C12.6667 4.38781 10.2789 2 7.33333 2C4.38781 2 2 4.38781 2 7.33333C2 10.2789 4.38781 12.6667 7.33333 12.6667Z" stroke="#888888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M14 14L11.1 11.1" stroke="#888888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -742,23 +788,23 @@
                 </div>
 
                 <div class="rp-data-row price">
-                    <span class="rp-mobile-label">Price</span> <span class="rp-value">{{ block.settings.price }}</span>
+                    <span class="rp-mobile-label">{{ section.settings.label_price }}</span> <span class="rp-value">{{ block.settings.price }}</span>
                 </div>
                  <div class="rp-data-row">
-                    <span class="rp-mobile-label">Capacity</span> <span class="rp-value">{{ block.settings.capacity }}</span>
+                    <span class="rp-mobile-label">{{ section.settings.label_capacity }}</span> <span class="rp-value">{{ block.settings.capacity }}</span>
                 </div>
                  <div class="rp-data-row">
-                    <span class="rp-mobile-label">Material</span> <span class="rp-value">{{ block.settings.material }}</span>
+                    <span class="rp-mobile-label">{{ section.settings.label_material }}</span> <span class="rp-value">{{ block.settings.material }}</span>
                 </div>
                  <div class="rp-data-row">
-                    <span class="rp-mobile-label">Case Pack</span> <span class="rp-value">{{ block.settings.case_pack }}</span>
+                    <span class="rp-mobile-label">{{ section.settings.label_case_pack }}</span> <span class="rp-value">{{ block.settings.case_pack }}</span>
                 </div>
                  <div class="rp-data-row">
-                    <span class="rp-mobile-label">Best Use Case</span> <span class="rp-value">{{ block.settings.best_use_case }}</span>
+                    <span class="rp-mobile-label">{{ section.settings.label_use_case }}</span> <span class="rp-value">{{ block.settings.best_use_case }}</span>
                 </div>
 
                 <a href="{{ block.settings.product_link | default: '#' }}" class="rp-add-btn">
-                    Add to Cart
+                    {{ section.settings.button_text }}
                 </a>
             </div>
         {%- endfor -%}

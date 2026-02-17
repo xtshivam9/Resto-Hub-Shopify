@@ -52,6 +52,12 @@
           "id": "description",
           "label": "Description",
           "default": "Description of the benefit."
+        },
+        {
+          "type": "html",
+          "id": "custom_svg",
+          "label": "Custom SVG Icon",
+          "info": "Paste SVG code here to override default checkmark"
         }
       ]
     }
@@ -304,8 +310,12 @@
         {%- for block in section.blocks -%}
           <div class="benefit-item" {{ block.shopify_attributes }}>
             <div class="benefit-icon">
-                <!-- Standard checkmark SVG -->
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                {%- if block.settings.custom_svg != blank -%}
+                    {{ block.settings.custom_svg }}
+                {%- else -%}
+                    <!-- Standard checkmark SVG -->
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                {%- endif -%}
             </div>
             <div class="benefit-text-content">
                 <h3 class="benefit-title">{{ block.settings.title | escape }}</h3>

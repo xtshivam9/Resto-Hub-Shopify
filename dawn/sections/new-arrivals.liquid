@@ -35,6 +35,18 @@
       "id": "bg_color",
       "label": "Background Color",
       "default": "#FFFFFF"
+    },
+    {
+       "type": "text",
+       "id": "btn_text",
+       "label": "Button Text (Add to Cart)",
+       "default": "ADD TO CART"
+    },
+    {
+       "type": "text",
+       "id": "sold_out_text",
+       "label": "Button Text (Sold Out)",
+       "default": "SOLD OUT"
     }
   ],
   "blocks": [
@@ -197,9 +209,9 @@
                 {% endif %}
               >
                 {% if block.settings.product != blank and block.settings.product.available == false %}
-                  SOLD OUT
+                  {{ section.settings.sold_out_text }}
                 {% else %}
-                  ADD TO CART
+                  {{ section.settings.btn_text }}
                 {% endif %}
               </button>
             </div>
