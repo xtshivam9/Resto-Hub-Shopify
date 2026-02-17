@@ -25,6 +25,8 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
+    align-items: stretch;
+    /* Ensure all cards have same height */
 }
 
 /* Product Card */
@@ -40,6 +42,8 @@
     padding: 12px;
     /* Internal padding */
     transition: all 0.3s ease;
+    height: 100%;
+    /* Ensure consistent card height */
 }
 
 .na-product-card:hover {
@@ -50,6 +54,7 @@
 
 .na-image-wrapper {
     position: relative;
+    width: 100%;
     padding-top: 100%;
     /* 1:1 Aspect Ratio */
     background-color: transparent;
@@ -57,16 +62,23 @@
     border-radius: 8px;
     /* Rounded corners for image container */
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .na-product-image {
     position: absolute;
     top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* Fill the container */
+    object-position: center;
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: none;
 }
 
 .na-badge {
@@ -121,6 +133,13 @@
     color: #000000;
     line-height: 1.3;
     font-family: 'Rethink Sans', sans-serif;
+    min-height: 42px;
+    /* Fixed height for 2 lines */
+    max-height: 42px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .na-product-subtitle {
@@ -128,7 +147,11 @@
     color: #777777;
     margin: 0 0 16px 0;
     font-weight: 400;
-
+    min-height: 18px;
+    /* Fixed height for 1 line */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .na-price-row {
@@ -189,6 +212,17 @@
 
 .na-add-btn:hover {
     background-color: #000000;
+}
+
+.na-add-btn:disabled {
+    background-color: #CCCCCC;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.na-add-btn--added {
+    background-color: #149B77 !important;
+    cursor: default;
 }
 
 /* Responsive */

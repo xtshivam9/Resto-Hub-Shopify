@@ -58,10 +58,35 @@
           "default": "Category"
         },
         {
+          "type": "select",
+          "id": "content_source",
+          "label": "Content Source",
+          "options": [
+            { "value": "collection", "label": "Collection" },
+            { "value": "products", "label": "Select Products" },
+            { "value": "custom_link", "label": "Custom Link" }
+          ],
+          "default": "collection",
+          "info": "Choose where to get products from"
+        },
+        {
           "type": "collection",
           "id": "collection",
           "label": "Collection",
-          "info": "Pick the collection whose products will show under this tab"
+          "info": "Pick the collection whose products will show (when Content Source is Collection)"
+        },
+        {
+          "type": "product_list",
+          "id": "product_list",
+          "label": "Products",
+          "info": "Select specific products to show (when Content Source is Select Products)",
+          "limit": 12
+        },
+        {
+          "type": "url",
+          "id": "custom_url",
+          "label": "Custom Link URL",
+          "info": "URL to redirect when clicking this tab (when Content Source is Custom Link)"
         }
       ]
     }
@@ -108,111 +133,140 @@
     <!-- Category Pill Tabs -->
     <div class="most-ordered-pills" id="cf-pills-{{ section.id }}">
       {%- for block in section.blocks -%}
-        <button
-          type="button"
-          class="category-pill {% if forloop.first %}active{% endif %}"
-          data-tab-index="{{ forloop.index0 }}"
-          data-section-id="{{ section.id }}"
-          {{ block.shopify_attributes }}
-        >
-          {{ block.settings.label | escape }}
-        </button>
+        {%- if block.settings.content_source == 'custom_link' and block.settings.custom_url != blank -%}
+          <a
+            href="{{ block.settings.custom_url }}"
+            class="category-pill {% if forloop.first %}active{% endif %}"
+            {{ block.shopify_attributes }}
+          >
+            {{ block.settings.label | escape }}
+          </a>
+        {%- else -%}
+          <button
+            type="button"
+            class="category-pill {% if forloop.first %}active{% endif %}"
+            data-tab-index="{{ forloop.index0 }}"
+            data-section-id="{{ section.id }}"
+            {{ block.shopify_attributes }}
+          >
+            {{ block.settings.label | escape }}
+          </button>
+        {%- endif -%}
       {%- endfor -%}
     </div>
 
     <!-- Tab Content: one product grid per pill -->
     {%- for block in section.blocks -%}
-      <div
-        class="most-ordered-grid cf-tab-content"
-        data-tab-index="{{ forloop.index0 }}"
-        style="{% unless forloop.first %}display:none;{% endunless %}"
-        id="cf-grid-{{ section.id }}-{{ forloop.index0 }}"
-      >
-        {%- if block.settings.collection != blank -%}
-          {%- for product in block.settings.collection.products limit: products_limit -%}
-            <div class="mo-product-card">
-              <div class="mo-image-wrapper">
-                {%- if product.available == false -%}
-                  <span class="mo-badge mo-badge--sold-out">SOLD OUT</span>
-                {%- elsif product.compare_at_price > product.price -%}
-                  <span class="mo-badge">BEST SELLER</span>
-                {%- endif -%}
+      {%- unless block.settings.content_source == 'custom_link' -%}
+        <div
+          class="most-ordered-grid cf-tab-content"
+          data-tab-index="{{ forloop.index0 }}"
+          style="{% unless forloop.first %}display:none;{% endunless %}"
+          id="cf-grid-{{ section.id }}-{{ forloop.index0 }}"
+        >
+          {%- liquid
+            assign products_to_display = null
+            if block.settings.content_source == 'collection' and block.settings.collection != blank
+              assign products_to_display = block.settings.collection.products
+            elsif block.settings.content_source == 'products' and block.settings.product_list != blank
+              assign products_to_display = block.settings.product_list
+            endif
+          -%}
 
-                {%- if product.featured_image != blank -%}
-                  <img
-                    src="{{ product.featured_image | image_url: width: 600 }}"
-                    alt="{{ product.title | escape }}"
-                    class="mo-product-image"
-                    loading="lazy"
-                  >
-                {%- else -%}
-                  <img src="{{ 'box.png' | asset_url }}" alt="{{ product.title | escape }}" class="mo-product-image" loading="lazy">
-                {%- endif -%}
-              </div>
+          {%- if products_to_display != null and products_to_display.size > 0 -%}
+            {%- for product in products_to_display limit: products_limit -%}
+              <div class="mo-product-card">
+                <div class="mo-image-wrapper">
+                  {%- if product.available == false -%}
+                    <span class="mo-badge mo-badge--sold-out">SOLD OUT</span>
+                  {%- elsif product.compare_at_price > product.price -%}
+                    <span class="mo-badge">BEST SELLER</span>
+                  {%- endif -%}
 
-              <div class="mo-card-content">
-                <div class="mo-rating-row">
-                  <div class="mo-stars">
-                    <span class="star filled">★</span>
-                    <span class="star filled">★</span>
-                    <span class="star filled">★</span>
-                    <span class="star filled">★</span>
-                    <span class="star filled">★</span>
-                  </div>
-                  <span class="mo-reviews">25 Reviews</span>
-                </div>
-
-                <h3 class="mo-product-title">
-                  <a href="{{ product.url }}">{{ product.title | escape }}</a>
-                </h3>
-                <p class="mo-product-description">{{ product.description | strip_html | truncate: 80 }}</p>
-
-                <div class="mo-price-row">
-                  <div class="price-group">
-                    <span class="mo-price">{{ product.price | money }}</span>
-                    {%- if product.compare_at_price > product.price -%}
-                      <span class="mo-compare-price">{{ product.compare_at_price | money }}</span>
-                    {%- endif -%}
-                  </div>
-                  {%- if product.metafields.custom.unit_text != blank -%}
-                    <span class="mo-unit-text">{{ product.metafields.custom.unit_text }}</span>
+                  {%- if product.featured_image != blank -%}
+                    <img
+                      src="{{ product.featured_image | image_url: width: 600 }}"
+                      alt="{{ product.title | escape }}"
+                      class="mo-product-image"
+                      loading="lazy"
+                    >
+                  {%- else -%}
+                    <img src="{{ 'box.png' | asset_url }}" alt="{{ product.title | escape }}" class="mo-product-image" loading="lazy">
                   {%- endif -%}
                 </div>
 
-                <button class="mo-add-btn" type="button">ADD TO CART</button>
-              </div>
-            </div>
-          {%- endfor -%}
-        {%- else -%}
-          {%- comment -%} Placeholder cards when no collection is assigned {%- endcomment -%}
-          {%- for i in (1..products_limit) -%}
-            <div class="mo-product-card">
-              <div class="mo-image-wrapper">
-                <span class="mo-badge">BEST SELLER</span>
-                <img src="{{ 'box.png' | asset_url }}" alt="Placeholder product" class="mo-product-image" loading="lazy">
-              </div>
-              <div class="mo-card-content">
-                <div class="mo-rating-row">
-                  <div class="mo-stars">
-                    <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+                <div class="mo-card-content">
+                  <div class="mo-rating-row">
+                    <div class="mo-stars">
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
+                    </div>
+                    <span class="mo-reviews">25 Reviews</span>
                   </div>
-                  <span class="mo-reviews">25 Reviews</span>
-                </div>
-                <h3 class="mo-product-title">28oz Rectangle Plastic Container</h3>
-                <p class="mo-product-subtitle">Salads, hot grains, takeaway</p>
-                <div class="mo-price-row">
-                  <div class="price-group">
-                    <span class="mo-price">$25.02</span>
-                    <span class="mo-compare-price">$28.03</span>
+
+                  <h3 class="mo-product-title">
+                    <a href="{{ product.url }}">{{ product.title | escape }}</a>
+                  </h3>
+                  <p class="mo-product-description">{{ product.description | strip_html | truncate: 80 }}</p>
+
+                  <div class="mo-price-row">
+                    <div class="price-group">
+                      <span class="mo-price">{{ product.price | money }}</span>
+                      {%- if product.compare_at_price > product.price -%}
+                        <span class="mo-compare-price">{{ product.compare_at_price | money }}</span>
+                      {%- endif -%}
+                    </div>
+                    {%- if product.metafields.custom.unit_text != blank -%}
+                      <span class="mo-unit-text">{{ product.metafields.custom.unit_text }}</span>
+                    {%- endif -%}
                   </div>
-                  <span class="mo-unit-text">150PCS/CARTON</span>
+
+                  <button 
+                    class="mo-add-btn" 
+                    type="button"
+                    data-product-id="{{ product.id }}"
+                    data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                    {% unless product.available %}disabled{% endunless %}
+                  >
+                    {% if product.available %}ADD TO CART{% else %}SOLD OUT{% endif %}
+                  </button>
                 </div>
-                <button class="mo-add-btn" type="button">ADD TO CART</button>
               </div>
-            </div>
-          {%- endfor -%}
-        {%- endif -%}
-      </div>
+            {%- endfor -%}
+          {%- else -%}
+            {%- comment -%} Placeholder cards when no products are available {%- endcomment -%}
+            {%- for i in (1..products_limit) -%}
+              <div class="mo-product-card">
+                <div class="mo-image-wrapper">
+                  <span class="mo-badge">BEST SELLER</span>
+                  <img src="{{ 'box.png' | asset_url }}" alt="Placeholder product" class="mo-product-image" loading="lazy">
+                </div>
+                <div class="mo-card-content">
+                  <div class="mo-rating-row">
+                    <div class="mo-stars">
+                      <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+                    </div>
+                    <span class="mo-reviews">25 Reviews</span>
+                  </div>
+                  <h3 class="mo-product-title">28oz Rectangle Plastic Container</h3>
+                  <p class="mo-product-subtitle">Salads, hot grains, takeaway</p>
+                  <div class="mo-price-row">
+                    <div class="price-group">
+                      <span class="mo-price">$25.02</span>
+                      <span class="mo-compare-price">$28.03</span>
+                    </div>
+                    <span class="mo-unit-text">150PCS/CARTON</span>
+                  </div>
+                  <button class="mo-add-btn" type="button">ADD TO CART</button>
+                </div>
+              </div>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+      {%- endunless -%}
     {%- endfor -%}
 
   </div>
@@ -224,13 +278,19 @@
     var pillsContainer = document.getElementById('cf-pills-' + sectionId);
     if (!pillsContainer) return;
 
+    // Tab switching functionality
     pillsContainer.addEventListener('click', function(e) {
       var pill = e.target.closest('.category-pill');
       if (!pill) return;
+      
+      // If it's a link (custom_link), let it navigate naturally
+      if (pill.tagName === 'A') return;
 
-      // Update active pill
+      // Update active pill (only for buttons)
       pillsContainer.querySelectorAll('.category-pill').forEach(function(p) {
-        p.classList.remove('active');
+        if (p.tagName === 'BUTTON') {
+          p.classList.remove('active');
+        }
       });
       pill.classList.add('active');
 
@@ -244,6 +304,156 @@
         } else {
           grid.style.display = 'none';
         }
+      });
+    });
+
+    // Add to cart functionality
+    document.addEventListener('click', function(e) {
+      var addBtn = e.target.closest('.mo-add-btn');
+      if (!addBtn || addBtn.disabled) return;
+
+      e.preventDefault();
+      
+      var variantId = addBtn.getAttribute('data-variant-id');
+      if (!variantId) return;
+
+      // Disable button and show loading state
+      addBtn.disabled = true;
+      var originalText = addBtn.textContent;
+      addBtn.textContent = 'ADDING...';
+
+      // Prepare form data with sections for proper cart drawer rendering
+      var formData = new FormData();
+      formData.append('id', variantId);
+      formData.append('quantity', 1);
+      formData.append('sections', 'cart-drawer,cart-icon-bubble');
+      formData.append('sections_url', window.location.pathname);
+
+      // Add to cart via Shopify Ajax API
+      fetch('/cart/add.js', {
+        method: 'POST',
+        body: formData
+      })
+      .then(function(response) {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(function(data) {
+        console.log('✓ Successfully added to cart:', data);
+        console.log('✓ Sections returned:', data.sections ? 'YES' : 'NO');
+        
+        // Success - show feedback
+        addBtn.textContent = 'ADDED ✓';
+        addBtn.classList.add('mo-add-btn--added');
+        
+        // Update cart drawer HTML if sections are returned
+        if (data.sections) {
+          console.log('✓ Processing sections...');
+          
+          // Update cart drawer content
+          if (data.sections['cart-drawer']) {
+            console.log('✓ cart-drawer section exists');
+            var cartDrawerElement = document.getElementById('CartDrawer');
+            console.log('✓ Current CartDrawer element:', cartDrawerElement);
+            
+            if (cartDrawerElement) {
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(data.sections['cart-drawer'], 'text/html');
+              var newContent = doc.getElementById('CartDrawer');
+              console.log('✓ Parsed new CartDrawer element:', newContent);
+              
+              if (newContent) {
+                console.log('✓ Updating innerHTML...');
+                cartDrawerElement.innerHTML = newContent.innerHTML;
+                console.log('✓ innerHTML updated successfully');
+                
+                // Remove is-empty class from cart-drawer element
+                var cartDrawer = document.querySelector('cart-drawer');
+                console.log('✓ cart-drawer element:', cartDrawer);
+                console.log('✓ Has is-empty class before:', cartDrawer ? cartDrawer.classList.contains('is-empty') : 'N/A');
+                
+                if (cartDrawer) {
+                  cartDrawer.classList.remove('is-empty');
+                  console.log('✓ Has is-empty class after:', cartDrawer.classList.contains('is-empty'));
+                }
+                
+                // Also remove is-empty from cart-drawer-items
+                var cartDrawerItems = document.querySelector('cart-drawer-items');
+                if (cartDrawerItems) {
+                  cartDrawerItems.classList.remove('is-empty');
+                  console.log('✓ Removed is-empty from cart-drawer-items');
+                }
+              } else {
+                console.error('✗ Could not find CartDrawer in parsed HTML');
+              }
+            } else {
+              console.error('✗ Could not find CartDrawer element on page');
+            }
+          } else {
+            console.error('✗ cart-drawer section not in response');
+          }
+          
+          // Update cart count bubble (not the entire icon)
+          if (data.sections['cart-icon-bubble']) {
+            console.log('✓ cart-icon-bubble section exists');
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(data.sections['cart-icon-bubble'], 'text/html');
+            var newCountBubble = doc.querySelector('.cart-count-bubble');
+            var currentButton = document.querySelector('#cart-icon-bubble');
+            console.log('✓ New count bubble from section:', newCountBubble);
+            console.log('✓ Current cart button:', currentButton);
+            
+            if (currentButton) {
+              // Find or create the cart-count-bubble div
+              var currentCountBubble = currentButton.querySelector('.cart-count-bubble');
+              
+              if (newCountBubble) {
+                // If new count bubble exists, update or create it
+                if (currentCountBubble) {
+                  currentCountBubble.innerHTML = newCountBubble.innerHTML;
+                  console.log('✓ Updated existing cart count bubble');
+                } else {
+                  currentButton.appendChild(newCountBubble.cloneNode(true));
+                  console.log('✓ Added new cart count bubble');
+                }
+              } else if (currentCountBubble) {
+                // If no new bubble (cart empty), remove the old one
+                currentCountBubble.remove();
+                console.log('✓ Removed cart count bubble (cart empty)');
+              }
+            } else {
+              console.error('✗ Could not find cart button');
+            }
+          } else {
+            console.error('✗ cart-icon-bubble section not in response');
+          }
+        }
+        
+        console.log('✓ Opening cart drawer in 500ms...');
+        // Open cart drawer
+        setTimeout(function() {
+          var cartIconBubble = document.querySelector('#cart-icon-bubble');
+          if (cartIconBubble) {
+            cartIconBubble.click();
+          }
+        }, 500);
+
+        // Reset button after 2 seconds
+        setTimeout(function() {
+          addBtn.disabled = false;
+          addBtn.classList.remove('mo-add-btn--added');
+          addBtn.textContent = originalText;
+        }, 2000);
+      })
+      .catch(function(error) {
+        console.error('Error adding to cart:', error);
+        addBtn.textContent = 'ERROR';
+        setTimeout(function() {
+          addBtn.disabled = false;
+          addBtn.textContent = originalText;
+        }, 2000);
       });
     });
   })();
