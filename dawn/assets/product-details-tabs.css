@@ -81,7 +81,7 @@
     .tabs-nav {
         flex-direction: row;
         flex-wrap: nowrap;
-        align-items: center;
+        align-items: stretch;
         position: sticky;
         top: 0;
         z-index: 99;
@@ -96,10 +96,12 @@
         flex: 1;
         padding: 8px 4px;
         font-size: 12px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: block;
+        white-space: normal;
+        line-height: 1.2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: auto;
     }
 
     .tab-content {
