@@ -2,6 +2,8 @@
 
 .most-ordered-section {
     font-family: 'Rethink Sans', sans-serif;
+    overflow: hidden;
+    max-width: 100%;
 }
 
 .most-ordered-container {
@@ -123,13 +125,13 @@
 
 .mo-badge {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 8px;
+    left: 8px;
     background-color: #149B77;
     color: #FFFFFF;
-    font-size: 10px;
+    font-size: 8px;
     font-weight: 700;
-    padding: 4px 10px;
+    padding: 3px 7px;
     border-radius: 20px;
     text-transform: uppercase;
     z-index: 1;
@@ -295,13 +297,14 @@
     .most-ordered-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        gap: 8px;
         /* Reset flex/scroll properties */
         overflow-x: visible;
         scroll-snap-type: none;
         padding-bottom: 0;
         padding-right: 0;
         margin-bottom: 20px;
+        max-width: 100%;
     }
 
     .most-ordered-grid::-webkit-scrollbar {
@@ -310,14 +313,17 @@
 
     .mo-product-card {
         /* Remove fixed widths for carousel */
-        min-width: auto;
+        min-width: 0;
         flex: auto;
         scroll-snap-align: none;
         width: 100%;
+        overflow: hidden;
     }
 
     .most-ordered-container {
-        padding: 0 16px;
+        padding: 0 4px;
+        max-width: 100%;
+        overflow: hidden;
     }
 
     .most-ordered-heading {
@@ -359,6 +365,28 @@
 
     .mo-price {
         font-size: 15px;
+    }
+
+    .mo-rating-row {
+        gap: 4px;
+        flex-wrap: nowrap;
+    }
+
+    .mo-stars {
+        font-size: 12px;
+        letter-spacing: -1px;
+        flex-shrink: 0;
+    }
+
+    .mo-reviews {
+        font-size: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .mo-card-content {
+        padding: 0;
     }
 
     .mo-add-btn {

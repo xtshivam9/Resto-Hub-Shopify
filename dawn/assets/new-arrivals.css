@@ -2,6 +2,8 @@
 
 .new-arrivals-section {
     font-family: 'Rethink Sans', sans-serif;
+    overflow: hidden;
+    max-width: 100%;
 }
 
 .new-arrivals-container {
@@ -83,13 +85,13 @@
 
 .na-badge {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 8px;
+    left: 8px;
     background-color: #149B77;
     color: #FFFFFF;
-    font-size: 10px;
+    font-size: 8px;
     font-weight: 700;
-    padding: 4px 10px;
+    padding: 3px 7px;
     border-radius: 20px;
     text-transform: uppercase;
     z-index: 1;
@@ -127,7 +129,6 @@
 
 .na-product-title {
     font-size: 16px;
-    /* Slightly smaller */
     font-weight: 700;
     margin: 0 0 4px 0;
     color: #000000;
@@ -142,11 +143,21 @@
     -webkit-box-orient: vertical;
 }
 
+.na-product-title a {
+    color: #000000;
+    text-decoration: none;
+}
+
+.na-product-title a:hover {
+    color: #333333;
+}
+
 .na-product-subtitle {
     font-size: 13px;
     color: #777777;
     margin: 0 0 16px 0;
     font-weight: 400;
+    font-family: 'Rethink Sans', sans-serif;
     min-height: 18px;
     /* Fixed height for 1 line */
     white-space: nowrap;
@@ -240,11 +251,12 @@
         flex-wrap: nowrap;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
-        gap: 6px;
-        /* Reduced gap to match Right Packaging */
+        gap: 4px;
+        /* Tight gap for wider cards */
         padding-bottom: 20px;
         margin-bottom: 20px;
         justify-content: flex-start;
+        max-width: 100%;
     }
 
     .new-arrivals-grid::-webkit-scrollbar {
@@ -253,15 +265,18 @@
 
     .na-product-card {
         /* Fixed widths for carousel (2 per screen) */
-        min-width: calc(50% - 3px);
-        max-width: calc(50% - 3px);
-        flex: 0 0 calc(50% - 3px);
+        min-width: calc(50% - 2px);
+        max-width: calc(50% - 2px);
+        flex: 0 0 calc(50% - 2px);
         scroll-snap-align: start;
         width: auto;
+        overflow: hidden;
     }
 
     .new-arrivals-container {
-        padding: 0 16px;
+        padding: 0 4px;
+        max-width: 100%;
+        overflow: hidden;
     }
 
     .new-arrivals-heading {
@@ -285,5 +300,27 @@
     .na-add-btn {
         padding: 10px;
         font-size: 12px;
+    }
+
+    .na-rating-row {
+        gap: 4px;
+        flex-wrap: nowrap;
+    }
+
+    .na-stars {
+        font-size: 12px;
+        letter-spacing: -1px;
+        flex-shrink: 0;
+    }
+
+    .na-reviews {
+        font-size: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .na-card-content {
+        padding: 0;
     }
 }

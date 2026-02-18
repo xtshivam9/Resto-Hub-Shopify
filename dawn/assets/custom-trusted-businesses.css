@@ -136,13 +136,14 @@
         /* Flexbox for single line */
         flex-wrap: nowrap;
         /* No wrapping */
-        overflow: visible;
-        /* No scroll */
+        overflow: hidden;
+        /* Prevent overflow */
         gap: 8px;
         /* Slightly larger gap */
         padding-right: 0;
         grid-template-columns: none;
         /* Override grid */
+        max-width: 100%;
     }
 
     .trusted-heading {

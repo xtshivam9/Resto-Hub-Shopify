@@ -11,6 +11,47 @@
       "default": "New Arrivals"
     },
     {
+      "type": "header",
+      "content": "Product Source"
+    },
+    {
+      "type": "select",
+      "id": "content_source",
+      "label": "Content Source",
+      "options": [
+        { "value": "collection", "label": "Collection" },
+        { "value": "products", "label": "Select Products" }
+      ],
+      "default": "collection",
+      "info": "Choose where to get products from"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Pick the collection whose products will show (when Content Source is Collection)"
+    },
+    {
+      "type": "product_list",
+      "id": "product_list",
+      "label": "Products",
+      "info": "Select specific products to show (when Content Source is Select Products)",
+      "limit": 12
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "label": "Products to Show",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Section Style"
+    },
+    {
       "type": "range",
       "id": "padding_top",
       "min": 0,
@@ -37,6 +78,10 @@
       "default": "#FFFFFF"
     },
     {
+      "type": "header",
+      "content": "Button Text"
+    },
+    {
        "type": "text",
        "id": "btn_text",
        "label": "Button Text (Add to Cart)",
@@ -49,85 +94,9 @@
        "default": "SOLD OUT"
     }
   ],
-  "blocks": [
-    {
-      "type": "na_product_card",
-      "name": "Product Card",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Product Image"
-        },
-        {
-          "type": "text",
-          "id": "badge_text",
-          "label": "Badge Text",
-          "default": "BEST SELLER"
-        },
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Product Title",
-          "default": "28oz Rectangle Plastic Container"
-        },
-        {
-          "type": "text",
-          "id": "subtitle",
-          "label": "Subtitle",
-          "default": "Salads, hot grains, takeaway"
-        },
-        {
-          "type": "range",
-          "id": "rating",
-          "min": 0,
-          "max": 5,
-          "step": 1,
-          "label": "Star Rating",
-          "default": 5
-        },
-        {
-          "type": "number",
-          "id": "reviews",
-          "label": "Review Count",
-          "default": 25
-        },
-        {
-          "type": "text",
-          "id": "price",
-          "label": "Price",
-          "default": "$25.02"
-        },
-        {
-          "type": "text",
-          "id": "compare_price",
-          "label": "Compare Price",
-          "default": "$28.03"
-        },
-        {
-          "type": "text",
-          "id": "unit_text",
-          "label": "Unit Text",
-          "default": "150PCS/BOX"
-        },
-        {
-          "type": "product",
-          "id": "product",
-          "label": "Product",
-          "info": "Select a product to enable add-to-cart functionality"
-        }
-      ]
-    }
-  ],
   "presets": [
     {
-      "name": "New Arrivals",
-      "blocks": [
-        { "type": "na_product_card" },
-        { "type": "na_product_card" },
-        { "type": "na_product_card" },
-        { "type": "na_product_card" }
-      ]
+      "name": "New Arrivals"
     }
   ]
 }
@@ -150,74 +119,118 @@
   }
 {% endstyle %}
 
+{%- assign products_limit = section.settings.products_to_show -%}
+
+{%- liquid
+  assign products_to_display = null
+  if section.settings.content_source == 'collection' and section.settings.collection != blank
+    assign products_to_display = section.settings.collection.products
+  elsif section.settings.content_source == 'products' and section.settings.product_list != blank
+    assign products_to_display = section.settings.product_list
+  endif
+-%}
+
 <div class="section-{{ section.id }}-padding new-arrivals-section">
   <div class="new-arrivals-container">
     <h2 class="new-arrivals-heading">{{ section.settings.heading | escape }}</h2>
 
     <div class="new-arrivals-grid">
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'na_product_card' -%}
-          <div class="na-product-card" {{ block.shopify_attributes }}>
+      {%- if products_to_display != null and products_to_display.size > 0 -%}
+        {%- for product in products_to_display limit: products_limit -%}
+          <div class="na-product-card">
             <div class="na-image-wrapper">
-              {%- if block.settings.badge_text != blank -%}
-                <span class="na-badge">{{ block.settings.badge_text }}</span>
+              {%- if product.available == false -%}
+                <span class="na-badge na-badge--sold-out">SOLD OUT</span>
+              {%- elsif product.compare_at_price > product.price -%}
+                <span class="na-badge">BEST SELLER</span>
               {%- endif -%}
-              
-              {%- if block.settings.image != blank -%}
-                {{ block.settings.image | image_url: width: 600 | image_tag: class: 'na-product-image', loading: 'lazy' }}
+
+              {%- if product.featured_image != blank -%}
+                <img
+                  src="{{ product.featured_image | image_url: width: 600 }}"
+                  alt="{{ product.title | escape }}"
+                  class="na-product-image"
+                  loading="lazy"
+                >
               {%- else -%}
-                <img src="{{ 'box.png' | asset_url }}" alt="{{ block.settings.title }}" class="na-product-image" loading="lazy">
+                <img src="{{ 'box.png' | asset_url }}" alt="{{ product.title | escape }}" class="na-product-image" loading="lazy">
               {%- endif -%}
             </div>
 
             <div class="na-card-content">
               <div class="na-rating-row">
                 <div class="na-stars">
-                  {%- for i in (1..5) -%}
-                    {%- if i <= block.settings.rating -%}
-                      <span class="star filled">★</span>
-                    {%- else -%}
-                      <span class="star empty">★</span>
-                    {%- endif -%}
-                  {%- endfor -%}
+                  <span class="star filled">★</span>
+                  <span class="star filled">★</span>
+                  <span class="star filled">★</span>
+                  <span class="star filled">★</span>
+                  <span class="star filled">★</span>
                 </div>
-                <span class="na-reviews">{{ block.settings.reviews }} Reviews</span>
+                <span class="na-reviews">25 Reviews</span>
               </div>
 
-              <h3 class="na-product-title">{{ block.settings.title | escape }}</h3>
-              <p class="na-product-subtitle">{{ block.settings.subtitle | escape }}</p>
+              <h3 class="na-product-title">
+                <a href="{{ product.url }}">{{ product.title | escape }}</a>
+              </h3>
+              <p class="na-product-subtitle">{{ product.description | strip_html | truncate: 80 }}</p>
 
               <div class="na-price-row">
                 <div class="price-group">
-                  <span class="na-price">{{ block.settings.price }}</span>
-                  {%- if block.settings.compare_price != blank -%}
-                    <span class="na-compare-price">{{ block.settings.compare_price }}</span>
+                  <span class="na-price">{{ product.price | money }}</span>
+                  {%- if product.compare_at_price > product.price -%}
+                    <span class="na-compare-price">{{ product.compare_at_price | money }}</span>
                   {%- endif -%}
                 </div>
-                {%- if block.settings.unit_text != blank -%}
-                  <span class="na-unit-text">{{ block.settings.unit_text }}</span>
+                {%- if product.metafields.custom.unit_text != blank -%}
+                  <span class="na-unit-text">{{ product.metafields.custom.unit_text }}</span>
                 {%- endif -%}
               </div>
 
               <button 
-                class="na-add-btn"
+                class="na-add-btn" 
                 type="button"
-                {% if block.settings.product != blank %}
-                  data-product-id="{{ block.settings.product.id }}"
-                  data-variant-id="{{ block.settings.product.selected_or_first_available_variant.id }}"
-                  {% unless block.settings.product.available %}disabled{% endunless %}
-                {% endif %}
+                data-product-id="{{ product.id }}"
+                data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                {% unless product.available %}disabled{% endunless %}
               >
-                {% if block.settings.product != blank and block.settings.product.available == false %}
-                  {{ section.settings.sold_out_text }}
-                {% else %}
-                  {{ section.settings.btn_text }}
-                {% endif %}
+                {% if product.available %}{{ section.settings.btn_text }}{% else %}{{ section.settings.sold_out_text }}{% endif %}
               </button>
             </div>
           </div>
-        {%- endif -%}
-      {%- endfor -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} Placeholder cards when no products are available {%- endcomment -%}
+        {%- for i in (1..products_limit) -%}
+          <div class="na-product-card">
+            <div class="na-image-wrapper">
+              <span class="na-badge">BEST SELLER</span>
+              <img src="{{ 'box.png' | asset_url }}" alt="Placeholder product" class="na-product-image" loading="lazy">
+            </div>
+            <div class="na-card-content">
+              <div class="na-rating-row">
+                <div class="na-stars">
+                  <span class="star filled">★</span>
+                  <span class="star filled">★</span>
+                  <span class="star filled">★</span>
+                  <span class="star filled">★</span>
+                  <span class="star filled">★</span>
+                </div>
+                <span class="na-reviews">25 Reviews</span>
+              </div>
+              <h3 class="na-product-title">Product Title</h3>
+              <p class="na-product-subtitle">Product description goes here</p>
+              <div class="na-price-row">
+                <div class="price-group">
+                  <span class="na-price">$25.02</span>
+                  <span class="na-compare-price">$28.03</span>
+                </div>
+                <span class="na-unit-text">150PCS/BOX</span>
+              </div>
+              <button class="na-add-btn" type="button" disabled>{{ section.settings.btn_text }}</button>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
     </div>
   </div>
 </div>
@@ -258,103 +271,54 @@
         return response.json();
       })
       .then(function(data) {
-        console.log('✓ Successfully added to cart:', data);
-        console.log('✓ Sections returned:', data.sections ? 'YES' : 'NO');
-        
         // Success - show feedback
         addBtn.textContent = 'ADDED ✓';
         addBtn.classList.add('na-add-btn--added');
         
         // Update cart drawer HTML if sections are returned
         if (data.sections) {
-          console.log('✓ Processing sections...');
-          
           // Update cart drawer content
           if (data.sections['cart-drawer']) {
-            console.log('✓ cart-drawer section exists');
             var cartDrawerElement = document.getElementById('CartDrawer');
-            console.log('✓ Current CartDrawer element:', cartDrawerElement);
-            
             if (cartDrawerElement) {
               var parser = new DOMParser();
               var doc = parser.parseFromString(data.sections['cart-drawer'], 'text/html');
               var newContent = doc.getElementById('CartDrawer');
-              console.log('✓ Parsed new CartDrawer element:', newContent);
-              
               if (newContent) {
-                console.log('✓ Updating innerHTML...');
                 cartDrawerElement.innerHTML = newContent.innerHTML;
-                console.log('✓ innerHTML updated successfully');
-                
-                // Remove is-empty class from cart-drawer element
                 var cartDrawer = document.querySelector('cart-drawer');
-                console.log('✓ cart-drawer element:', cartDrawer);
-                console.log('✓ Has is-empty class before:', cartDrawer ? cartDrawer.classList.contains('is-empty') : 'N/A');
-                
-                if (cartDrawer) {
-                  cartDrawer.classList.remove('is-empty');
-                  console.log('✓ Has is-empty class after:', cartDrawer.classList.contains('is-empty'));
-                }
-                
-                // Also remove is-empty from cart-drawer-items
+                if (cartDrawer) cartDrawer.classList.remove('is-empty');
                 var cartDrawerItems = document.querySelector('cart-drawer-items');
-                if (cartDrawerItems) {
-                  cartDrawerItems.classList.remove('is-empty');
-                  console.log('✓ Removed is-empty from cart-drawer-items');
-                }
-              } else {
-                console.error('✗ Could not find CartDrawer in parsed HTML');
+                if (cartDrawerItems) cartDrawerItems.classList.remove('is-empty');
               }
-            } else {
-              console.error('✗ Could not find CartDrawer element on page');
             }
-          } else {
-            console.error('✗ cart-drawer section not in response');
           }
           
-          // Update cart count bubble (not the entire icon)
+          // Update cart count bubble
           if (data.sections['cart-icon-bubble']) {
-            console.log('✓ cart-icon-bubble section exists');
             var parser = new DOMParser();
             var doc = parser.parseFromString(data.sections['cart-icon-bubble'], 'text/html');
             var newCountBubble = doc.querySelector('.cart-count-bubble');
             var currentButton = document.querySelector('#cart-icon-bubble');
-            console.log('✓ New count bubble from section:', newCountBubble);
-            console.log('✓ Current cart button:', currentButton);
-            
             if (currentButton) {
-              // Find or create the cart-count-bubble div
               var currentCountBubble = currentButton.querySelector('.cart-count-bubble');
-              
               if (newCountBubble) {
-                // If new count bubble exists, update or create it
                 if (currentCountBubble) {
                   currentCountBubble.innerHTML = newCountBubble.innerHTML;
-                  console.log('✓ Updated existing cart count bubble');
                 } else {
                   currentButton.appendChild(newCountBubble.cloneNode(true));
-                  console.log('✓ Added new cart count bubble');
                 }
               } else if (currentCountBubble) {
-                // If no new bubble (cart empty), remove the old one
                 currentCountBubble.remove();
-                console.log('✓ Removed cart count bubble (cart empty)');
               }
-            } else {
-              console.error('✗ Could not find cart button');
             }
-          } else {
-            console.error('✗ cart-icon-bubble section not in response');
           }
         }
         
-        console.log('✓ Opening cart drawer in 500ms...');
         // Open cart drawer
         setTimeout(function() {
           var cartIconBubble = document.querySelector('#cart-icon-bubble');
-          if (cartIconBubble) {
-            cartIconBubble.click();
-          }
+          if (cartIconBubble) cartIconBubble.click();
         }, 500);
 
         // Reset button after 2 seconds
