@@ -4,7 +4,6 @@
     padding: 30px 40px;
     font-family: 'Rethink Sans', sans-serif;
     color: #000;
-    overflow-x: hidden;
 }
 
 .product-container,
@@ -298,53 +297,41 @@
     appearance: textfield;
 }
 
-.qty-circle {
-    width: 40px;
-    height: 40px;
-    background: #D8EFEC;
-    border-radius: 50%;
-    position: absolute;
-    left: 6px;
-    z-index: -1;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
+/* Robust Fix: Hide separate circles and style buttons directly */
+.qty-circle,
 .qty-circle-plus {
+    display: none !important;
+}
+
+/* Styled buttons to replace circles */
+.qty-btn.minus {
     width: 40px;
     height: 40px;
-    background: #149B77;
     border-radius: 50%;
-    position: absolute;
-    right: 6px;
-    z-index: -1;
-    top: 50%;
-    transform: translateY(-50%);
+    background: #D8EFEC !important;
+    color: #000 !important;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    z-index: 5;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-/* Overriding colors for buttons inside selector */
-.qty-btn.minus {
-    color: #000;
-    width: 40px;
-    padding: 0;
-    margin-left: 0;
-    position: relative;
-    z-index: 2;
 }
 
 .qty-btn.plus {
-    color: #fff;
     width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #149B77 !important;
+    color: #fff !important;
     padding: 0;
-    margin-right: 0;
+    margin: 0;
     position: relative;
-    z-index: 2;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 
@@ -406,6 +393,8 @@
     font-size: 14px;
     font-weight: 700;
     text-decoration: underline;
+    text-decoration-color: #000;
+    color: #000;
     cursor: pointer;
     display: block;
     margin-top: 6px;
@@ -562,6 +551,8 @@
 
     .main-image {
         height: auto;
+        position: static;
+        width: 100%;
     }
 
     .thumbnail-list {
@@ -751,22 +742,26 @@
     }
 
     .feature-icons-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px;
+        overflow-x: hidden;
+        /* Ensure it is not scrollable */
     }
 
     .feature-item {
-        height: 90px;
-        padding: 8px 4px;
+        height: auto;
+        min-height: 80px;
+        padding: 5px 2px;
     }
 
     .feature-icon-img {
-        width: 40px;
-        height: 40px;
+        width: 32px;
+        height: 32px;
     }
 
     .feature-label {
-        font-size: 11px;
+        font-size: 10px;
+        line-height: 1.1;
     }
 
     .quantity-label {
@@ -775,23 +770,27 @@
     }
 
     .actions-row {
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
         margin-bottom: 20px;
+        position: static;
+        /* Ensure not sticky/fixed */
     }
 
     .qty-selector {
-        width: 140px;
-        height: 48px;
+        width: 160px;
+        height: 50px;
         flex-shrink: 0;
     }
 
     .add-to-cart-btn {
-        min-width: unset;
-        flex: 1;
-        height: 48px;
-        font-size: 14px;
+        width: 100%;
+        flex: unset;
+        height: 50px;
+        font-size: 16px;
+        padding: 0 10px;
+        border-radius: 50px;
     }
 
     .shipping-info {
