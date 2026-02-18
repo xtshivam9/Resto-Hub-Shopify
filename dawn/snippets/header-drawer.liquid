@@ -27,13 +27,7 @@
 
   {% comment %} Header: Logo + Close {% endcomment %}
   <div class="sidebar-drawer__header">
-    <a href="{{ routes.root_url }}" class="sidebar-drawer__logo">
-      {%- if section.settings.logo != blank -%}
-        {{ section.settings.logo | image_url: width: 200 | image_tag: loading: 'eager', alt: shop.name }}
-      {%- else -%}
-        <img src="{{ 'templogo.svg' | asset_url }}" alt="{{ shop.name }}" width="100" height="auto">
-      {%- endif -%}
-    </a>
+
 
     <button type="button" class="sidebar-drawer__close" id="SidebarClose" aria-label="Close menu">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

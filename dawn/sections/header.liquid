@@ -26,11 +26,10 @@
     {%- if section.settings.menu != blank -%}
       <nav class="header-navigation">
         <ul class="header-menu">
-          {%- assign menu_links = "Shop All,Categories,Most Popular,New Arrivals,Why Resto Supply Hub,About,Contact" | split: ',' -%}
-          {%- for title in menu_links -%}
+          {%- for link in linklists[section.settings.menu].links -%}
             <li class="header-menu-item">
-              <a href="#" class="header-menu-link">
-                {{ title }}
+              <a href="{{ link.url }}" class="header-menu-link">
+                {{ link.title }}
               </a>
             </li>
           {%- endfor -%}
