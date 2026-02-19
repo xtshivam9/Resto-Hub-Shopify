@@ -18,7 +18,7 @@
       "step": 4,
       "unit": "px",
       "label": "Top Padding",
-      "default": 36
+      "default": 60
     },
     {
       "type": "range",
@@ -28,67 +28,31 @@
       "step": 4,
       "unit": "px",
       "label": "Bottom Padding",
-      "default": 36
+      "default": 60
     },
     {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Background Color",
-      "default": "#FFFFFF"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#FFFFFF"
+       "type": "color",
+       "id": "bg_color",
+       "label": "Background Color",
+       "default": "#F9FDFB"
     }
   ],
   "blocks": [
     {
-      "type": "who_service_card",
-      "name": "Service Card",
+      "type": "service_item",
+      "name": "Service Item",
       "settings": [
-        {
-          "type": "select",
-          "id": "preset_image",
-          "label": "Preset Image",
-          "options": [
-            { "value": "none", "label": "Custom Image" },
-            { "value": "serve1.svg", "label": "Serve 1" },
-            { "value": "serve2.svg", "label": "Serve 2" },
-            { "value": "serve3.svg", "label": "Serve 3" },
-            { "value": "serve4.svg", "label": "Serve 4" },
-            { "value": "serve5.svg", "label": "Serve 5" }
-          ],
-          "default": "none"
-        },
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Card Image"
-        },
         {
           "type": "text",
           "id": "title",
           "label": "Title",
-          "default": "Service Title"
+          "default": "Service Name"
         },
         {
-          "type": "textarea",
-          "id": "description",
-          "label": "Description",
-          "default": "Short description of the service provided."
-        },
-        {
-          "type": "url",
-          "id": "link",
-          "label": "Link"
-        },
-        {
-          "type": "text",
-          "id": "button_text",
-          "label": "Button Text",
-          "default": "VIEW PRODUCTS →"
+           "type": "html",
+           "id": "svg_icon",
+           "label": "SVG Icon (Paste SVG code or filename)",
+           "info": "Enter the filename of the uploaded asset (e.g., 'we-serve1.svg') or paste SVG code."
         }
       ]
     }
@@ -98,34 +62,45 @@
       "name": "Who We Serve",
       "blocks": [
         {
-          "type": "who_service_card",
+          "type": "service_item",
           "settings": {
             "title": "Restaurants & QSRs",
-            "description": "Durable containers built for high-heat and long-distance transport."
+            "svg_icon": "we-serve1.svg"
           }
         },
         {
-          "type": "who_service_card",
+          "type": "service_item",
           "settings": {
-            "title": "Cafés & Coffee Chains"
+            "title": "Cafés & Coffee Chains",
+            "svg_icon": "we-serve2.svg"
           }
         },
         {
-          "type": "who_service_card",
+          "type": "service_item",
           "settings": {
-            "title": "Food Trucks & Cloud Kitchens"
+            "title": "Catering Companies",
+            "svg_icon": "we-serve3.svg"
           }
         },
         {
-          "type": "who_service_card",
+          "type": "service_item",
           "settings": {
-            "title": "Catering Companies"
+            "title": "Food Trucks & Cloud Kitchens",
+            "svg_icon": "we-serve4.svg"
           }
         },
         {
-          "type": "who_service_card",
+          "type": "service_item",
           "settings": {
-            "title": "Event Planners"
+            "title": "Event Planners & Venues",
+            "svg_icon": "we-serve5.svg"
+          }
+        },
+        {
+          "type": "service_item",
+          "settings": {
+            "title": "Franchise & Multi-Location Brands",
+            "svg_icon": "we-serve6.svg"
           }
         }
       ]
@@ -133,9 +108,10 @@
   ]
 }
 {% endschema %}
+{% comment %} Schema updated {% endcomment %}
 
 {% style %}
-  @import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500;600;700&display=swap');
 
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -150,239 +126,131 @@
     }
   }
 
-  .who-we-serve-container {
-    max-width: 1440px; /* Adjust max-width as per design guidelines if needed */
+  .who-we-serve-wrapper {
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
+    text-align: center;
+    font-family: 'Rethink Sans', sans-serif;
   }
 
   .who-we-serve-heading {
-    font-family: 'Rethink Sans', sans-serif;
-    font-style: normal;
+    font-family: 'Rethink Sans', sans-serif !important;
+    font-size: 40px;
     font-weight: 600;
-    font-size: 32px;
-    line-height: 120%;
-    color: #000000;
-    margin-bottom: 2rem;
+    margin-bottom: 4rem;
+    color: #000; 
   }
 
   .who-we-serve-grid {
-    display: flex;
-    overflow-x: auto;
-    gap: 16px;
-    padding-bottom: 20px; /* Space for scrollbar */
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: #248f6f #E0E0E0; /* thumb track */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    justify-items: center;
   }
 
-  /* Custom Scrollbar for Webkit */
-  .who-we-serve-grid::-webkit-scrollbar {
-    height: 6px; /* Height of horizontal scrollbar */
-  }
-
-  .who-we-serve-grid::-webkit-scrollbar-track {
-    background: #E0E0E0;
-    border-radius: 4px;
-  }
-
-  .who-we-serve-grid::-webkit-scrollbar-thumb {
-    background-color: #248f6f; /* Green color from Promo Bar */
-    border-radius: 4px;
-  }
-
-  .service-card {
-    min-width: 280px; /* Minimum width for cards to ensure scrolling */
-    flex: 0 0 280px;
-    scroll-snap-align: start;
-    position: relative;
-    border-radius: 8px;
-    overflow: hidden;
-    aspect-ratio: 3 / 4;
-    background-color: #f0f0f0;
+  .serve-item {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    text-decoration: none;
-    color: {{ section.settings.text_color }};
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 200px; /* Increased to allow single line for top items, while wrapping longer ones */
   }
 
-  @media screen and (min-width: 750px) {
-    .service-card {
-      min-width: 300px;
-      flex: 0 0 300px;
-    }
-  }
-
-  @media screen and (min-width: 1200px) {
-     /* Optional: On very large screens, logic tocenter or keep scrolling? 
-        User asked for scrollbar like image, so likely always scrollable or at least flex.
-        If we want 5 items to fit perfectly without scroll on large screens:
-     */
-    .who-we-serve-grid {
-      /* justify-content: center; */ /* Uncomment to center if items allow */
-    }
+  .serve-icon-wrapper {
+    width: 110px; /* Reduced from 130px */
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    border: 4px solid #149B77; /* Thicker border as requested */
+    border-radius: 50%;
+    padding: 24px; /* Reduced from 28px */
+    transition: all 0.3s ease;
   }
   
-  .service-card-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-    z-index: 1;
-  }
-
-  .service-card:hover .service-card-image {
+  .serve-item:hover .serve-icon-wrapper {
     transform: scale(1.05);
+    background-color: rgba(20, 155, 119, 0.05);
   }
 
-  .service-card-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
+  .serve-icon {
     width: 100%;
     height: 100%;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.8) 100%);
-    z-index: 2;
+    object-fit: contain;
   }
 
-  .service-card-content {
-    position: relative;
-    z-index: 3;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .service-card-title {
-    font-family: 'Rethink Sans', sans-serif;
+  .serve-title {
+    font-family: 'Rethink Sans', sans-serif !important;
+    font-size: 16px;
     font-weight: 600;
-    font-size: 18px;
-    line-height: 120%;
-    color: {{ section.settings.text_color }};
+    line-height: 1.35;
+    color: #000;
     margin: 0;
   }
 
-  .service-card-description {
-    font-family: 'Rethink Sans', sans-serif;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 140%;
-    color: rgba(255, 255, 255, 0.8);
-    margin: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .service-card-button {
-    font-family: 'Rethink Sans', sans-serif;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 100%;
-    text-transform: uppercase;
-    color: {{ section.settings.text_color }};
-    margin-top: 8px;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.3s ease;
-    display: inline-block;
-    text-decoration: underline;
-    text-underline-offset: 4px;
-  }
-
-  .service-card:hover .service-card-button {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  @media (hover: none) and (pointer: coarse) {
-    .service-card-button {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @media screen and (max-width: 480px) {
-    .who-we-serve-container {
-      padding: 0 1rem;
-    }
-
+  @media screen and (max-width: 990px) {
     .who-we-serve-heading {
-      font-size: 24px;
-      margin-bottom: 1.2rem;
+        font-size: 32px;
+        margin-bottom: 3rem;
     }
-
-    .service-card {
-      min-width: 220px;
-      flex: 0 0 220px;
-    }
-
     .who-we-serve-grid {
-      gap: 12px;
+      gap: 30px;
     }
+  }
 
-    .service-card-title {
-      font-size: 16px;
+  @media screen and (max-width: 749px) {
+    .who-we-serve-wrapper {
+        padding: 0 1.5rem;
     }
-
-    .service-card-description {
-      font-size: 13px;
+    .who-we-serve-heading {
+        font-size: 28px;
+        margin-bottom: 2rem;
+    }
+    .who-we-serve-grid {
+      grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+      gap: 20px;
+      column-gap: 15px; 
+    }
+    .serve-icon-wrapper {
+        width: 90px; /* Reduced from 100px */
+        height: 90px;
+        margin-bottom: 12px;
+        padding: 18px; /* Reduced from 20px */
+        border-width: 3px;
+    }
+    .serve-title {
+        font-size: 14px;
     }
   }
 {% endstyle %}
 
 <div class="section-{{ section.id }}-padding">
-  <div class="who-we-serve-container">
+  <div class="who-we-serve-wrapper">
     {%- if section.settings.heading != blank -%}
       <h2 class="who-we-serve-heading">{{ section.settings.heading | escape }}</h2>
     {%- endif -%}
 
     <div class="who-we-serve-grid">
       {%- for block in section.blocks -%}
-        <div class="service-card" {{ block.shopify_attributes }}>
-          {%- if block.settings.preset_image != 'none' -%}
-            <img
-              src="{{ block.settings.preset_image | asset_url }}"
-              alt="{{ block.settings.title | escape }}"
-              class="service-card-image"
-              loading="lazy"
-              width="600"
-              height="800"
-            >
-          {%- elsif block.settings.image != blank -%}
-            {{ block.settings.image | image_url: width: 600 | image_tag: class: 'service-card-image', loading: 'lazy' }}
-          {%- else -%}
-            {{ 'image' | placeholder_svg_tag: 'service-card-image' }}
-          {%- endif -%}
-          
-          <div class="service-card-overlay"></div>
-
-          <div class="service-card-content">
-            <h3 class="service-card-title">{{ block.settings.title | escape }}</h3>
-            
-            {%- if block.settings.description != blank -%}
-              <p class="service-card-description">{{ block.settings.description | escape }}</p>
-            {%- endif -%}
-
-            {%- if block.settings.link != blank -%}
-              <a href="{{ block.settings.link }}" class="service-card-button">
-                {{ block.settings.button_text | escape }}
-              </a>
+        <div class="serve-item" {{ block.shopify_attributes }}>
+          <div class="serve-icon-wrapper">
+            {%- if block.settings.svg_icon contains '.svg' -%}
+              <img
+                src="{{ block.settings.svg_icon | asset_url }}"
+                alt="{{ block.settings.title | escape }}"
+                class="serve-icon"
+                loading="lazy"
+                width="120"
+                height="120"
+              >
             {%- else -%}
-              <span class="service-card-button">{{ block.settings.button_text | escape }}</span>
+              {{ block.settings.svg_icon }}
             {%- endif -%}
-          
           </div>
-          {%- if block.settings.link != blank -%}
-             <a href="{{ block.settings.link }}" style="position:absolute; inset:0; z-index:4;" aria-label="{{ block.settings.title }}"></a>
-          {%- endif -%}
+          <p class="serve-title">{{ block.settings.title | escape }}</p>
         </div>
       {%- endfor -%}
     </div>

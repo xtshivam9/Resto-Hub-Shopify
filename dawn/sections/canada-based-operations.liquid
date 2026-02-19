@@ -1,0 +1,228 @@
+{% schema %}
+{
+  "name": "Canada Based Operations",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (Upload)"
+    },
+    {
+       "type": "text",
+       "id": "image_filename",
+       "label": "Image Filename (Asset)",
+       "info": "Enter filename like 'canada-based.svg' to use from assets.",
+       "default": "canada-based.svg"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Canada-Based Operations"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>Operating from the Greater Toronto Area, we understand the needs of Canadian hospitality businesses.</p><p>Our strong supplier partnerships and logistics network allow us to provide reliable distribution across the country — ensuring you get what you need, when you need it.</p><p>We are proud to support local businesses while maintaining national reach.</p>"
+    },
+    {
+       "type": "color",
+       "id": "bg_color",
+       "label": "Background Color",
+       "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "Canada Based Operations"
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  @import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500;600;700&display=swap');
+
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: {{ section.settings.bg_color }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .canada-operations-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    font-family: 'Rethink Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 80px; /* Increased gap for better spacing */
+  }
+
+  .canada-operations-image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .canada-operations-image {
+    width: 100%;
+    height: auto;
+    border-radius: 12px; /* Softer corners */
+    object-fit: contain; /* Changed to contain to show full image including if it's an SVG illustration */
+    display: block;
+    max-width: 100%;
+  }
+  
+  /* Specific override for SVG to ensure it doesn't blow up */
+  .canada-operations-image[src*=".svg"] {
+      width: 100%;
+  }
+
+  .canada-operations-image-placeholder {
+      width: 100%;
+      background: #f0f0f0;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888;
+      border-radius: 12px;
+  }
+
+  .canada-operations-content {
+    flex: 1;
+    text-align: left;
+    padding-left: 20px; /* Extra breathing room */
+  }
+
+  .canada-operations-heading {
+    font-family: 'Rethink Sans', sans-serif !important;
+    font-size: 42px; /* Slightly larger matches visual better */
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 24px;
+    color: #000000;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .canada-operations-text {
+    font-family: 'Rethink Sans', sans-serif !important;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #121212; /* Darker text */
+    font-weight: 400;
+  }
+  
+  .canada-operations-text p {
+      margin-top: 0;
+      margin-bottom: 24px;
+  }
+  .canada-operations-text p:last-child {
+      margin-bottom: 0;
+  }
+
+  @media screen and (max-width: 990px) {
+    .canada-operations-heading {
+        font-size: 32px;
+    }
+    .canada-operations-wrapper {
+        gap: 40px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .canada-operations-wrapper {
+        flex-direction: column;
+        padding: 0 1.5rem;
+        gap: 32px;
+    }
+    
+    .canada-operations-image-container {
+        width: 100%;
+    }
+
+    .canada-operations-content {
+        width: 100%;
+        padding-left: 0;
+        text-align: left; /* Keep left alignment even on mobile often looks better, or center if requested. Defaulting to left as per standard. */
+    }
+
+    .canada-operations-heading {
+        font-size: 28px;
+        margin-bottom: 16px;
+    }
+  }
+{% endstyle %}
+
+<div class="section-{{ section.id }}-padding">
+  <div class="canada-operations-wrapper">
+    <div class="canada-operations-image-container">
+      {%- if section.settings.image_filename != blank -%}
+         <img
+            src="{{ section.settings.image_filename | asset_url }}"
+            alt="{{ section.settings.heading | escape }}"
+            class="canada-operations-image"
+            loading="lazy"
+            width="600"
+            height="auto"
+          >
+      {%- elsif section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 800 | image_tag: 
+          class: 'canada-operations-image',
+          loading: 'lazy',
+          width: section.settings.image.width,
+          height: section.settings.image.height
+        }}
+      {%- else -%}
+        <div class="canada-operations-image-placeholder">
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {%- endif -%}
+    </div>
+    
+    <div class="canada-operations-content">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="canada-operations-heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      
+      {%- if section.settings.content != blank -%}
+        <div class="canada-operations-text">
+          {{ section.settings.content }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

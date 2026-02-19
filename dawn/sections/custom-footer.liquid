@@ -4,6 +4,51 @@
   "tag": "footer",
   "class": "custom-footer-section",
   "settings": [
+    {
+      "type": "header",
+      "content": "CTA Banner Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Show CTA Banner",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "CTA Heading",
+      "default": "Searching for reliable packing supply solutions in Canada?"
+    },
+    {
+      "type": "textarea",
+      "id": "cta_description",
+      "label": "CTA Description",
+      "default": "Built for businesses that depend on consistent, large-volume supply."
+    },
+    {
+      "type": "text",
+      "id": "cta_button_text",
+      "label": "CTA Button Text",
+      "default": "Browse all Categories"
+    },
+    {
+      "type": "url",
+      "id": "cta_button_link",
+      "label": "CTA Button Link"
+    },
+    {
+      "type": "color",
+      "id": "cta_bg_color",
+      "label": "CTA Background Color",
+      "default": "#139D72"
+    },
+    {
+      "type": "color",
+      "id": "cta_text_color",
+      "label": "CTA Text Color",
+      "default": "#FFFFFF"
+    },
 
     {
       "type": "header",
@@ -163,18 +208,103 @@
     margin-top: 0;
   }
 
+  /* CTA Banner Styles */
+  .footer-cta-container {
+    max-width: 1588px;
+    margin: 0 auto;
+    padding: 0 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .footer-cta-wrapper {
+    background-color: {{ section.settings.cta_bg_color }};
+    border-radius: 20px; /* Matching screenshot, slightly softer than 28px */
+    padding: 60px 80px; /* Large padding for banner look */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    color: {{ section.settings.cta_text_color }};
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 280px; /* Substantial height */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+
+  .footer-cta-content {
+      flex: 1;
+      max-width: 700px;
+  }
+
+  .footer-cta-heading {
+    font-family: 'Rethink Sans', sans-serif;
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 0 0 16px 0;
+    color: inherit;
+    letter-spacing: -0.02em;
+  }
+
+  .footer-cta-description {
+    font-family: 'Rethink Sans', sans-serif;
+    font-size: 18px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+  }
+
+  .footer-cta-button {
+    background-color: #FFFFFF;
+    color: #000000;
+    padding: 18px 36px;
+    border-radius: 50px;
+    font-family: 'Rethink Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  .footer-cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  }
+
   @media screen and (min-width: 990px) {
-    {% if template == 'index' or template contains 'product' %}
-    .custom-footer {
-      margin-top: -160px; /* Adjusted for true 50% overlap (covering padding + half banner) */
-      padding-top: 220px; /* Ensure content starts below the banner */
+    /* Desktop Overlap Logic */
+    .footer-cta-container {
+        transform: translateY(-50%); /* Pull banner up by half its height */
+        margin-bottom: -140px; /* Compensate for the pull up */
     }
-    {% else %}
+    
+    /* Ensure existing footer padding accommodates this */
+    .custom-footer {
+        padding-top: 100px; /* Reset excessive padding if we use exact overlap */
+        margin-top: 0; /* Removing the hardcoded negative margin on footer itself in favor of banner pull */
+    }
+    
+    /* If template is index/product, we want the footer to sit normally but have the banner floating on top of the seam */
+    /* Reset legacy negative margin if any */
     .custom-footer {
       margin-top: 0;
-      padding-top: 60px;
+      padding-top: 140px; /* Space for the banner overlay */
     }
-    {% endif %}
+  }
+
+  @media screen and (max-width: 1200px) {
+      .footer-cta-heading {
+          font-size: 36px;
+      }
+      .footer-cta-wrapper {
+          padding: 40px 40px;
+      }
   }
 
   .footer-container {
@@ -380,26 +510,35 @@
     }
 
     .footer-cta-container {
-        margin-top: -100px;
+        transform: translateY(-50px);
+        margin-bottom: -50px;
         padding: 0 16px;
     }
 
     .footer-cta-wrapper {
-        padding: 30px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 30px 24px;
         gap: 24px;
+        min-height: auto;
     }
 
     .footer-cta-heading {
-        font-size: 24px;
+        font-size: 28px;
     }
 
     .footer-cta-description {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .footer-cta-button {
-        padding: 14px 24px;
-        font-size: 14px;
+        width: 100%;
+        padding: 14px 20px;
+        font-size: 15px;
+    }
+    
+    .footer-cta-content {
+        max-width: 100%;
     }
   }
 
@@ -493,6 +632,27 @@
 {% endstyle %}
 
 <div class="custom-footer">
+  
+  {%- if section.settings.show_cta -%}
+  <div class="footer-cta-container">
+    <div class="footer-cta-wrapper">
+      <div class="footer-cta-content">
+        {%- if section.settings.cta_heading != blank -%}
+          <h2 class="footer-cta-heading">{{ section.settings.cta_heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.cta_description != blank -%}
+          <p class="footer-cta-description">{{ section.settings.cta_description | escape }}</p>
+        {%- endif -%}
+      </div>
+      
+      {%- if section.settings.cta_button_text != blank -%}
+        <a href="{{ section.settings.cta_button_link | default: '#' }}" class="footer-cta-button">
+          {{ section.settings.cta_button_text | escape }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+  {%- endif -%}
 
   <div class="footer-container">
     <div class="footer-grid">
