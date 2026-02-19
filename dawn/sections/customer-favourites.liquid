@@ -1,3 +1,4 @@
+{% # theme-check-disable UnknownObject %}
 {% schema %}
 {
   "name": "Customer Favourites",
@@ -46,16 +47,16 @@
       "default": "#FFFFFF"
     },
     {
-       "type": "text",
-       "id": "btn_text",
-       "label": "Button Text (Add to Cart)",
-       "default": "ADD TO CART"
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button Text (Add to Cart)",
+      "default": "ADD TO CART"
     },
     {
-       "type": "text",
-       "id": "sold_out_text",
-       "label": "Button Text (Sold Out)",
-       "default": "SOLD OUT"
+      "type": "text",
+      "id": "sold_out_text",
+      "label": "Button Text (Sold Out)",
+      "default": "SOLD OUT"
     }
   ],
   "blocks": [
@@ -196,14 +197,13 @@
                   {%- endif -%}
 
                   {%- if product.featured_image != blank -%}
-                    <img
-                      src="{{ product.featured_image | image_url: width: 600 }}"
-                      alt="{{ product.title | escape }}"
-                      class="mo-product-image"
-                      loading="lazy"
-                    >
+                    {{
+                      product.featured_image
+                      | image_url: width: 600
+                      | image_tag: class: 'mo-product-image', loading: 'lazy', alt: product.title
+                    }}
                   {%- else -%}
-                    <img src="{{ 'box.png' | asset_url }}" alt="{{ product.title | escape }}" class="mo-product-image" loading="lazy">
+                    {{ 'product-1' | placeholder_svg_tag: 'mo-product-image placeholder-svg' }}
                   {%- endif -%}
                 </div>
 
@@ -231,19 +231,25 @@
                         <span class="mo-compare-price">{{ product.compare_at_price | money }}</span>
                       {%- endif -%}
                     </div>
-                    {%- if product.metafields.custom.unit_text != blank -%}
-                      <span class="mo-unit-text">{{ product.metafields.custom.unit_text }}</span>
+                    {%- if product.metafields.custom.box_size != blank -%}
+                      <span class="mo-unit-text">{{ product.metafields.custom.box_size }}</span>
                     {%- endif -%}
                   </div>
 
-                  <button 
-                    class="mo-add-btn" 
+                  <button
+                    class="mo-add-btn"
                     type="button"
                     data-product-id="{{ product.id }}"
                     data-variant-id="{{ product.selected_or_first_available_variant.id }}"
-                    {% unless product.available %}disabled{% endunless %}
+                    {% unless product.available %}
+                      disabled
+                    {% endunless %}
                   >
-                    {% if product.available %}{{ section.settings.btn_text }}{% else %}{{ section.settings.sold_out_text }}{% endif %}
+                    {% if product.available -%}
+                      {{- section.settings.btn_text -}}
+                    {%- else -%}
+                      {{- section.settings.sold_out_text -}}
+                    {%- endif %}
                   </button>
                 </div>
               </div>
@@ -254,12 +260,14 @@
               <div class="mo-product-card">
                 <div class="mo-image-wrapper">
                   <span class="mo-badge">BEST SELLER</span>
-                  <img src="{{ 'box.png' | asset_url }}" alt="Placeholder product" class="mo-product-image" loading="lazy">
+                  {{ 'product-1' | placeholder_svg_tag: 'mo-product-image placeholder-svg' }}
                 </div>
                 <div class="mo-card-content">
                   <div class="mo-rating-row">
                     <div class="mo-stars">
-                      <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+                      <span class="star filled">★</span><span class="star filled">★</span
+                      ><span class="star filled">★</span><span class="star filled">★</span
+                      ><span class="star filled">★</span>
                     </div>
                     <span class="mo-reviews">25 Reviews</span>
                   </div>
@@ -280,26 +288,25 @@
         </div>
       {%- endunless -%}
     {%- endfor -%}
-
   </div>
 </div>
 
 <script>
-  (function() {
+  (function () {
     var sectionId = '{{ section.id }}';
     var pillsContainer = document.getElementById('cf-pills-' + sectionId);
     if (!pillsContainer) return;
 
     // Tab switching functionality
-    pillsContainer.addEventListener('click', function(e) {
+    pillsContainer.addEventListener('click', function (e) {
       var pill = e.target.closest('.category-pill');
       if (!pill) return;
-      
+
       // If it's a link (custom_link), let it navigate naturally
       if (pill.tagName === 'A') return;
 
       // Update active pill (only for buttons)
-      pillsContainer.querySelectorAll('.category-pill').forEach(function(p) {
+      pillsContainer.querySelectorAll('.category-pill').forEach(function (p) {
         if (p.tagName === 'BUTTON') {
           p.classList.remove('active');
         }
@@ -310,7 +317,7 @@
 
       // Show/hide tab grids
       var section = pill.closest('.most-ordered-section');
-      section.querySelectorAll('.cf-tab-content').forEach(function(grid) {
+      section.querySelectorAll('.cf-tab-content').forEach(function (grid) {
         if (grid.getAttribute('data-tab-index') === tabIndex) {
           grid.style.display = '';
         } else {
@@ -320,12 +327,12 @@
     });
 
     // Add to cart functionality
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       var addBtn = e.target.closest('.mo-add-btn');
       if (!addBtn || addBtn.disabled) return;
 
       e.preventDefault();
-      
+
       var variantId = addBtn.getAttribute('data-variant-id');
       if (!variantId) return;
 
@@ -344,129 +351,132 @@
       // Add to cart via Shopify Ajax API
       fetch('/cart/add.js', {
         method: 'POST',
-        body: formData
+        body: formData,
       })
-      .then(function(response) {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(function(data) {
-        console.log('✓ Successfully added to cart:', data);
-        console.log('✓ Sections returned:', data.sections ? 'YES' : 'NO');
-        
-        // Success - show feedback
-        addBtn.textContent = 'ADDED ✓';
-        addBtn.classList.add('mo-add-btn--added');
-        
-        // Update cart drawer HTML if sections are returned
-        if (data.sections) {
-          console.log('✓ Processing sections...');
-          
-          // Update cart drawer content
-          if (data.sections['cart-drawer']) {
-            console.log('✓ cart-drawer section exists');
-            var cartDrawerElement = document.getElementById('CartDrawer');
-            console.log('✓ Current CartDrawer element:', cartDrawerElement);
-            
-            if (cartDrawerElement) {
-              var parser = new DOMParser();
-              var doc = parser.parseFromString(data.sections['cart-drawer'], 'text/html');
-              var newContent = doc.getElementById('CartDrawer');
-              console.log('✓ Parsed new CartDrawer element:', newContent);
-              
-              if (newContent) {
-                console.log('✓ Updating innerHTML...');
-                cartDrawerElement.innerHTML = newContent.innerHTML;
-                console.log('✓ innerHTML updated successfully');
-                
-                // Remove is-empty class from cart-drawer element
-                var cartDrawer = document.querySelector('cart-drawer');
-                console.log('✓ cart-drawer element:', cartDrawer);
-                console.log('✓ Has is-empty class before:', cartDrawer ? cartDrawer.classList.contains('is-empty') : 'N/A');
-                
-                if (cartDrawer) {
-                  cartDrawer.classList.remove('is-empty');
-                  console.log('✓ Has is-empty class after:', cartDrawer.classList.contains('is-empty'));
-                }
-                
-                // Also remove is-empty from cart-drawer-items
-                var cartDrawerItems = document.querySelector('cart-drawer-items');
-                if (cartDrawerItems) {
-                  cartDrawerItems.classList.remove('is-empty');
-                  console.log('✓ Removed is-empty from cart-drawer-items');
+        .then(function (response) {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(function (data) {
+          console.log('✓ Successfully added to cart:', data);
+          console.log('✓ Sections returned:', data.sections ? 'YES' : 'NO');
+
+          // Success - show feedback
+          addBtn.textContent = 'ADDED ✓';
+          addBtn.classList.add('mo-add-btn--added');
+
+          // Update cart drawer HTML if sections are returned
+          if (data.sections) {
+            console.log('✓ Processing sections...');
+
+            // Update cart drawer content
+            if (data.sections['cart-drawer']) {
+              console.log('✓ cart-drawer section exists');
+              var cartDrawerElement = document.getElementById('CartDrawer');
+              console.log('✓ Current CartDrawer element:', cartDrawerElement);
+
+              if (cartDrawerElement) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(data.sections['cart-drawer'], 'text/html');
+                var newContent = doc.getElementById('CartDrawer');
+                console.log('✓ Parsed new CartDrawer element:', newContent);
+
+                if (newContent) {
+                  console.log('✓ Updating innerHTML...');
+                  cartDrawerElement.innerHTML = newContent.innerHTML;
+                  console.log('✓ innerHTML updated successfully');
+
+                  // Remove is-empty class from cart-drawer element
+                  var cartDrawer = document.querySelector('cart-drawer');
+                  console.log('✓ cart-drawer element:', cartDrawer);
+                  console.log(
+                    '✓ Has is-empty class before:',
+                    cartDrawer ? cartDrawer.classList.contains('is-empty') : 'N/A'
+                  );
+
+                  if (cartDrawer) {
+                    cartDrawer.classList.remove('is-empty');
+                    console.log('✓ Has is-empty class after:', cartDrawer.classList.contains('is-empty'));
+                  }
+
+                  // Also remove is-empty from cart-drawer-items
+                  var cartDrawerItems = document.querySelector('cart-drawer-items');
+                  if (cartDrawerItems) {
+                    cartDrawerItems.classList.remove('is-empty');
+                    console.log('✓ Removed is-empty from cart-drawer-items');
+                  }
+                } else {
+                  console.error('✗ Could not find CartDrawer in parsed HTML');
                 }
               } else {
-                console.error('✗ Could not find CartDrawer in parsed HTML');
+                console.error('✗ Could not find CartDrawer element on page');
               }
             } else {
-              console.error('✗ Could not find CartDrawer element on page');
+              console.error('✗ cart-drawer section not in response');
             }
-          } else {
-            console.error('✗ cart-drawer section not in response');
-          }
-          
-          // Update cart count bubble (not the entire icon)
-          if (data.sections['cart-icon-bubble']) {
-            console.log('✓ cart-icon-bubble section exists');
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(data.sections['cart-icon-bubble'], 'text/html');
-            var newCountBubble = doc.querySelector('.cart-count-bubble');
-            var currentButton = document.querySelector('#cart-icon-bubble');
-            console.log('✓ New count bubble from section:', newCountBubble);
-            console.log('✓ Current cart button:', currentButton);
-            
-            if (currentButton) {
-              // Find or create the cart-count-bubble div
-              var currentCountBubble = currentButton.querySelector('.cart-count-bubble');
-              
-              if (newCountBubble) {
-                // If new count bubble exists, update or create it
-                if (currentCountBubble) {
-                  currentCountBubble.innerHTML = newCountBubble.innerHTML;
-                  console.log('✓ Updated existing cart count bubble');
-                } else {
-                  currentButton.appendChild(newCountBubble.cloneNode(true));
-                  console.log('✓ Added new cart count bubble');
-                }
-              } else if (currentCountBubble) {
-                // If no new bubble (cart empty), remove the old one
-                currentCountBubble.remove();
-                console.log('✓ Removed cart count bubble (cart empty)');
-              }
-            } else {
-              console.error('✗ Could not find cart button');
-            }
-          } else {
-            console.error('✗ cart-icon-bubble section not in response');
-          }
-        }
-        
-        console.log('✓ Opening cart drawer in 500ms...');
-        // Open cart drawer
-        setTimeout(function() {
-          var cartIconBubble = document.querySelector('#cart-icon-bubble');
-          if (cartIconBubble) {
-            cartIconBubble.click();
-          }
-        }, 500);
 
-        // Reset button after 2 seconds
-        setTimeout(function() {
-          addBtn.disabled = false;
-          addBtn.classList.remove('mo-add-btn--added');
-          addBtn.textContent = originalText;
-        }, 2000);
-      })
-      .catch(function(error) {
-        console.error('Error adding to cart:', error);
-        addBtn.textContent = 'ERROR';
-        setTimeout(function() {
-          addBtn.disabled = false;
-          addBtn.textContent = originalText;
-        }, 2000);
-      });
+            // Update cart count bubble (not the entire icon)
+            if (data.sections['cart-icon-bubble']) {
+              console.log('✓ cart-icon-bubble section exists');
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(data.sections['cart-icon-bubble'], 'text/html');
+              var newCountBubble = doc.querySelector('.cart-count-bubble');
+              var currentButton = document.querySelector('#cart-icon-bubble');
+              console.log('✓ New count bubble from section:', newCountBubble);
+              console.log('✓ Current cart button:', currentButton);
+
+              if (currentButton) {
+                // Find or create the cart-count-bubble div
+                var currentCountBubble = currentButton.querySelector('.cart-count-bubble');
+
+                if (newCountBubble) {
+                  // If new count bubble exists, update or create it
+                  if (currentCountBubble) {
+                    currentCountBubble.innerHTML = newCountBubble.innerHTML;
+                    console.log('✓ Updated existing cart count bubble');
+                  } else {
+                    currentButton.appendChild(newCountBubble.cloneNode(true));
+                    console.log('✓ Added new cart count bubble');
+                  }
+                } else if (currentCountBubble) {
+                  // If no new bubble (cart empty), remove the old one
+                  currentCountBubble.remove();
+                  console.log('✓ Removed cart count bubble (cart empty)');
+                }
+              } else {
+                console.error('✗ Could not find cart button');
+              }
+            } else {
+              console.error('✗ cart-icon-bubble section not in response');
+            }
+          }
+
+          console.log('✓ Opening cart drawer in 500ms...');
+          // Open cart drawer
+          setTimeout(function () {
+            var cartIconBubble = document.querySelector('#cart-icon-bubble');
+            if (cartIconBubble) {
+              cartIconBubble.click();
+            }
+          }, 500);
+
+          // Reset button after 2 seconds
+          setTimeout(function () {
+            addBtn.disabled = false;
+            addBtn.classList.remove('mo-add-btn--added');
+            addBtn.textContent = originalText;
+          }, 2000);
+        })
+        .catch(function (error) {
+          console.error('Error adding to cart:', error);
+          addBtn.textContent = 'ERROR';
+          setTimeout(function () {
+            addBtn.disabled = false;
+            addBtn.textContent = originalText;
+          }, 2000);
+        });
     });
   })();
 </script>

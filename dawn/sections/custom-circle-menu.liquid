@@ -1,3 +1,4 @@
+{% # theme-check-disable UnknownObject %}
 {% schema %}
 {
   "name": "Custom Circle Menu",
@@ -43,32 +44,9 @@
       "name": "Menu Item",
       "settings": [
         {
-          "type": "select",
-          "id": "preset_icon",
-          "label": "Preset Icon",
-          "options": [
-            { "value": "none", "label": "Custom Image" },
-            { "value": "circlemenu1.svg", "label": "Circle Menu 1" },
-            { "value": "circlemenu2.svg", "label": "Circle Menu 2" },
-            { "value": "circlemenu3.svg", "label": "Circle Menu 3" },
-            { "value": "circlemenu4.svg", "label": "Circle Menu 4" },
-            { "value": "circlemenu5.svg", "label": "Circle Menu 5" },
-            { "value": "circlemenu6.svg", "label": "Circle Menu 6" },
-            { "value": "circlemenu7.svg", "label": "Circle Menu 7" },
-            { "value": "circlemenu8.svg", "label": "Circle Menu 8" },
-            { "value": "circlemenu9.svg", "label": "Circle Menu 9" },
-            { "value": "circlemenu10.svg", "label": "Circle Menu 10" },
-            { "value": "circlemenu11.svg", "label": "Circle Menu 11" },
-            { "value": "circlemenu12.svg", "label": "Circle Menu 12" },
-            { "value": "circlemenu13.svg", "label": "Circle Menu 13" },
-            { "value": "circlemenu14.svg", "label": "Circle Menu 14" }
-          ],
-          "default": "none"
-        },
-        {
           "type": "image_picker",
           "id": "image",
-          "label": "Custom Image"
+          "label": "Image"
         },
         {
           "type": "text",
@@ -91,92 +69,7 @@
         {
           "type": "circle_menu_item",
           "settings": {
-            "preset_icon": "circlemenu1.svg",
-            "text": "Aluminium Containers"
-          }
-        },
-        {
-          "type": "circle_menu_item",
-          "settings": {
-            "preset_icon": "circlemenu2.svg",
-            "text": "Cups"
-          }
-        },
-        {
-          "type": "circle_menu_item",
-          "settings": {
-            "preset_icon": "circlemenu3.svg",
-            "text": "Paper Plates"
-          }
-        },
-        {
-          "type": "circle_menu_item",
-          "settings": {
-            "preset_icon": "circlemenu4.svg",
-            "text": "Bagasse Products"
-          }
-        },
-        {
-          "type": "circle_menu_item",
-          "settings": {
-            "preset_icon": "circlemenu5.svg",
-            "text": "Hinged Containers"
-          }
-        },
-        {
-          "type": "circle_menu_item",
-          "settings": {
-            "preset_icon": "circlemenu6.svg",
-            "text": "Hygiene & Cleaning"
-          }
-        },
-        {
-          "type": "circle_menu_item",
-          "settings": {
-            "preset_icon": "circlemenu7.svg",
-            "text": "Kraft Food Containers"
-          }
-        },
-        {
-          "type": "circle_menu_item",
-          "settings": {
-            "preset_icon": "circlemenu8.svg",
-            "text": "Lids"
-          }
-        },
-        {
-          "type": "circle_menu_item",
-          "settings": {
-            "preset_icon": "circlemenu9.svg",
-            "text": "Paper Bags"
-          }
-        },
-         {
-          "type": "circle_menu_item",
-          "settings": {
-            "preset_icon": "circlemenu10.svg",
-            "text": "Plastic Containers"
-          }
-        },
-        {
-          "type": "circle_menu_item",
-          "settings": {
-            "preset_icon": "circlemenu11.svg",
-            "text": "Poly Bags"
-          }
-        },
-        {
-          "type": "circle_menu_item",
-          "settings": {
-            "preset_icon": "circlemenu12.svg",
-            "text": "Portion Cups"
-          }
-        },
-        {
-          "type": "circle_menu_item",
-          "settings": {
-            "preset_icon": "circlemenu13.svg",
-            "text": "Paper Cups"
+            "text": "Menu Item"
           }
         }
       ]
@@ -213,17 +106,12 @@
       {%- for block in section.blocks -%}
         <a href="{{ block.settings.link }}" class="custom-menu-item" {{ block.shopify_attributes }}>
           <div class="custom-menu-icon">
-            {%- if block.settings.preset_icon != 'none' -%}
-                <img
-                src="{{ block.settings.preset_icon | asset_url }}"
-                alt="{{ block.settings.text | escape }}"
-                loading="lazy"
-                width="100"
-                height="100"
-                onerror="this.onerror=null;this.src='{{ 'circlemenu1.svg' | asset_url }}';"
-              >
-            {%- elsif block.settings.image != blank -%}
-              {{ block.settings.image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'custom-menu-image' }}
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 200
+                | image_tag: loading: 'lazy', class: 'custom-menu-image'
+              }}
             {%- else -%}
               {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
             {%- endif -%}
