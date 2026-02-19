@@ -3,36 +3,23 @@
         "custom_hero": {
             "type": "custom-hero",
             "blocks": {
-                "feature_1": {
-                    "type": "hero_feature",
+                "slide_1": {
+                    "type": "hero_slide",
                     "settings": {
-                        "text": "Wholesale Prices"
-                    }
-                },
-                "feature_2": {
-                    "type": "hero_feature",
-                    "settings": {
-                        "text": "Canada-Wide Delivery"
-                    }
-                },
-                "feature_3": {
-                    "type": "hero_feature",
-                    "settings": {
-                        "text": "Food-Grade Certified"
+                        "heading": "Canada's Trusted Wholesale Supplier of Food Packaging & Disposable Supplies",
+                        "description": "<p>Plates, Cups, Containers & More — Ready for Delivery Across Canada.</p>",
+                        "button_1_text": "SHOP NOW",
+                        "button_2_text": "BROWSE CATEGORIES",
+                        "feature_1_text": "Wholesale Prices",
+                        "feature_2_text": "Canada-Wide Delivery",
+                        "feature_3_text": "Food-Grade Certified"
                     }
                 }
             },
             "block_order": [
-                "feature_1",
-                "feature_2",
-                "feature_3"
+                "slide_1"
             ],
-            "settings": {
-                "heading": "Canada’s Trusted Wholesale Supplier of Food Packaging & Disposable Supplies",
-                "description": "<p>Plates, Cups, Containers & More — Ready for Delivery Across Canada.</p>",
-                "button_1_text": "SHOP NOW",
-                "button_2_text": "BROWSE CATEGORIES"
-            }
+            "settings": {}
         },
         "custom_search_bar": {
             "type": "custom-search-bar",
@@ -251,66 +238,6 @@
         },
         "new_arrivals": {
             "type": "new-arrivals",
-            "blocks": {
-                "na_card_1": {
-                    "type": "na_product_card",
-                    "settings": {
-                        "badge_text": "BEST SELLER",
-                        "title": "28oz Rectangle Plastic Container",
-                        "subtitle": "Salads, hot grains, takeaway",
-                        "rating": 5,
-                        "reviews": 25,
-                        "price": "$25.02",
-                        "compare_price": "$28.03",
-                        "unit_text": "150PCS/BOX"
-                    }
-                },
-                "na_card_2": {
-                    "type": "na_product_card",
-                    "settings": {
-                        "badge_text": "BEST SELLER",
-                        "title": "28oz Rectangle Plastic Container",
-                        "subtitle": "Salads, hot grains, takeaway",
-                        "rating": 5,
-                        "reviews": 25,
-                        "price": "$25.02",
-                        "compare_price": "$28.03",
-                        "unit_text": "150PCS/BOX"
-                    }
-                },
-                "na_card_3": {
-                    "type": "na_product_card",
-                    "settings": {
-                        "badge_text": "BEST SELLER",
-                        "title": "28oz Rectangle Plastic Container",
-                        "subtitle": "Salads, hot grains, takeaway",
-                        "rating": 5,
-                        "reviews": 25,
-                        "price": "$25.02",
-                        "compare_price": "$28.03",
-                        "unit_text": "150PCS/BOX"
-                    }
-                },
-                "na_card_4": {
-                    "type": "na_product_card",
-                    "settings": {
-                        "badge_text": "BEST SELLER",
-                        "title": "28oz Rectangle Plastic Container",
-                        "subtitle": "Salads, hot grains, takeaway",
-                        "rating": 5,
-                        "reviews": 25,
-                        "price": "$25.02",
-                        "compare_price": "$28.03",
-                        "unit_text": "150PCS/BOX"
-                    }
-                }
-            },
-            "block_order": [
-                "na_card_1",
-                "na_card_2",
-                "na_card_3",
-                "na_card_4"
-            ],
             "settings": {
                 "heading": "New Arrivals",
                 "padding_top": 20

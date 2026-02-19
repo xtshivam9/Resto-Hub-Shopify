@@ -96,30 +96,6 @@
         },
         "new-arrivals": {
             "type": "new-arrivals",
-            "blocks": {
-                "na-card-1": {
-                    "type": "na_product_card",
-                    "settings": {}
-                },
-                "na-card-2": {
-                    "type": "na_product_card",
-                    "settings": {}
-                },
-                "na-card-3": {
-                    "type": "na_product_card",
-                    "settings": {}
-                },
-                "na-card-4": {
-                    "type": "na_product_card",
-                    "settings": {}
-                }
-            },
-            "block_order": [
-                "na-card-1",
-                "na-card-2",
-                "na-card-3",
-                "na-card-4"
-            ],
             "settings": {
                 "heading": "You May Also Like"
             }
