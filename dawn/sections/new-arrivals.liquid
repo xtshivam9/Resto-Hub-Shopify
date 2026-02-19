@@ -1,3 +1,4 @@
+{% # theme-check-disable UnknownObject %}
 {% schema %}
 {
   "name": "New Arrivals",
@@ -82,16 +83,16 @@
       "content": "Button Text"
     },
     {
-       "type": "text",
-       "id": "btn_text",
-       "label": "Button Text (Add to Cart)",
-       "default": "ADD TO CART"
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button Text (Add to Cart)",
+      "default": "ADD TO CART"
     },
     {
-       "type": "text",
-       "id": "sold_out_text",
-       "label": "Button Text (Sold Out)",
-       "default": "SOLD OUT"
+      "type": "text",
+      "id": "sold_out_text",
+      "label": "Button Text (Sold Out)",
+      "default": "SOLD OUT"
     }
   ],
   "presets": [
@@ -146,14 +147,13 @@
               {%- endif -%}
 
               {%- if product.featured_image != blank -%}
-                <img
-                  src="{{ product.featured_image | image_url: width: 600 }}"
-                  alt="{{ product.title | escape }}"
-                  class="na-product-image"
-                  loading="lazy"
-                >
+                {{
+                  product.featured_image
+                  | image_url: width: 600
+                  | image_tag: class: 'na-product-image', loading: 'lazy', alt: product.title
+                }}
               {%- else -%}
-                <img src="{{ 'box.png' | asset_url }}" alt="{{ product.title | escape }}" class="na-product-image" loading="lazy">
+                {{ 'product-1' | placeholder_svg_tag: 'na-product-image placeholder-svg' }}
               {%- endif -%}
             </div>
 
@@ -186,14 +186,20 @@
                 {%- endif -%}
               </div>
 
-              <button 
-                class="na-add-btn" 
+              <button
+                class="na-add-btn"
                 type="button"
                 data-product-id="{{ product.id }}"
                 data-variant-id="{{ product.selected_or_first_available_variant.id }}"
-                {% unless product.available %}disabled{% endunless %}
+                {% unless product.available %}
+                  disabled
+                {% endunless %}
               >
-                {% if product.available %}{{ section.settings.btn_text }}{% else %}{{ section.settings.sold_out_text }}{% endif %}
+                {% if product.available -%}
+                  {{- section.settings.btn_text -}}
+                {%- else -%}
+                  {{- section.settings.sold_out_text -}}
+                {%- endif %}
               </button>
             </div>
           </div>
@@ -204,7 +210,7 @@
           <div class="na-product-card">
             <div class="na-image-wrapper">
               <span class="na-badge">BEST SELLER</span>
-              <img src="{{ 'box.png' | asset_url }}" alt="Placeholder product" class="na-product-image" loading="lazy">
+              {{ 'product-1' | placeholder_svg_tag: 'na-product-image placeholder-svg' }}
             </div>
             <div class="na-card-content">
               <div class="na-rating-row">
@@ -236,14 +242,14 @@
 </div>
 
 <script>
-  (function() {
+  (function () {
     // Add to cart functionality for new-arrivals section
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       var addBtn = e.target.closest('.na-add-btn');
       if (!addBtn || addBtn.disabled) return;
 
       e.preventDefault();
-      
+
       var variantId = addBtn.getAttribute('data-variant-id');
       if (!variantId) return;
 
@@ -262,80 +268,80 @@
       // Add to cart via Shopify Ajax API
       fetch('/cart/add.js', {
         method: 'POST',
-        body: formData
+        body: formData,
       })
-      .then(function(response) {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(function(data) {
-        // Success - show feedback
-        addBtn.textContent = 'ADDED ✓';
-        addBtn.classList.add('na-add-btn--added');
-        
-        // Update cart drawer HTML if sections are returned
-        if (data.sections) {
-          // Update cart drawer content
-          if (data.sections['cart-drawer']) {
-            var cartDrawerElement = document.getElementById('CartDrawer');
-            if (cartDrawerElement) {
-              var parser = new DOMParser();
-              var doc = parser.parseFromString(data.sections['cart-drawer'], 'text/html');
-              var newContent = doc.getElementById('CartDrawer');
-              if (newContent) {
-                cartDrawerElement.innerHTML = newContent.innerHTML;
-                var cartDrawer = document.querySelector('cart-drawer');
-                if (cartDrawer) cartDrawer.classList.remove('is-empty');
-                var cartDrawerItems = document.querySelector('cart-drawer-items');
-                if (cartDrawerItems) cartDrawerItems.classList.remove('is-empty');
-              }
-            }
+        .then(function (response) {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
           }
-          
-          // Update cart count bubble
-          if (data.sections['cart-icon-bubble']) {
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(data.sections['cart-icon-bubble'], 'text/html');
-            var newCountBubble = doc.querySelector('.cart-count-bubble');
-            var currentButton = document.querySelector('#cart-icon-bubble');
-            if (currentButton) {
-              var currentCountBubble = currentButton.querySelector('.cart-count-bubble');
-              if (newCountBubble) {
-                if (currentCountBubble) {
-                  currentCountBubble.innerHTML = newCountBubble.innerHTML;
-                } else {
-                  currentButton.appendChild(newCountBubble.cloneNode(true));
-                }
-              } else if (currentCountBubble) {
-                currentCountBubble.remove();
-              }
-            }
-          }
-        }
-        
-        // Open cart drawer
-        setTimeout(function() {
-          var cartIconBubble = document.querySelector('#cart-icon-bubble');
-          if (cartIconBubble) cartIconBubble.click();
-        }, 500);
+          return response.json();
+        })
+        .then(function (data) {
+          // Success - show feedback
+          addBtn.textContent = 'ADDED ✓';
+          addBtn.classList.add('na-add-btn--added');
 
-        // Reset button after 2 seconds
-        setTimeout(function() {
-          addBtn.disabled = false;
-          addBtn.classList.remove('na-add-btn--added');
-          addBtn.textContent = originalText;
-        }, 2000);
-      })
-      .catch(function(error) {
-        console.error('Error adding to cart:', error);
-        addBtn.textContent = 'ERROR';
-        setTimeout(function() {
-          addBtn.disabled = false;
-          addBtn.textContent = originalText;
-        }, 2000);
-      });
+          // Update cart drawer HTML if sections are returned
+          if (data.sections) {
+            // Update cart drawer content
+            if (data.sections['cart-drawer']) {
+              var cartDrawerElement = document.getElementById('CartDrawer');
+              if (cartDrawerElement) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(data.sections['cart-drawer'], 'text/html');
+                var newContent = doc.getElementById('CartDrawer');
+                if (newContent) {
+                  cartDrawerElement.innerHTML = newContent.innerHTML;
+                  var cartDrawer = document.querySelector('cart-drawer');
+                  if (cartDrawer) cartDrawer.classList.remove('is-empty');
+                  var cartDrawerItems = document.querySelector('cart-drawer-items');
+                  if (cartDrawerItems) cartDrawerItems.classList.remove('is-empty');
+                }
+              }
+            }
+
+            // Update cart count bubble
+            if (data.sections['cart-icon-bubble']) {
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(data.sections['cart-icon-bubble'], 'text/html');
+              var newCountBubble = doc.querySelector('.cart-count-bubble');
+              var currentButton = document.querySelector('#cart-icon-bubble');
+              if (currentButton) {
+                var currentCountBubble = currentButton.querySelector('.cart-count-bubble');
+                if (newCountBubble) {
+                  if (currentCountBubble) {
+                    currentCountBubble.innerHTML = newCountBubble.innerHTML;
+                  } else {
+                    currentButton.appendChild(newCountBubble.cloneNode(true));
+                  }
+                } else if (currentCountBubble) {
+                  currentCountBubble.remove();
+                }
+              }
+            }
+          }
+
+          // Open cart drawer
+          setTimeout(function () {
+            var cartIconBubble = document.querySelector('#cart-icon-bubble');
+            if (cartIconBubble) cartIconBubble.click();
+          }, 500);
+
+          // Reset button after 2 seconds
+          setTimeout(function () {
+            addBtn.disabled = false;
+            addBtn.classList.remove('na-add-btn--added');
+            addBtn.textContent = originalText;
+          }, 2000);
+        })
+        .catch(function (error) {
+          console.error('Error adding to cart:', error);
+          addBtn.textContent = 'ERROR';
+          setTimeout(function () {
+            addBtn.disabled = false;
+            addBtn.textContent = originalText;
+          }, 2000);
+        });
     });
   })();
 </script>
