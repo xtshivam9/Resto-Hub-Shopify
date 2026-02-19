@@ -22,6 +22,10 @@
       height: {{ section.settings.hero_height_mobile }}px;
       min-height: unset;
     }
+
+    #shopify-section-{{ section.id }} .hero-arrow {
+      display: none;
+    }
   }
 
   /* Per-slide background images */
@@ -94,15 +98,7 @@
     </div>
   {%- endfor -%}
 
-  <!-- Navigation Arrows -->
   {%- if section.blocks.size > 1 -%}
-    <button class="hero-arrow hero-arrow--prev" aria-label="Previous slide">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-    </button>
-    <button class="hero-arrow hero-arrow--next" aria-label="Next slide">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-    </button>
-
     <!-- Dots -->
     <div class="hero-dots">
       {%- for block in section.blocks -%}

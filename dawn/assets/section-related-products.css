@@ -5,3 +5,40 @@
 .related-products__heading {
   margin: 0 0 3rem;
 }
+
+@media screen and (max-width: 749px) {
+
+  .related-products .grid--2-col-tablet-down .grid__item,
+  .related-products .grid--1-col-tablet-down .grid__item {
+    width: 50%;
+    max-width: 50%;
+  }
+}
+
+.related-products .card__content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.related-products .card__information {
+  flex-grow: 1;
+}
+
+.related-products .quick-add {
+  margin-top: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.related-products .quick-add__submit {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #000;
+  transition: all 0.3s ease;
+}
+
+.related-products .quick-add__submit:hover {
+  background-color: #333;
+  color: #fff;
+}

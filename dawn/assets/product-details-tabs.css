@@ -79,12 +79,29 @@
 
 @media (max-width: 768px) {
     .tabs-nav {
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: nowrap;
         align-items: stretch;
+        position: sticky;
+        top: 0;
+        z-index: 99;
+        background: #fff;
+        padding: 10px 0;
+        gap: 5px;
+        margin-bottom: 20px;
     }
 
     .tab-btn {
-        width: 100%;
+        width: auto;
+        flex: 1;
+        padding: 8px 4px;
+        font-size: 12px;
+        white-space: normal;
+        line-height: 1.2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: auto;
     }
 
     .tab-content {
