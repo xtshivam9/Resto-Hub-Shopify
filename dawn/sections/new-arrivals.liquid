@@ -181,8 +181,8 @@
                     <span class="na-compare-price">{{ product.compare_at_price | money }}</span>
                   {%- endif -%}
                 </div>
-                {%- if product.metafields.custom.unit_text != blank -%}
-                  <span class="na-unit-text">{{ product.metafields.custom.unit_text }}</span>
+                {%- if product.metafields.custom.box_size != blank -%}
+                  <span class="na-unit-text">{{ product.metafields.custom.box_size }}</span>
                 {%- endif -%}
               </div>
 

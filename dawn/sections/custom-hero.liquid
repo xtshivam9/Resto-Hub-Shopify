@@ -2,25 +2,24 @@
 
 {%- style -%}
   #shopify-section-{{ section.id }} .custom-hero-section {
-    min-height: {{ section.settings.hero_height_desktop }}px;
+    height: {{ section.settings.hero_height_desktop }}px;
   }
 
   @media screen and (max-width: 1540px) {
     #shopify-section-{{ section.id }} .custom-hero-section {
-      min-height: {{ section.settings.hero_height_laptop }}px;
+      height: {{ section.settings.hero_height_laptop }}px;
     }
   }
 
   @media screen and (max-width: 990px) {
     #shopify-section-{{ section.id }} .custom-hero-section {
-      min-height: {{ section.settings.hero_height_tablet }}px;
+      height: {{ section.settings.hero_height_tablet }}px;
     }
   }
 
   @media screen and (max-width: 576px) {
     #shopify-section-{{ section.id }} .custom-hero-section {
       height: {{ section.settings.hero_height_mobile }}px;
-      min-height: unset;
     }
 
     #shopify-section-{{ section.id }} .hero-arrow {
@@ -30,24 +29,22 @@
 
   /* Per-slide background images */
   {%- for block in section.blocks -%}
-    {%- assign desktop_bg = 'hero1.svg' | asset_url -%}
     {%- if block.settings.background_image != blank -%}
-      {%- assign desktop_bg = block.settings.background_image | image_url: width: 2000 -%}
+      #shopify-section-{{ section.id }} .hero-slide[data-index="{{ forloop.index0 }}"] {
+        background-image: url({{ block.settings.background_image | image_url: width: 2000 }});
+      }
     {%- endif -%}
-
-    {%- assign mobile_bg = 'mobile.svg' | asset_url -%}
-    {%- if block.settings.mobile_background_image != blank -%}
-      {%- assign mobile_bg = block.settings.mobile_background_image | image_url: width: 1000 -%}
-    {%- endif -%}
-
-    #shopify-section-{{ section.id }} .hero-slide[data-index="{{ forloop.index0 }}"] {
-      background-image: url({{ desktop_bg }});
-    }
 
     @media screen and (max-width: 576px) {
-      #shopify-section-{{ section.id }} .hero-slide[data-index="{{ forloop.index0 }}"] {
-        background-image: url({{ mobile_bg }});
-      }
+      {%- if block.settings.mobile_background_image != blank -%}
+        #shopify-section-{{ section.id }} .hero-slide[data-index="{{ forloop.index0 }}"] {
+          background-image: url({{ block.settings.mobile_background_image | image_url: width: 1000 }});
+        }
+      {%- elsif block.settings.background_image != blank -%}
+        #shopify-section-{{ section.id }} .hero-slide[data-index="{{ forloop.index0 }}"] {
+          background-image: url({{ block.settings.background_image | image_url: width: 1000 }});
+        }
+      {%- endif -%}
     }
   {%- endfor -%}
 {%- endstyle -%}

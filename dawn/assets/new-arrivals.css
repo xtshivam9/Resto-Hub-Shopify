@@ -32,7 +32,7 @@
 
 /* Product Card */
 .na-product-card {
-    border: 1px solid #D6F1EA;
+    border: 2px solid rgba(20, 155, 119, 0.32);
     border-radius: 12px;
     background-color: #F8FDFB;
     display: flex;
@@ -194,7 +194,7 @@
 }
 
 .na-unit-text {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
     color: #000000;
     text-transform: uppercase;
@@ -331,5 +331,9 @@
         /* Ensure flex for margin-top: auto */
         flex-direction: column;
         flex-grow: 1;
+    }
+
+    .na-unit-text {
+        font-size: 12px;
     }
 }
