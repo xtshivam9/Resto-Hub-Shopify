@@ -28,24 +28,20 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     align-items: stretch;
-    /* Ensure all cards have same height */
 }
 
 /* Product Card */
 .na-product-card {
     border: 1px solid #D6F1EA;
-    /* Light border matching theme */
     border-radius: 12px;
     background-color: #F8FDFB;
-    /* Light greenish tint background */
     display: flex;
     flex-direction: column;
     position: relative;
     padding: 12px;
-    /* Internal padding */
     transition: all 0.3s ease;
     height: 100%;
-    /* Ensure consistent card height */
+    overflow: hidden;
 }
 
 .na-product-card:hover {
@@ -57,30 +53,30 @@
 .na-image-wrapper {
     position: relative;
     width: 100%;
+    height: 0;
     padding-top: 100%;
-    /* 1:1 Aspect Ratio */
+    aspect-ratio: 1 / 1;
     background-color: transparent;
-    /* Remove background to avoid double container look */
     border-radius: 8px;
-    /* Rounded corners for image container */
     overflow: hidden;
     flex-shrink: 0;
 }
 
 .na-product-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
     display: block;
     margin: 0;
     padding: 0;
     border: none;
+    max-height: 100% !important;
 }
 
 .na-badge {
@@ -220,6 +216,8 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-family: 'Rethink Sans', sans-serif;
+    margin-top: auto;
+    /* Push button to bottom of card */
 }
 
 .na-add-btn:hover {
