@@ -255,10 +255,16 @@
         "name": "Name",
         "email": "Email",
         "phone": "Phone number",
+        "form-phone": "Phone number",
         "comment": "Comment",
         "send": "Send",
         "post_success": "Thanks for contacting us. We'll get back to you as soon as possible.",
-        "error_heading": "Please adjust the following:"
+        "error_heading": "Please adjust the following:",
+        "location": "Our Location",
+        "contact_text": "I agree to the",
+        "contact_text1": "Terms & Conditions",
+        "social-icon": "Follow Us",
+        "opening-hours": "Opening Hours"
       }
     },
     "404": {
@@ -274,7 +280,6 @@
       "announcement": "Announcement",
       "announcement_bar": "Announcement bar"
     },
-
     "header": {
       "announcement": "Announcement",
       "menu": "Menu",

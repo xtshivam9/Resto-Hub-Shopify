@@ -1,0 +1,604 @@
+{% comment %} {{ 'section-grid-tab.css' | asset_url | stylesheet_tag }} {% endcomment %}
+
+{%- style -%}
+
+   .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+  }
+ 
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* ===== Base Layout ===== */
+  .contact-custom-tab .grid__item {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .contact-custom-tab .grid.dt-sc-column {
+    flex: 1 1 0;
+  }
+
+  /* ===== Tab Buttons ===== */
+  .contact-custom-tab .tablink {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: background-color 0.3s;
+  }
+
+  .contact-custom-tab .tabcontent {
+    display: none;
+  }
+
+  .contact-custom-tab .tabcontent:first-child {
+    display: block;
+  }
+
+  .tabbed-map-section .contact-custom-tab .tabcontent {
+    display: none;
+  }
+
+  .tabbed-map-section .contact-custom-tab .tabcontent.active {
+    display: block;
+    width: 100%;
+  }
+
+  /* ===== Tabs Container ===== */
+  .contact-custom-tab .tabs_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 5rem;
+    padding: 0 8rem;
+  }
+
+  .contact-custom-tab .tabs_container .title-wrapper-with-link {
+    margin-bottom: 0;
+  }
+
+  /* ===== Tab Title Row ===== */
+  .contact-custom-tab .tabs_container .tab_title {
+    display: flex;
+    gap: 80px;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  .contact-custom-tab .tabs_container .tab_title:after {
+    content: '';
+    position: absolute;
+    top: auto;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    background: rgb(var(--color-foreground), 0.2);
+    width: 100%;
+    height: 1px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* ===== Tab Links ===== */
+  .contact-custom-tab .tabs_container .tablinks.link {
+    position: relative;
+    min-width: 100px;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: color 0.3s ease;
+  }
+
+  .contact-custom-tab .tabs_container .tablinks.link:after {
+    position: absolute;
+    content: '';
+    top: auto;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    width: 0%;
+    height: 2px;
+    background: rgb(var(--color-foreground));
+    opacity: 0;
+    transition: all 0.3s linear;
+  }
+
+  .contact-custom-tab .tabs_container .tablinks.link.active:after,
+  .contact-custom-tab .tabs_container .tablinks.link:hover:after {
+    position: absolute;
+    content: '';
+    opacity: 1;
+    width: 100%;
+  }
+
+  /* ===== Map Styling ===== */
+  .contact-custom-tab .map {
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+    border-radius: var(--media-radius, 12px);
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: filter 0.4s ease;
+  }
+
+  .contact-custom-tab .map:hover {
+    filter: grayscale(60%);
+  }
+
+  .contact-custom-tab .map-frame iframe {
+    width: 100%;
+    min-height: 450px;
+    border: none;
+    display: block;
+  }
+
+  /* ===== Map Content Info Overlay ===== */
+  .contact-custom-tab .map-content {
+    padding: 24px 32px;
+    border-radius: 0 0 var(--media-radius, 12px) var(--media-radius, 12px);
+  }
+
+  .contact-custom-tab .map__banner--text {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .contact-custom-tab p.address-block-desc {
+    margin: 0;
+    line-height: 1.6;
+    color: rgb(var(--color-foreground), 0.7);
+  }
+
+  .contact-custom-tab .map-content .address-block-desc {
+    max-width: 300px;
+    line-height: 1.6;
+  }
+
+  .contact-custom-tab .map-content .address-block-desc > span,
+  .contact-custom-tab .map-content .contact-icons-heading > span {
+    font-weight: 600;
+    margin-right: 5px;
+    color: rgb(var(--color-foreground));
+  }
+
+  .contact-custom-tab .map-content .contact-icons-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .contact-custom-tab .map-content .contact-icons-heading a.link {
+    color: rgb(var(--color-foreground), 0.7);
+    transition: color 0.3s ease;
+  }
+
+  .contact-custom-tab .map-content .contact-icons-heading a.link:hover {
+    color: rgb(var(--color-foreground));
+  }
+
+  /* ===== Map Layout Desktop ===== */
+  @media only screen and (min-width: 750px) {
+    .contact-custom-tab .contact-layout {
+      position: relative;
+    }
+  }
+
+  @media only screen and (min-width: 1200px) {
+    .contact-custom-tab .layout-contact-left {
+      left: 60%;
+      transform: translateY(-50%);
+      max-width: 60rem;
+      top: 65%;
+      position: absolute;
+      padding: 3rem;
+    }
+  }
+
+  @media only screen and (max-width: 1199px) {
+    .contact-custom-tab .layout-contact-left {
+      left: 30%;
+      transform: translateY(-50%);
+      max-width: 50rem;
+      top: 70%;
+      position: absolute;
+      padding: 3rem;
+    }
+  }
+
+  @media only screen and (max-width: 999px) {
+    .contact-custom-tab .layout-contact-left {
+      left: 10%;
+      transform: translateY(-50%);
+      max-width: 50rem;
+      top: 70%;
+      position: absolute;
+      padding: 3rem;
+    }
+  }
+
+  @media only screen and (max-width: 750px) {
+    .contact-custom-tab .layout-contact-left {
+      left: 0%;
+      transform: translateY(-50%);
+      max-width: 50rem;
+      top: 70%;
+      position: absolute;
+      padding: 1rem;
+    }
+  }
+
+  @media only screen and (max-width: 576px) {
+    .contact-custom-tab .layout-contact-left {
+      left: 0%;
+      transform: translateY(-50%);
+      max-width: 40rem;
+      top: 70%;
+      position: absolute;
+      padding: 1rem;
+    }
+  }
+
+  .contact-custom-tab .map__direcion--content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  /* ===== Responsive: Tabs ===== */
+  @media screen and (max-width: 1200px) {
+    .contact-custom-tab .tabs_container {
+      padding: 0 3rem;
+    }
+  }
+
+  @media screen and (max-width: 990px) {
+    .contact-custom-tab .tabs_container .title-wrapper-with-link.content-align--left {
+      align-items: center;
+      text-align: center;
+    }
+    .contact-custom-tab .tabs_container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 3rem;
+    }
+    .contact-custom-tab .tabs_container .tab_title {
+      display: flex;
+      gap: 50px;
+    }
+  }
+
+  @media screen and (max-width: 576px) {
+    .contact-custom-tab .tabs_container .tab_title {
+      display: flex;
+      gap: 30px;
+    }
+    .contact-custom-tab .tabs_container {
+      padding: 1.5rem;
+    }
+  }
+
+  @media screen and (max-width: 420px) {
+    .contact-custom-tab .tabs_container .tab_title {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+    .contact-custom-tab .tabs_container .tab_title:after {
+      display: none;
+    }
+  }
+
+  /* ===== Tab Content Animation ===== */
+  .contact-custom-tab .dt-sc-tabs-content-Details {
+    animation: fadeInTab 0.4s ease;
+  }
+
+  @keyframes fadeInTab {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+{%- endstyle -%}
+
+  <div class="contact-custom-tab {{ section.settings.custom_class_name }} color-{{ section.settings.color_scheme }} gradient {% if section.settings.title == blank %} no-heading{% endif %}">
+  <div class="{% if section.settings.page_full_width %} page-full-width {% else %} page-width {% endif %} {% if section.settings.page_full_width_spacing %} page-full-width_spacing {% endif %}section-{{ section.id }}-padding isolate">
+    <div class="row">
+   
+  <div class="tab-{{ section.id }}-js" id="tab-{{ section.id }}-js" data-tab-wrapper="tab-main-{{ section.id }}">
+  <div class="box_container">
+    <!-- Tab Links -->
+    <div class="grid dt-sc-column one-column tabs_container">
+
+       {%- unless section.settings.title == blank -%}
+      <div class="title-wrapper-with-link title-wrapper--self-padded-mobile title-wrapper--no-top-margin content-align--{{ section.settings.column_alignment }}">
+         {%- if section.settings.sub_heading != blank -%}  
+         <h6 class="sub-heading">{{ section.settings.sub_heading | escape }}</h6>
+         {%- endif -%} 
+         {%- if section.settings.title != blank -%}  
+          <h2 class="title {{ section.settings.heading_size }}">
+            {{ section.settings.title | escape }}
+          </h2>
+          {%- endif -%} 
+          {%- if section.settings.description != blank -%}  
+          <p class="description">{{ section.settings.description }}</p>
+          {%- endif -%}   
+          {%- if section.settings.button_label != blank -%}
+            <a {% if section.settings.button_link == blank %} role="link" aria-disabled="true"{% else %} href="{{ section.settings.button_link }}"{% endif %} class="button{% if section.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}">{{ section.settings.button_label | escape }}</a>
+          {%- endif -%}
+          </div>
+    {%- endunless -%}
+       <div class="tab_title">
+      {% for block in section.blocks %}
+         {%  if block.settings.html != blank %}     
+      <h4 class="tablinks link" data-tab="tab-{{ forloop.index }}"> {{ block.settings.title }}</h4>
+    {% endif %}
+      {% endfor %}
+          </div>
+    </div>
+
+    <!-- Tab Contents -->
+    <div class="grid dt-sc-column one-column dt-sc-tabs-content">
+      {% for block in section.blocks %}
+        {%  if block.settings.html != blank %}
+        <div id="tab-{{ forloop.index }}" class="dt-sc-tabs-content-Details tabcontent">
+          <div id="map{{ forloop.index }}" class="map">
+             <div class="map-frame">{{ block.settings.html }}</div>
+            
+   <div class="map-content color-{{ section.settings.color_scheme }} gradient">
+          <div class="map__banner--text">
+                   {% if section.settings.address_desc != blank %}
+                    <p class="address-block-desc"><span>{{ section.settings.address_heading }}</span>{{ section.settings.address_desc }}</p>
+                  {% endif %}   
+                  {% if section.settings.phone_title != blank %}
+                        <span class="contact-icons-heading">
+                         <span>{{ section.settings.phone_title }}</span>
+                        <a href="tel:{{ section.settings.collapsible_contact_no }}" class="link">{{ section.settings.collapsible_contact_no }}</a>    
+                       </span>
+                  {% endif %}
+            </div>        
+       </div>
+          </div>
+        </div>
+          {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+  </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.tabbed-map-section').forEach(function (section) {
+      var tabLinks = section.querySelectorAll('.tablinks.link');
+      var tabContents = section.querySelectorAll('.tabcontent');
+
+      if (tabLinks.length > 0) {
+        tabLinks[0].classList.add('active');
+      }
+      if (tabContents.length > 0) {
+        tabContents[0].classList.add('active');
+      }
+
+      tabLinks.forEach(function (link) {
+        link.addEventListener('click', function () {
+          var tabId = this.getAttribute('data-tab');
+
+          // Remove active from all
+          tabLinks.forEach(function (l) { l.classList.remove('active'); });
+          tabContents.forEach(function (c) { c.classList.remove('active'); });
+
+          // Add active to clicked
+          this.classList.add('active');
+          var targetTab = section.querySelector('#' + tabId);
+          if (targetTab) {
+            targetTab.classList.add('active');
+          }
+        });
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Contact-custom-tab",
+  "class": "section tabbed-map-section",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "page_full_width",
+      "default": false,
+      "label": "t:sections.all.page_full_width.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "page_full_width_spacing",
+      "default": false,
+      "label": "t:sections.all.page_full_width_spacing.label"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Our Locations",
+      "label": "t:sections.all.title.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h3", "label": "t:sections.all.heading_size.options__1.label" },
+        { "value": "h2", "label": "t:sections.all.heading_size.options__2.label" },
+        { "value": "h1", "label": "t:sections.all.heading_size.options__3.label" }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "text",
+      "id": "sub_heading",
+      "default": "Find Us",
+      "label": "t:sections.all.sub_heading.label"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "default": "Visit us at one of our locations below.",
+      "label": "t:sections.all.description.label"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:sections.all.button_label.label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.all.button_link.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_style_secondary",
+      "default": false,
+      "label": "t:sections.all.button_style_secondary.label"
+    },
+    {
+      "type": "select",
+      "id": "column_alignment",
+      "options": [
+        { "value": "left", "label": "t:sections.support-block.settings.column_alignment.options__1.label" },
+        { "value": "center", "label": "t:sections.support-block.settings.column_alignment.options__2.label" }
+      ],
+      "default": "center",
+      "label": "t:sections.support-block.settings.column_alignment.label"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3,
+      "label": "t:sections.support-block.settings.columns_desktop.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "address_heading",
+      "label": "Address Label",
+      "default": "Address: "
+    },
+    {
+      "type": "text",
+      "id": "address_desc",
+      "label": "Address",
+      "default": "1200 Logistics Way, GTA Warehouse Region, ON"
+    },
+    {
+      "type": "text",
+      "id": "phone_title",
+      "label": "Phone Label",
+      "default": "Phone: "
+    },
+    {
+      "type": "text",
+      "id": "collapsible_contact_no",
+      "label": "Phone Number",
+      "default": "1-800-RESTO-SH"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "html",
+          "id": "html",
+          "label": "Map Embed HTML"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "default": "Location",
+          "label": "Tab Title"
+        },
+        {
+          "type": "image_picker",
+          "id": "phone_image",
+          "label": "t:sections.custom-liquid.settings.phone_image.label"
+        },
+        {
+          "type": "text",
+          "id": "address_heading",
+          "label": "t:sections.custom-liquid.settings.address_heading.label"
+        },
+        {
+          "type": "text",
+          "id": "address_desc",
+          "label": "t:sections.custom-liquid.settings.address_desc.label"
+        },
+        {
+          "type": "text",
+          "id": "phone_title",
+          "label": "t:sections.custom-liquid.settings.phone_title.label"
+        },
+        {
+          "type": "text",
+          "id": "collapsible_contact_no",
+          "label": "t:sections.custom-liquid.settings.collapsible_contact_no.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact-custom-tab",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}
