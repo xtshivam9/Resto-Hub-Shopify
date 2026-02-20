@@ -1,0 +1,240 @@
+{% schema %}
+{
+  "name": "Why Businesses Trust Us",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (Upload)"
+    },
+    {
+       "type": "text",
+       "id": "image_filename",
+       "label": "Image Filename (Asset)",
+       "info": "Enter filename like 'business.svg' to use from assets.",
+       "default": "business.svg"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Why Businesses Trust Us"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>Businesses trust RestoSupplyHub because we:</p><p>Deliver dependable, quality products<br>Offer competitive pricing<br>Prioritize sustainable packaging options<br>Provide responsive customer support</p><ul><li>Understand real hospitality challenges</li><li>We build long-term partnerships — not just transactions.</li></ul>"
+    },
+    {
+       "type": "color",
+       "id": "bg_color",
+       "label": "Background Color",
+       "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Businesses Trust Us"
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  @import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500;600;700&display=swap');
+
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: {{ section.settings.bg_color }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .trust-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    font-family: 'Rethink Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-direction: row-reverse; /* Text Right, Image Left */
+  }
+
+  .trust-content {
+    flex: 1;
+    text-align: left;
+    padding-left: 20px;
+  }
+
+  .trust-heading {
+    font-family: 'Rethink Sans', sans-serif !important;
+    font-size: 42px;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 24px;
+    color: #000000;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .trust-text {
+    font-family: 'Rethink Sans', sans-serif !important;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #121212;
+    font-weight: 400;
+  }
+  
+  .trust-text p {
+      margin-top: 0;
+      margin-bottom: 24px;
+  }
+  
+  .trust-text ul {
+      margin-top: 10px;
+      margin-bottom: 24px;
+      padding-left: 20px;
+  }
+  
+  .trust-text li {
+      margin-bottom: 8px;
+  }
+
+  .trust-image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .trust-image {
+    width: 100%;
+    max-width: 85%; /* Reduced size */
+    margin: 0 auto; /* Centered */
+    height: auto;
+    border-radius: 12px;
+    object-fit: contain;
+    display: block;
+  }
+
+  .trust-image[src*=".svg"] {
+      width: 100%;
+      max-width: 85%;
+  }
+
+  .trust-image-placeholder {
+      width: 100%;
+      background: #f0f0f0;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888;
+      border-radius: 12px;
+  }
+
+  @media screen and (max-width: 990px) {
+    .trust-heading {
+        font-size: 32px;
+    }
+    .trust-wrapper {
+        gap: 40px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .trust-wrapper {
+        flex-direction: column-reverse; 
+        padding: 0 1.5rem;
+        gap: 32px;
+    }
+    
+    .trust-image-container, .trust-content {
+        width: 100%;
+        padding-left: 0;
+    }
+
+    .trust-image {
+        max-width: 100%;
+    }
+
+    .trust-text {
+        font-size: 15px;
+    }
+
+    .trust-heading {
+        font-size: 28px;
+        margin-bottom: 16px;
+    }
+  }
+{% endstyle %}
+
+<div class="section-{{ section.id }}-padding">
+  <div class="trust-wrapper">
+    <div class="trust-content">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="trust-heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      
+      {%- if section.settings.content != blank -%}
+        <div class="trust-text">
+          {{ section.settings.content }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="trust-image-container">
+      {%- if section.settings.image_filename != blank -%}
+         <img
+            src="{{ section.settings.image_filename | asset_url }}"
+            alt="{{ section.settings.heading | escape }}"
+            class="trust-image"
+            loading="lazy"
+            width="600"
+            height="auto"
+          >
+      {%- elsif section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 800 | image_tag: 
+          class: 'trust-image',
+          loading: 'lazy',
+          width: section.settings.image.width,
+          height: section.settings.image.height
+        }}
+      {%- else -%}
+        <div class="trust-image-placeholder">
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

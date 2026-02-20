@@ -1,0 +1,100 @@
+{
+    "sections": {
+        "banner": {
+            "type": "about-banner",
+            "settings": {}
+        },
+        "who_we_are": {
+            "type": "who-we-are",
+            "settings": {}
+        },
+        "who_we_serve": {
+            "type": "who-we-serve-about",
+            "settings": {
+                "heading": "Who We Serve",
+                "padding_top": 60,
+                "padding_bottom": 60,
+                "bg_color": "#F9FDFB"
+            },
+            "blocks": {
+                "service_item_1": {
+                    "type": "about_service_item",
+                    "settings": {
+                        "title": "Restaurants & QSRs",
+                        "svg_icon": "we-serve1.svg"
+                    }
+                },
+                "service_item_2": {
+                    "type": "about_service_item",
+                    "settings": {
+                        "title": "Cafés & Coffee Chains",
+                        "svg_icon": "we-serve2.svg"
+                    }
+                },
+                "service_item_3": {
+                    "type": "about_service_item",
+                    "settings": {
+                        "title": "Catering Companies",
+                        "svg_icon": "we-serve3.svg"
+                    }
+                },
+                "service_item_4": {
+                    "type": "about_service_item",
+                    "settings": {
+                        "title": "Food Trucks & Cloud Kitchens",
+                        "svg_icon": "we-serve4.svg"
+                    }
+                },
+                "service_item_5": {
+                    "type": "about_service_item",
+                    "settings": {
+                        "title": "Event Planners & Venues",
+                        "svg_icon": "we-serve5.svg"
+                    }
+                },
+                "service_item_6": {
+                    "type": "about_service_item",
+                    "settings": {
+                        "title": "Franchise & Multi-Location Brands",
+                        "svg_icon": "we-serve6.svg"
+                    }
+                }
+            },
+            "block_order": [
+                "service_item_1",
+                "service_item_2",
+                "service_item_3",
+                "service_item_4",
+                "service_item_5",
+                "service_item_6"
+            ]
+        },
+        "canada_based": {
+            "type": "canada-based-operations",
+            "settings": {}
+        },
+        "reliability": {
+            "type": "commitment-reliability",
+            "settings": {}
+        },
+        "business_trust": {
+            "type": "why-businesses-trust-us",
+            "settings": {}
+        },
+        "simplify_packaging": {
+            "type": "simplify-packaging",
+            "settings": {
+                "padding_bottom": 200
+            }
+        }
+    },
+    "order": [
+        "banner",
+        "who_we_are",
+        "who_we_serve",
+        "canada_based",
+        "reliability",
+        "business_trust",
+        "simplify_packaging"
+    ]
+}

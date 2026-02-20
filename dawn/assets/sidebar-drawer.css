@@ -187,8 +187,8 @@
     display: block;
 }
 
-/* Show hamburger only on tablet / mobile */
-@media screen and (max-width: 768px) {
+/* Show hamburger on tablet / mobile */
+@media screen and (max-width: 1024px) {
     .sidebar-hamburger-btn {
         display: flex;
     }

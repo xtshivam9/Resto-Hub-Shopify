@@ -26,13 +26,36 @@
     {%- if section.settings.menu != blank -%}
       <nav class="header-navigation">
         <ul class="header-menu">
-          {%- for link in linklists[section.settings.menu].links -%}
             <li class="header-menu-item">
-              <a href="{{ link.url }}" class="header-menu-link">
-                {{ link.title }}
+              <a href="/collections/all" class="header-menu-link">
+                Shop All
               </a>
             </li>
-          {%- endfor -%}
+            <li class="header-menu-item">
+              <a href="/collections" class="header-menu-link">
+                Categories
+              </a>
+            </li>
+            <li class="header-menu-item">
+              <a href="/collections/most-popular" class="header-menu-link">
+                Most Popular
+              </a>
+            </li>
+            <li class="header-menu-item">
+              <a href="/collections/new-arrivals" class="header-menu-link">
+                New Arrivals
+              </a>
+            </li>
+            <li class="header-menu-item">
+              <a href="/pages/about" class="header-menu-link">
+                About
+              </a>
+            </li>
+            <li class="header-menu-item">
+              <a href="/pages/contact" class="header-menu-link">
+                Contact
+              </a>
+            </li>
         </ul>
       </nav>
     {%- endif -%}
