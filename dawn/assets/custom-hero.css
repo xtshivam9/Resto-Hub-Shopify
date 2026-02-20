@@ -356,10 +356,18 @@
 /* ========== SMALL MOBILE ========== */
 @media (max-width: 480px) {
   .custom-hero-heading {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .custom-hero-description {
-    font-size: 14px;
+    font-size: 13px;
+  }
+
+  .custom-hero-feature-item span {
+    font-size: 10px;
+  }
+
+  .custom-hero-btn {
+    min-height: 44px;
   }
 }

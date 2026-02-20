@@ -281,20 +281,12 @@
     /* Desktop Overlap Logic */
     .footer-cta-container {
         transform: translateY(-50%); /* Pull banner up by half its height */
-        margin-bottom: -140px; /* Compensate for the pull up */
+        margin-bottom: -150px; /* Compensate for the pull up */
     }
     
-    /* Ensure existing footer padding accommodates this */
     .custom-footer {
-        padding-top: 100px; /* Reset excessive padding if we use exact overlap */
-        margin-top: 0; /* Removing the hardcoded negative margin on footer itself in favor of banner pull */
-    }
-    
-    /* If template is index/product, we want the footer to sit normally but have the banner floating on top of the seam */
-    /* Reset legacy negative margin if any */
-    .custom-footer {
-      margin-top: 0;
-      padding-top: 140px; /* Space for the banner overlay */
+        padding-top: 0; /* Align CTA container to the top edge of footer background */
+        margin-top: 0;
     }
   }
 
@@ -310,7 +302,7 @@
   .footer-container {
     max-width: 1588px;
     margin: 0 auto;
-    padding: 0 80px;
+    padding: 180px 80px 0;
   }
 
   .footer-grid {
@@ -491,7 +483,7 @@
     }
 
     .footer-container {
-        padding: 0 20px;
+        padding: 120px 20px 0;
     }
 
     .footer-col {
@@ -505,14 +497,15 @@
 
   @media screen and (max-width: 768px) {
     .custom-footer {
-        margin-top: 120px;
-        padding-top: 80px;
+        margin-top: 0;
+        padding-top: 0;
     }
 
     .footer-cta-container {
-        transform: translateY(-50px);
-        margin-bottom: -50px;
+        transform: translateY(-50%);
+        margin-bottom: -100px; /* Approximate half height of mobile banner */
         padding: 0 16px;
+        margin-top: 0;
     }
 
     .footer-cta-wrapper {
@@ -544,12 +537,16 @@
 
   @media screen and (max-width: 480px) {
     .custom-footer {
-        margin-top: -160px;
-        padding-top: 220px;
+        margin-top: 0;
+        padding-top: 0;
     }
 
     .footer-cta-container {
-        margin-top: -80px;
+        margin-top: 0;
+    }
+    
+    .footer-container {
+        padding: 100px 16px 0;
     }
 
     .footer-cta-heading {
@@ -575,10 +572,6 @@
 
     .contact-info p {
         font-size: 14px;
-    }
-
-    .footer-container {
-        padding: 0 16px;
     }
   }
 

@@ -9,7 +9,7 @@
             "settings": {}
         },
         "who_we_serve": {
-            "type": "who-we-serve",
+            "type": "who-we-serve-about",
             "settings": {
                 "heading": "Who We Serve",
                 "padding_top": 60,
@@ -18,42 +18,42 @@
             },
             "blocks": {
                 "service_item_1": {
-                    "type": "service_item",
+                    "type": "about_service_item",
                     "settings": {
                         "title": "Restaurants & QSRs",
                         "svg_icon": "we-serve1.svg"
                     }
                 },
                 "service_item_2": {
-                    "type": "service_item",
+                    "type": "about_service_item",
                     "settings": {
                         "title": "Cafés & Coffee Chains",
                         "svg_icon": "we-serve2.svg"
                     }
                 },
                 "service_item_3": {
-                    "type": "service_item",
+                    "type": "about_service_item",
                     "settings": {
                         "title": "Catering Companies",
                         "svg_icon": "we-serve3.svg"
                     }
                 },
                 "service_item_4": {
-                    "type": "service_item",
+                    "type": "about_service_item",
                     "settings": {
                         "title": "Food Trucks & Cloud Kitchens",
                         "svg_icon": "we-serve4.svg"
                     }
                 },
                 "service_item_5": {
-                    "type": "service_item",
+                    "type": "about_service_item",
                     "settings": {
                         "title": "Event Planners & Venues",
                         "svg_icon": "we-serve5.svg"
                     }
                 },
                 "service_item_6": {
-                    "type": "service_item",
+                    "type": "about_service_item",
                     "settings": {
                         "title": "Franchise & Multi-Location Brands",
                         "svg_icon": "we-serve6.svg"
@@ -83,7 +83,9 @@
         },
         "simplify_packaging": {
             "type": "simplify-packaging",
-            "settings": {}
+            "settings": {
+                "padding_bottom": 200
+            }
         }
     },
     "order": [

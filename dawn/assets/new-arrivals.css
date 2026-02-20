@@ -300,10 +300,9 @@
         padding: 10px;
         font-size: 12px;
         background-color: #000000;
-        /* Dark way */
         color: #FFFFFF;
         margin-top: auto;
-        /* Sticky at bottom of card */
+        min-height: 44px;
     }
 
     .na-rating-row {
@@ -335,5 +334,9 @@
 
     .na-unit-text {
         font-size: 12px;
+    }
+
+    .na-product-card {
+        box-sizing: border-box;
     }
 }

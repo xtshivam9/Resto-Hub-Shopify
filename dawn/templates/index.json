@@ -250,38 +250,37 @@
             "type": "who-we-serve",
             "blocks": {
                 "card_1": {
-                    "type": "who_service_card",
+                    "type": "service_item",
                     "settings": {
-                        "preset_image": "serve1.svg",
-                        "title": "Restaurants & QSRs",
-                        "description": "Durable containers built for high-heat and long-distance transport."
+                        "svg_icon": "serve1.svg",
+                        "title": "Restaurants & QSRs"
                     }
                 },
                 "card_2": {
-                    "type": "who_service_card",
+                    "type": "service_item",
                     "settings": {
-                        "preset_image": "serve2.svg",
+                        "svg_icon": "serve2.svg",
                         "title": "Cafés & Coffee Chains"
                     }
                 },
                 "card_3": {
-                    "type": "who_service_card",
+                    "type": "service_item",
                     "settings": {
-                        "preset_image": "serve3.svg",
+                        "svg_icon": "serve3.svg",
                         "title": "Food Trucks & Cloud Kitchens"
                     }
                 },
                 "card_4": {
-                    "type": "who_service_card",
+                    "type": "service_item",
                     "settings": {
-                        "preset_image": "serve4.svg",
+                        "svg_icon": "serve4.svg",
                         "title": "Catering Companies"
                     }
                 },
                 "card_5": {
-                    "type": "who_service_card",
+                    "type": "service_item",
                     "settings": {
-                        "preset_image": "serve5.svg",
+                        "svg_icon": "serve5.svg",
                         "title": "Event Planners"
                     }
                 }
@@ -413,17 +412,8 @@
                 "feat_2",
                 "feat_3"
             ],
-            "settings": {}
-        },
-        "cta_banner": {
-            "type": "cta-banner",
             "settings": {
-                "heading": "Searching for reliable packing supply solutions in Canada?",
-                "description": "Built for businesses that depend on consistent, large-volume supply.",
-                "button_text": "Browse all Categories",
-                "button_link": "shopify:\/\/collections\/all",
-                "bg_color": "#139D72",
-                "text_color": "#FFFFFF"
+                "padding_bottom": 200
             }
         }
     },
@@ -438,7 +428,6 @@
         "who_we_serve",
         "why_choose_us",
         "right_packaging",
-        "eco_friendly",
-        "cta_banner"
+        "eco_friendly"
     ]
 }

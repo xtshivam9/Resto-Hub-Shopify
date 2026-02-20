@@ -58,7 +58,7 @@
       "type": "range",
       "id": "padding_bottom",
       "min": 0,
-      "max": 100,
+      "max": 200,
       "step": 4,
       "unit": "px",
       "label": "Bottom Padding",
@@ -320,6 +320,9 @@
       border-radius: 20px;
       gap: 24px;
       margin-bottom: 60px; /* Space for image breakout */
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
     }
 
     .eco-heading {
@@ -346,6 +349,7 @@
       font-size: 13px;
       width: auto; /* Not full width */
       min-width: 200px;
+      min-height: 44px;
     }
 
     .eco-image {
@@ -354,6 +358,15 @@
       position: relative;
       z-index: 10;
       margin-top: -120px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .eco-heading {
+      font-size: 22px;
+    }
+    .eco-image {
+      margin-top: -80px;
     }
   }
 {% endstyle %}

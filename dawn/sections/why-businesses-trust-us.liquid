@@ -86,7 +86,7 @@
     font-family: 'Rethink Sans', sans-serif;
     display: flex;
     align-items: center;
-    gap: 80px;
+    gap: 40px;
     flex-direction: row-reverse; /* Text Right, Image Left */
   }
 
@@ -109,7 +109,7 @@
 
   .trust-text {
     font-family: 'Rethink Sans', sans-serif !important;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.6;
     color: #121212;
     font-weight: 400;
@@ -139,15 +139,17 @@
 
   .trust-image {
     width: 100%;
+    max-width: 85%; /* Reduced size */
+    margin: 0 auto; /* Centered */
     height: auto;
     border-radius: 12px;
     object-fit: contain;
     display: block;
-    max-width: 100%;
   }
 
   .trust-image[src*=".svg"] {
       width: 100%;
+      max-width: 85%;
   }
 
   .trust-image-placeholder {
@@ -180,6 +182,14 @@
     .trust-image-container, .trust-content {
         width: 100%;
         padding-left: 0;
+    }
+
+    .trust-image {
+        max-width: 100%;
+    }
+
+    .trust-text {
+        font-size: 15px;
     }
 
     .trust-heading {

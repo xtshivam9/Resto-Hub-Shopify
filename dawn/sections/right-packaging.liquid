@@ -649,15 +649,16 @@
       }
 
       .rp-data-row {
-          justify-content: space-between; /* Align Label Left, Value Right */
+          justify-content: space-between;
           text-align: right; 
-          padding: 3px 0; /* Tighter padding */
-          min-height: 20px; /* Flexible height */
-          font-size: 11px; /* Increased from 10px */
+          padding: 4px 0;
+          min-height: auto;
+          height: auto;
+          font-size: 11px;
           width: 100%;
-          border-bottom: 1px solid #f9f9f9; /* Subtle divider */
-          color: #000000; /* Force Black */
-          font-weight: 700; /* Force Bold */
+          border-bottom: 1px solid #f9f9f9;
+          color: #000000;
+          font-weight: 700;
       }
 
       .rp-value {
@@ -708,7 +709,7 @@
 
   @media screen and (max-width: 480px) {
       .rp-container {
-          padding: 0 6px; /* Reduced from 1rem to 6px */
+          padding: 0 6px;
       }
 
       .rp-heading {
@@ -721,6 +722,14 @@
 
       .rp-image-container {
           height: 160px;
+      }
+
+      .rp-card {
+          box-sizing: border-box;
+      }
+
+      .rp-add-btn {
+          min-height: 44px;
       }
   }
 

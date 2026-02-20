@@ -86,7 +86,7 @@
     font-family: 'Rethink Sans', sans-serif;
     display: flex;
     align-items: center;
-    gap: 80px; /* Increased gap for better spacing */
+    gap: 40px; /* Reduced gap */
   }
 
   .canada-operations-image-container {
@@ -98,16 +98,18 @@
 
   .canada-operations-image {
     width: 100%;
+    max-width: 85%; /* Reduced size */
+    margin: 0 auto; /* Centered */
     height: auto;
     border-radius: 12px; /* Softer corners */
     object-fit: contain; /* Changed to contain to show full image including if it's an SVG illustration */
     display: block;
-    max-width: 100%;
   }
   
   /* Specific override for SVG to ensure it doesn't blow up */
   .canada-operations-image[src*=".svg"] {
       width: 100%;
+      max-width: 85%; /* Ensure SVGs also respect the size reduction */
   }
 
   .canada-operations-image-placeholder {
@@ -140,7 +142,7 @@
 
   .canada-operations-text {
     font-family: 'Rethink Sans', sans-serif !important;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.6;
     color: #121212; /* Darker text */
     font-weight: 400;
@@ -174,10 +176,18 @@
         width: 100%;
     }
 
+    .canada-operations-image {
+        max-width: 100%;
+    }
+
     .canada-operations-content {
         width: 100%;
         padding-left: 0;
-        text-align: left; /* Keep left alignment even on mobile often looks better, or center if requested. Defaulting to left as per standard. */
+        text-align: left;
+    }
+
+    .canada-operations-text {
+        font-size: 15px;
     }
 
     .canada-operations-heading {

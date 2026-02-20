@@ -387,15 +387,21 @@
     }
 
     .mo-card-content {
-        padding: 0;
+        padding: 8px 4px 4px;
+        box-sizing: border-box;
     }
 
     .mo-add-btn {
         padding: 10px;
         font-size: 12px;
+        min-height: 44px;
     }
 
     .mo-unit-text {
         font-size: 12px;
+    }
+
+    .mo-product-card {
+        box-sizing: border-box;
     }
 }
