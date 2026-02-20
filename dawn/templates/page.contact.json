@@ -10,16 +10,55 @@
     "form": {
       "type": "contact-form",
       "settings": {
-        "heading": "",
+        "page_full_width": false,
+        "page_full_width_spacing": false,
+        "title": "Get In Touch",
         "heading_size": "h1",
+        "sub_heading": "Contact Us",
+        "description": "Have questions or need assistance? Fill out the form below and we'll get back to you shortly.",
+        "column_alignment": "left",
         "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "enable_form": true,
+        "enable_contact_img": false,
+        "block_alignments": "form-with-icon",
+        "padding_top": 60,
+        "padding_bottom": 60
       }
+    },
+    "map": {
+      "type": "contact-custom-tab",
+      "settings": {
+        "page_full_width": false,
+        "title": "Our Locations",
+        "heading_size": "h1",
+        "sub_heading": "Find Us",
+        "description": "Visit us at one of our locations below.",
+        "column_alignment": "center",
+        "color_scheme": "scheme-1",
+        "address_heading": "Address: ",
+        "address_desc": "1200 Logistics Way, GTA Warehouse Region, ON",
+        "phone_title": "Phone: ",
+        "collapsible_contact_no": "1-800-RESTO-SH",
+        "padding_top": 40,
+        "padding_bottom": 160
+      },
+      "blocks": {
+        "location_1": {
+          "type": "column",
+          "settings": {
+            "html": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d184552.57290739348!2d-79.5181416!3d43.718371!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89d4cb90d7c63ba5%3A0x323555502ab4c477!2sToronto%2C%20ON!5e0!3m2!1sen!2sca!4v1700000000000\" width=\"100%\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+            "title": "GTA Warehouse"
+          }
+        }
+      },
+      "block_order": [
+        "location_1"
+      ]
     }
   },
   "order": [
     "main",
-    "form"
+    "form",
+    "map"
   ]
 }
