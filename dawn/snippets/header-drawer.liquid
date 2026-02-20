@@ -34,22 +34,12 @@
   {% comment %} Navigation {% endcomment %}
   <nav class="sidebar-drawer__nav" aria-label="Mobile navigation">
     <ul class="sidebar-drawer__menu">
-      {%- if section.settings.menu != blank -%}
-        {%- for link in linklists[section.settings.menu].links -%}
-          <li>
-            <a href="{{ link.url }}" class="sidebar-drawer__link">
-              {{ link.title }}
-            </a>
-          </li>
-        {%- endfor -%}
-      {%- else -%}
-        {%- assign sidebar_titles = "Shop All,Categories,Most Popular,New Arrivals,Why Resto Supply Hub,About,Contact" | split: ',' -%}
-        {%- for title in sidebar_titles -%}
-          <li>
-            <a href="#" class="sidebar-drawer__link">{{ title }}</a>
-          </li>
-        {%- endfor -%}
-      {%- endif -%}
+      <li><a href="/collections/all" class="sidebar-drawer__link">Shop All</a></li>
+      <li><a href="/collections" class="sidebar-drawer__link">Categories</a></li>
+      <li><a href="/collections/most-popular" class="sidebar-drawer__link">Most Popular</a></li>
+      <li><a href="/collections/new-arrivals" class="sidebar-drawer__link">New Arrivals</a></li>
+      <li><a href="/pages/about" class="sidebar-drawer__link">About</a></li>
+      <li><a href="/pages/contact" class="sidebar-drawer__link">Contact</a></li>
     </ul>
   </nav>
 
