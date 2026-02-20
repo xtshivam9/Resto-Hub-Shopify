@@ -175,7 +175,7 @@ body {
 @media screen and (max-width: 768px) {
     .header-wrapper {
         flex-wrap: nowrap;
-        padding: 0px 5px;
+        padding: 12px 10px;
         gap: 10px;
     }
 

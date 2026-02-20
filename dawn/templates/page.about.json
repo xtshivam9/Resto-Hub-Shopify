@@ -5,8 +5,15 @@
             "settings": {}
         },
         "who_we_are": {
-            "type": "who-we-are",
-            "settings": {}
+            "type": "about-content-block",
+            "settings": {
+                "heading": "Who We Are",
+                "content": "<p>RestoSupplyHub is a Canada-based hospitality packaging supplier dedicated to helping restaurants, hotels, cafés, caterers, and food service businesses operate smoothly and efficiently.</p><p>Based in the Greater Toronto Area, we serve businesses nationwide with dependable access to high-quality packaging and essential service products. Our goal is simple — to make sourcing smarter, faster, and more reliable for hospitality professionals across Canada.</p><p>We believe packaging is more than just a product — it's part of your brand experience.</p>",
+                "image_position": "right",
+                "mobile_order": "image_first",
+                "image_border_radius": 30,
+                "bg_color": "#ffffff"
+            }
         },
         "who_we_serve": {
             "type": "who-we-serve-about",
@@ -70,16 +77,34 @@
             ]
         },
         "canada_based": {
-            "type": "canada-based-operations",
-            "settings": {}
+            "type": "about-content-block",
+            "settings": {
+                "heading": "Canada-Based Operations",
+                "content": "<p>Operating from the Greater Toronto Area, we understand the needs of Canadian hospitality businesses.</p><p>Our strong supplier partnerships and logistics network allow us to provide reliable distribution across the country — ensuring you get what you need, when you need it.</p><p>We are proud to support local businesses while maintaining national reach.</p>",
+                "image_position": "left",
+                "mobile_order": "text_first",
+                "bg_color": "#ffffff"
+            }
         },
         "reliability": {
-            "type": "commitment-reliability",
-            "settings": {}
+            "type": "about-content-block",
+            "settings": {
+                "heading": "Commitment to Reliability & Stock Consistency",
+                "content": "<p>In hospitality, delays and stock shortages can impact service quality. That's why we prioritize:</p><p>Consistent inventory availability<br>Strong supplier relationships<br>Efficient order processing</p><ul><li>Reliable delivery timelines</li><li>We work proactively to close supply gaps and reduce disruptions so your operations stay uninterrupted.</li></ul>",
+                "image_position": "right",
+                "mobile_order": "text_first",
+                "bg_color": "#ffffff"
+            }
         },
         "business_trust": {
-            "type": "why-businesses-trust-us",
-            "settings": {}
+            "type": "about-content-block",
+            "settings": {
+                "heading": "Why Businesses Trust Us",
+                "content": "<p>Businesses trust RestoSupplyHub because we:</p><p>Deliver dependable, quality products<br>Offer competitive pricing<br>Prioritize sustainable packaging options<br>Provide responsive customer support</p><ul><li>Understand real hospitality challenges</li><li>We build long-term partnerships — not just transactions.</li></ul>",
+                "image_position": "left",
+                "mobile_order": "text_first",
+                "bg_color": "#ffffff"
+            }
         },
         "simplify_packaging": {
             "type": "simplify-packaging",
