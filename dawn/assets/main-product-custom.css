@@ -108,7 +108,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 1px;
 }
 
 .star-icon {
@@ -125,12 +125,12 @@
     font-size: 16px;
     font-weight: 500;
     color: rgba(0, 0, 0, 0.5);
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     display: block;
 }
 
 .product-title {
-    font-size: 38px;
+    font-size: 35px;
     font-weight: 600;
     line-height: 1.1;
     margin-top: 3px;
@@ -138,7 +138,7 @@
 }
 
 .ideal-for {
-    font-size: 20px;
+    font-size: 18px;
     line-height: 26px;
     font-weight: 500;
     color: #149B77;
@@ -168,16 +168,16 @@
 .discount-badge {
     background: #149B77;
     color: #fff;
-    padding: 4px 12px;
+    padding: 2px 12px;
     border-radius: 20px;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 600;
 }
 
 .unit-price-label {
-    font-size: 20px;
+    font-size: 23px;
     font-weight: 600;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     display: block;
 }
 
@@ -188,7 +188,11 @@
     gap: 10px;
     margin-bottom: 20px;
     padding-top: 20px;
-    border-top: 1px dashed rgba(0, 90, 66, 0.29);
+    background-image: linear-gradient(to right, rgba(0, 90, 66, 0.29) 60%, rgba(255, 255, 255, 0) 0%);
+    background-position: top;
+    background-size: 15px 1px;
+    background-repeat: repeat-x;
+    border-top: none;
 }
 
 .feature-item {
@@ -205,8 +209,9 @@
 }
 
 .feature-icon-img {
-    width: 65px;
-    height: 65px;
+    width: 45px;
+    height: auto;
+    max-height: 35px;
     object-fit: contain;
     margin-bottom: 8px;
 }
@@ -244,7 +249,7 @@
 .actions-row {
     display: flex;
     gap: 15px;
-    align-items: center;
+    align-items: flex-end;
     margin-bottom: 30px;
     flex-wrap: wrap;
 }
@@ -423,19 +428,19 @@
 
 .fbt-item {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     background: #F4FBFA;
-    border: 1px solid #C8E6E2;
-    border-radius: 12px;
-    padding: 12px;
-    gap: 12px;
+    border: 1px solid #CDECE6;
+    border-radius: 16px;
+    padding: 16px;
+    gap: 15px;
     position: relative;
 }
 
 .fbt-image-wrapper {
-    width: 110px;
-    height: 110px;
-    border-radius: 12px;
+    width: 90px;
+    height: 90px;
+    border-radius: 8px;
     overflow: hidden;
     flex-shrink: 0;
     background: #fff;
@@ -455,30 +460,40 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    padding-top: 5px;
+    justify-content: center;
+    padding-top: 0;
+    min-width: 0;
 }
 
 .fbt-item-title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     color: #000;
     text-decoration: none;
     line-height: 1.2;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.fbt-item-desc {
-    font-size: 15px;
-    color: #999;
+.fbt-ideal-for {
+    font-size: 14px;
     font-weight: 500;
-    margin-bottom: 12px;
+    color: #888;
+    margin-bottom: 8px;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .fbt-item-price-row {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    align-items: baseline;
+    gap: 8px;
     margin-top: 0;
 }
 
@@ -489,15 +504,20 @@
 }
 
 .fbt-item-compare-price {
-    font-size: 16px;
+    font-size: 14px;
     text-decoration: line-through;
-    color: #bbb;
+    color: #aaa;
     font-weight: 500;
 }
 
 .fbt-item-action {
     flex-shrink: 0;
-    padding-top: 5px;
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+    /* Align button to top as per design might be better, or center */
+    margin-top: 5px;
+    /* Slight offset if top aligned */
 }
 
 .fbt-add-btn {
@@ -506,12 +526,13 @@
     border: none;
     border-radius: 50px;
     padding: 8px 24px;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 700;
     text-transform: uppercase;
     cursor: pointer;
     transition: background 0.3s;
     white-space: nowrap;
+    letter-spacing: 0.5px;
 }
 
 .fbt-add-btn:hover {
@@ -667,13 +688,13 @@
         font-size: 16px;
     }
 
-    .fbt-item-desc {
+    .fbt-ideal-for {
         font-size: 13px;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
     }
 
     .fbt-item-price {
-        font-size: 18px;
+        font-size: 19px;
     }
 
     .fbt-item-compare-price {
@@ -835,8 +856,8 @@
 
     .fbt-item {
         flex-wrap: nowrap;
-        padding: 10px;
-        gap: 10px;
+        padding: 12px;
+        gap: 12px;
         max-width: 100%;
         overflow: hidden;
     }
@@ -852,17 +873,18 @@
     }
 
     .fbt-item-title {
-        font-size: 14px;
-        margin-bottom: 3px;
+        font-size: 15px;
+        margin-bottom: 4px;
+        line-height: 1.25;
     }
 
-    .fbt-item-desc {
-        font-size: 12px;
-        margin-bottom: 6px;
+    .fbt-ideal-for {
+        font-size: 13px;
+        margin-bottom: 4px;
     }
 
     .fbt-item-price {
-        font-size: 16px;
+        font-size: 18px;
     }
 
     .fbt-item-compare-price {
@@ -870,7 +892,7 @@
     }
 
     .fbt-add-btn {
-        padding: 6px 14px;
-        font-size: 11px;
+        padding: 6px 16px;
+        font-size: 12px;
     }
 }

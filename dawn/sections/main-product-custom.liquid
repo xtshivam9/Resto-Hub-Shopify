@@ -1,24 +1,30 @@
 {{ 'main-product-custom.css' | asset_url | stylesheet_tag }}
 <!-- Main Product Custom Section -->
 
-
 <div class="main-product-custom">
   <div class="product-container">
-    
     <!-- Left Column: Images -->
     <div class="product-gallery">
       <div class="main-image-container">
         {% if product.featured_image %}
-          <img src="{{ product.featured_image | img_url: 'master' }}" alt="{{ product.featured_image.alt | escape }}" class="main-image" id="MainImage">
+          <img
+            src="{{ product.featured_image | img_url: 'master' }}"
+            alt="{{ product.featured_image.alt | escape }}"
+            class="main-image"
+            id="MainImage"
+          >
         {% else %}
-           {{ 'product-1' | placeholder_svg_tag: 'main-image' }}
+          {{ 'product-1' | placeholder_svg_tag: 'main-image' }}
         {% endif %}
       </div>
-      
+
       {% if product.images.size > 1 %}
         <div class="thumbnail-list">
           {% for image in product.images limit: 4 %}
-            <div class="thumbnail-item {% if forloop.first %}active{% endif %}" onclick="changeImage('{{ image | img_url: 'master' }}', this)">
+            <div
+              class="thumbnail-item {% if forloop.first %}active{% endif %}"
+              onclick="changeImage('{{ image | img_url: 'master' }}', this)"
+            >
               <img src="{{ image | img_url: 'medium' }}" alt="{{ image.alt | escape }}" class="thumbnail-image">
             </div>
           {% endfor %}
@@ -28,159 +34,188 @@
 
     <!-- Right Column: Product Info -->
     <div class="product-info">
-      
       <div class="reviews-stars">
         <div class="stars">
-           {% for i in (1..5) %}
-             <span class="star-icon">★</span>
-           {% endfor %}
+          {% for i in (1..5) %}
+            <span class="star-icon">★</span>
+          {% endfor %}
         </div>
         <span class="review-count">25 Reviews</span>
       </div>
 
-      <span class="vendor-sku">{{ section.settings.sku_prefix }}{{ product.selected_or_first_available_variant.sku }}</span>
+      <span class="vendor-sku">
+        {{- product.vendor }} | SKU: {{ product.selected_or_first_available_variant.sku -}}
+      </span>
 
       <h1 class="product-title">{{ product.title }}</h1>
-      
-      {% if section.settings.ideal_for_text != blank %}
-        <div class="ideal-for">{{ section.settings.ideal_for_text }}</div>
+
+      {% if product.metafields.custom.ideal_for != blank %}
+        <div class="ideal-for">{{ product.metafields.custom.ideal_for.value }}</div>
       {% endif %}
 
       <div class="price-container">
         <span class="current-price">{{ product.price | money }}</span>
         {% if product.compare_at_price > product.price %}
-            <span class="compare-price">{{ product.compare_at_price | money }}</span>
-            <span class="discount-badge">
-                {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}% OFF
-            </span>
+          <span class="compare-price">{{ product.compare_at_price | money }}</span>
+          <span class="discount-badge">
+            {{
+              product.compare_at_price
+              | minus: product.price
+              | times: 100.0
+              | divided_by: product.compare_at_price
+              | round
+            -}}
+            % OFF
+          </span>
         {% endif %}
       </div>
-      
-      {% if section.settings.unit_label != blank %}
-        <span class="unit-price-label">{{ section.settings.unit_label }}</span>
+
+      {% if product.metafields.custom.box_size != blank %}
+        <span class="unit-price-label">{{ product.metafields.custom.box_size.value }}</span>
       {% endif %}
 
+      {% assign feature_icons = product.metafields.custom.feature_icons.value %}
+      {% assign feature_labels = product.metafields.custom.feature_labels.value %}
+      {% if feature_icons != blank and feature_icons.size > 0 %}
+        <div class="feature-icons-grid">
+          {% for icon in feature_icons %}
+            <div class="feature-item">
+              <img
+                src="{{ icon | image_url: width: 130 }}"
+                alt="{{ feature_labels[forloop.index0] | default: 'Feature' | escape }}"
+                class="feature-icon-img"
+                loading="lazy"
+              >
+              {% if feature_labels != blank and feature_labels[forloop.index0] != blank %}
+                <span class="feature-label">{{ feature_labels[forloop.index0] }}</span>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
 
-      <div class="feature-icons-grid">
-        {% for block in section.blocks %}
-            {% if block.type == 'feature_icon' %}
-                <div class="feature-item" {{ block.shopify_attributes }}>
-                    {% if block.settings.svg_code != blank %}
-                        {{ block.settings.svg_code }}
-                    {% elsif block.settings.icon != blank %}
-                         {{ block.settings.icon | image_url: width: 40 | image_tag: class: 'feature-icon-img', loading: 'lazy' }}
-                    {% else %}
-                        <!-- Fallback or placeholder -->
-                        <img src="{{ 'capacity.svg' | asset_url }}" class="feature-icon-img" alt="Feature">
-                    {% endif %}
-                    <span class="feature-label">{{ block.settings.label }}</span>
-                </div>
-            {% endif %}
-        {% endfor %}
-      </div>
-
-      <label class="quantity-label">{{ section.settings.quantity_label }}</label>
-      
       {% form 'product', product %}
         <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-        
-        <div class="actions-row">
-            <div class="qty-selector">
-                <button type="button" class="qty-btn minus" onclick="updateQty(-1)">-</button>
-                <div class="qty-circle"></div>
-                <input type="number" id="Quantity" name="quantity" value="1" min="1" class="qty-input">
-                <div class="qty-circle-plus"></div>
-                <button type="button" class="qty-btn plus" onclick="updateQty(1)">+</button>
-            </div>
 
-            <button type="submit" name="add" class="add-to-cart-btn">
-                {{ section.settings.add_to_cart_text }}
-            </button>
+        <div class="actions-row">
+          <div>
+            <label class="quantity-label" for="Quantity">Quantity</label>
+            <div class="qty-selector">
+              <button type="button" class="qty-btn minus" onclick="updateQty(-1)">-</button>
+              <div class="qty-circle"></div>
+              <input type="number" id="Quantity" name="quantity" value="1" min="1" class="qty-input">
+              <div class="qty-circle-plus"></div>
+              <button type="button" class="qty-btn plus" onclick="updateQty(1)">+</button>
+            </div>
+          </div>
+
+          <button type="submit" name="add" class="add-to-cart-btn">
+            {{ section.settings.add_to_cart_text }}
+          </button>
         </div>
       {% endform %}
 
       <div class="shipping-info">
         <div class="shipping-item">
-            {% if section.settings.shipping_icon_1 != blank %}
-                {{ section.settings.shipping_icon_1 | image_url: width: 24 | image_tag: class: 'shipping-icon' }}
-            {% else %}
-               <img src="{{ 'estimated.svg' | asset_url }}" class="shipping-icon" alt="Estimated Arrival">
-            {% endif %}
-            
-            <div>
-                <div class="shipping-text-primary">{{ section.settings.shipping_heading_1 }}</div>
-                <div class="shipping-text-secondary">{{ section.settings.shipping_text_1 }}</div>
-                <a href="{{ section.settings.shipping_link_url_1 | default: '#' }}" class="shipping-link">{{ section.settings.shipping_link_text_1 }}</a>
-            </div>
+          {% if section.settings.shipping_icon_1 != blank %}
+            {{ section.settings.shipping_icon_1 | image_url: width: 24 | image_tag: class: 'shipping-icon' }}
+          {% endif %}
+
+          <div>
+            <div class="shipping-text-primary">{{ section.settings.shipping_heading_1 }}</div>
+            <div class="shipping-text-secondary">{{ section.settings.shipping_text_1 }}</div>
+            <a href="{{ section.settings.shipping_link_url_1 | default: '#' }}" class="shipping-link">
+              {{- section.settings.shipping_link_text_1 -}}
+            </a>
+          </div>
         </div>
-        
+
         <div class="shipping-item">
-             {% if section.settings.shipping_icon_2 != blank %}
-                {{ section.settings.shipping_icon_2 | image_url: width: 24 | image_tag: class: 'shipping-icon' }}
-            {% else %}
-                <img src="{{ 'pickup.svg' | asset_url }}" class="shipping-icon" alt="Pickup available">
-            {% endif %}
-            <div>
-                 <div class="shipping-text-primary">{{ section.settings.shipping_heading_2 }}</div>
-                 <div class="shipping-text-secondary">{{ section.settings.shipping_text_2 }}</div>
-                 <a href="{{ section.settings.shipping_link_url_2 | default: '#' }}" class="shipping-link">{{ section.settings.shipping_link_text_2 }}</a>
-            </div>
+          {% if section.settings.shipping_icon_2 != blank %}
+            {{ section.settings.shipping_icon_2 | image_url: width: 24 | image_tag: class: 'shipping-icon' }}
+          {% endif %}
+          <div>
+            <div class="shipping-text-primary">{{ section.settings.shipping_heading_2 }}</div>
+            <div class="shipping-text-secondary">{{ section.settings.shipping_text_2 }}</div>
+            <a href="{{ section.settings.shipping_link_url_2 | default: '#' }}" class="shipping-link">
+              {{- section.settings.shipping_link_text_2 -}}
+            </a>
+          </div>
         </div>
       </div>
-
-
 
       <!-- Frequently Bought Together Section -->
-      <div class="fbt-container">
-        {% if section.settings.fbt_heading != blank %}
-          <h3 class="fbt-heading">{{ section.settings.fbt_heading }}</h3>
-        {% endif %}
+      {% assign fbt_collection = product.collections.first %}
+      {% if fbt_collection != blank %}
+        <div class="fbt-container">
+          {% if section.settings.fbt_heading != blank %}
+            <h3 class="fbt-heading">{{ section.settings.fbt_heading }}</h3>
+          {% endif %}
 
-        <div class="fbt-list">
-          {% for block in section.blocks %}
-            {% if block.type == 'fbt_product' %}
-              {% assign fbt_product = all_products[block.settings.product] %}
-              {% if fbt_product != blank %}
-                <div class="fbt-item">
-                  <div class="fbt-image-wrapper">
-                    <img src="{{ fbt_product.featured_image | img_url: '100x100', crop: 'center' }}" alt="{{ fbt_product.title }}" class="fbt-item-image">
-                  </div>
-                  <div class="fbt-item-info">
-                    <a href="{{ fbt_product.url }}" class="fbt-item-title">{{ fbt_product.title }}</a>
-                    {% if block.settings.description != blank %}
-                       <div class="fbt-item-desc">{{ block.settings.description }}</div>
+          <div class="fbt-list">
+            {% assign fbt_count = 0 %}
+            {% for col_product in fbt_collection.products %}
+              {% if col_product.id == product.id %}
+                {% continue %}
+              {% endif %}
+              {% if fbt_count >= 2 %}
+                {% break %}
+              {% endif %}
+
+              <div class="fbt-item">
+                <div class="fbt-image-wrapper">
+                  {% if col_product.featured_image %}
+                    <img
+                      src="{{ col_product.featured_image | img_url: '200x200', crop: 'center' }}"
+                      alt="{{ col_product.title | escape }}"
+                      class="fbt-item-image"
+                      loading="lazy"
+                    >
+                  {% else %}
+                    {{ 'product-1' | placeholder_svg_tag: 'fbt-item-image' }}
+                  {% endif %}
+                </div>
+
+                <div class="fbt-item-info">
+                  <a href="{{ col_product.url }}" class="fbt-item-title">{{ col_product.title }}</a>
+
+                  {% if col_product.metafields.custom.ideal_for != blank %}
+                    <div class="fbt-ideal-for">{{ col_product.metafields.custom.ideal_for.value }}</div>
+                  {% endif %}
+
+                  <div class="fbt-item-price-row">
+                    <span class="fbt-item-price">{{ col_product.price | money }}</span>
+                    {% if col_product.compare_at_price > col_product.price %}
+                      <span class="fbt-item-compare-price">{{ col_product.compare_at_price | money }}</span>
                     {% endif %}
-                    
-                    <div class="fbt-item-price-row">
-                        <span class="fbt-item-price">{{ fbt_product.price | money }}</span>
-                         {% if fbt_product.compare_at_price > fbt_product.price %}
-                           <span class="fbt-item-compare-price">{{ fbt_product.compare_at_price | money }}</span>
-                         {% endif %}
-                    </div>
-                  </div>
-                  
-                  <div class="fbt-item-action">
-                    {% form 'product', fbt_product %}
-                        <input type="hidden" name="id" value="{{ fbt_product.selected_or_first_available_variant.id }}">
-                        <button type="submit" class="fbt-add-btn">ADD +</button>
-                    {% endform %}
                   </div>
                 </div>
-              {% endif %}
-            {% endif %}
-          {% endfor %}
+
+                <div class="fbt-item-action">
+                  <button
+                    type="button"
+                    class="fbt-add-btn"
+                    data-variant-id="{{ col_product.selected_or_first_available_variant.id }}"
+                    onclick="addFbtToCart(this)"
+                  >
+                    ADD +
+                  </button>
+                </div>
+              </div>
+
+              {% assign fbt_count = fbt_count | plus: 1 %}
+            {% endfor %}
+          </div>
         </div>
-      </div>
+      {% endif %}
     </div>
   </div>
-
-
 </div>
 
 <script>
   function changeImage(src, element) {
     document.getElementById('MainImage').src = src;
-    document.querySelectorAll('.thumbnail-item').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.thumbnail-item').forEach((el) => el.classList.remove('active'));
     element.classList.add('active');
   }
 
@@ -191,6 +226,32 @@
     if (value < 1) value = 1;
     input.value = value;
   }
+
+  function addFbtToCart(button) {
+    const variantId = button.getAttribute('data-variant-id');
+    const originalText = button.textContent;
+    button.textContent = 'Adding...';
+    button.disabled = true;
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: [{ id: parseInt(variantId), quantity: 1 }] }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        button.textContent = 'Added ✓';
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.disabled = false;
+        }, 1500);
+      })
+      .catch((error) => {
+        button.textContent = originalText;
+        button.disabled = false;
+        console.error('Error adding to cart:', error);
+      });
+  }
 </script>
 
 {% schema %}
@@ -199,27 +260,9 @@
   "settings": [
     {
       "type": "text",
-      "id": "ideal_for_text",
-      "label": "Ideal For Text",
-      "default": "Ideal For: Salads, hot grains, takeaway"
-    },
-    {
-       "type": "text",
-       "id": "unit_label",
-       "label": "Unit Label",
-       "default": "150PCS/BOX"
-    },
-    {
-      "type": "text",
       "id": "sku_prefix",
       "label": "SKU Prefix",
       "default": "Resto Supply Hub | SKU: "
-    },
-    {
-      "type": "text",
-      "id": "quantity_label",
-      "label": "Quantity Label",
-      "default": "Quantity"
     },
     {
       "type": "text",
@@ -254,7 +297,7 @@
       "label": "Link Text 1",
       "default": "View Shipping Options"
     },
-     {
+    {
       "type": "url",
       "id": "shipping_link_url_1",
       "label": "Link URL 1"
@@ -300,47 +343,6 @@
       "id": "fbt_heading",
       "label": "Frequently Bought Heading",
       "default": "Frequently Brought Together"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "feature_icon",
-      "name": "Feature Icon",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "icon",
-          "label": "Icon Image"
-        },
-        {
-          "type": "html",
-          "id": "svg_code",
-          "label": "SVG Code (Overrides Image)"
-        },
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Label",
-          "default": "Feature"
-        }
-      ]
-    },
-    {
-       "type": "fbt_product",
-       "name": "FBT Product",
-       "settings": [
-         {
-           "type": "product",
-           "id": "product",
-           "label": "Product"
-         },
-         {
-           "type": "text",
-           "id": "description",
-           "label": "Short Description",
-           "default": "Salads, hot grains, takeaway"
-         }
-       ]
     }
   ]
 }

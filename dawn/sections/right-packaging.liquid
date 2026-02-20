@@ -90,6 +90,11 @@
       "limit": 3,
       "settings": [
         {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        },
+        {
           "type": "checkbox",
           "id": "highlight",
           "label": "Highlight Card",
@@ -106,58 +111,6 @@
           "id": "badge_text_2",
           "label": "Badge 2 Text (Grey)",
           "default": "MOQ APPLIES"
-        },
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Product Image"
-        },
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Product Title",
-          "default": "Kraft Foldable Paper Box"
-        },
-        {
-          "type": "textarea",
-          "id": "dropdown_options",
-          "label": "Dropdown Options (One per line)",
-          "default": "16oz\n24oz\n32oz"
-        },
-        {
-          "type": "text",
-          "id": "price",
-          "label": "Price",
-          "default": "$35.99"
-        },
-        {
-            "type": "text",
-            "id": "capacity",
-            "label": "Capacity",
-            "default": "24oz / 32oz"
-        },
-        {
-            "type": "text",
-            "id": "material",
-            "label": "Material",
-            "default": "Kraft Paper + PLA Lining"
-        },
-        {
-            "type": "text",
-            "id": "case_pack",
-            "label": "Case Pack",
-            "default": "500 pcs/carton"
-        },
-        {
-            "type": "text",
-            "id": "best_use_case",
-            "label": "Best Use Case",
-            "default": "Salads, hot grains, takeaway"
-        },
-        {
-           "type": "url",
-           "id": "product_link",
-           "label": "Product Link"
         }
       ]
     }
@@ -218,7 +171,7 @@
     color: #000000;
     margin-bottom: 60px;
   }
-  
+
   .rp-subheading {
     font-family: 'Rethink Sans', sans-serif; /* Explicitly set */
     font-style: normal;
@@ -230,7 +183,7 @@
     max-width: 800px;
     margin: 0 auto 3.5rem auto;
   }
-  
+
   @media screen and (min-width: 750px) {
       .rp-heading {
           font-size: 40px;
@@ -245,9 +198,9 @@
       gap: 20px;
       align-items: center; /* Center cards in column */
       flex-direction: column; /* Stack on mobile */
-      padding-bottom: 20px; 
+      padding-bottom: 20px;
   }
-  
+
   .rp-card {
       width: 100%; /* Full width on mobile */
       max-width: 350px; /* But not too wide */
@@ -277,12 +230,12 @@
   .rp-labels-column {
       display: none; /* Hidden on mobile, shown on desktop */
       flex-direction: column;
-      /* Adjusted for new alignment: 
+      /* Adjusted for new alignment:
          Card Top Padding (20) + Image (180) + Img Margin (16) + Title (54) + Title Margin (20) = ~290px
       */
-      padding-top: 290px; 
+      padding-top: 290px;
       gap: 0;
-      min-width: 140px; 
+      min-width: 140px;
       margin-right: 10px;
   }
 
@@ -294,7 +247,7 @@
 
   .rp-label {
       font-family: 'Rethink Sans', sans-serif; /* Explicitly set */
-      font-weight: 700; 
+      font-weight: 700;
       font-size: 15px; /* Increased from 13px */
       color: #000000;
       height: 60px; /* Fixed height to match data rows */
@@ -315,7 +268,7 @@
       flex-direction: column;
       align-items: center;
       position: relative;
-      border: 1px solid #f0f0f0; 
+      border: 1px solid #f0f0f0;
       box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.03);
   }
 
@@ -339,21 +292,21 @@
       bottom: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: fill;
       object-position: center;
       display: block;
       margin: 0;
       padding: 0;
       border: none;
   }
-  
+
   .rp-badge-container {
       position: absolute;
       top: 10px;
       right: 10px;
       display: flex;
       gap: 6px;
-      flex-wrap: wrap; 
+      flex-wrap: wrap;
       justify-content: flex-end;
   }
 
@@ -368,12 +321,12 @@
       line-height: 1;
       white-space: nowrap;
   }
-  
+
   .rp-badge.green {
       background-color: #D1F0E4; /* Mint background */
       color: #0E8345; /* Dark Green/Teal text */
   }
-  
+
   .rp-badge.grey {
       background-color: #E8E8E8; /* Light grey bg */
       color: #000000; /* Black text */
@@ -393,17 +346,26 @@
       justify-content: space-between;
       align-items: center;
       box-sizing: border-box; /* FIX: Prevent overflow */
-      height: 54px; 
+      height: 54px;
       background-color: #fff;
       cursor: pointer;
       position: relative;
-      z-index: 2; 
+      z-index: 2;
+      overflow: hidden;
       /* Ensure title looks clickable but premium */
       transition: border-color 0.3s, box-shadow 0.3s, border-radius 0.3s;
   }
-  
+
+  .rp-selected-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+      min-width: 0;
+  }
+
   .rp-title:hover {
-    border-color: #000; 
+    border-color: #000;
   }
 
   .rp-title.active {
@@ -423,24 +385,24 @@
 
   .rp-dropdown-menu {
       position: absolute;
-      top: 100%; 
+      top: 100%;
       left: 0;
       width: 100%;
       background: #FFFFFF;
       border: 1px solid #E0E0E0;
-      border-top: none; 
-      border-radius: 0 0 8px 8px; 
+      border-top: none;
+      border-radius: 0 0 8px 8px;
       box-shadow: none; /* Remove shadow as requested */
-      display: none; 
-      z-index: 50; 
+      display: none;
+      z-index: 50;
       padding: 12px;
       box-sizing: border-box; /* Critical for padding to not affect width */
-      
+
       /* Animation */
       opacity: 0;
       transform: translateY(-5px);
       transition: opacity 0.2s ease, transform 0.2s ease;
-      pointer-events: none; 
+      pointer-events: none;
   }
 
   .rp-dropdown-menu.active {
@@ -458,9 +420,9 @@
 
   .rp-search-input {
       width: 100%;
-      padding: 10px 12px 10px 36px; 
+      padding: 10px 12px 10px 36px;
       border: 1px solid transparent;
-      background-color: #F7F7F7; 
+      background-color: #F7F7F7;
       border-radius: 6px;
       font-family: 'Rethink Sans', sans-serif;
       font-size: 14px;
@@ -471,7 +433,7 @@
 
   .rp-search-input:focus {
       background-color: #fff;
-      box-shadow: 0 0 0 1px #000; 
+      box-shadow: 0 0 0 1px #000;
   }
 
   .rp-search-icon {
@@ -489,19 +451,19 @@
       list-style: none;
       padding: 0;
       margin: 0;
-      max-height: 180px; 
+      max-height: 180px;
       overflow-y: auto;
       box-sizing: border-box;
-      
+
       /* Custom Scrollbar */
       scrollbar-width: thin;
       scrollbar-color: #ddd transparent;
   }
-  
+
   .rp-options-list::-webkit-scrollbar {
     width: 4px;
   }
-  
+
   .rp-options-list::-webkit-scrollbar-thumb {
     background-color: #ddd;
     border-radius: 4px;
@@ -522,7 +484,7 @@
   }
 
   .rp-option-item:hover {
-      background-color: #F2F2F2; 
+      background-color: #F2F2F2;
       color: #000;
   }
 
@@ -532,8 +494,8 @@
 
   /* When active, menu is visible and arrow rotates */
   .rp-dropdown-menu.active + .rp-title .rp-arrow,
-  .rp-dropdown-wrapper.active .rp-arrow, 
-  .rp-title.active .rp-arrow { 
+  .rp-dropdown-wrapper.active .rp-arrow,
+  .rp-title.active .rp-arrow {
       transform: rotate(180deg);
   }
 
@@ -548,9 +510,9 @@
       font-size: 15px;
       color: #000000;
       text-align: center;
-      border-bottom: 1px solid transparent; 
+      border-bottom: 1px solid transparent;
   }
-  
+
   /* Optional: faint divider lines if needed, image doesn't show clearly but adds structure */
   /* .rp-data-row:not(:last-child) { border-bottom: 1px solid #f5f5f5; } */
 
@@ -575,15 +537,15 @@
       .rp-mobile-label {
           display: none;
       }
-      
+
       .rp-data-row {
-          flex-direction: column; 
+          flex-direction: column;
           justify-content: center;
       }
   }
 
   .rp-add-btn {
-      margin-top: 24px; 
+      margin-top: 24px;
       width: 90%; /* Slightly smaller than container */
       background-color: #000000;
       color: #FFFFFF;
@@ -632,7 +594,7 @@
           align-items: flex-start;
           gap: 6px; /* Reduced gap from 12px */
           padding-bottom: 20px;
-          padding-right: 16px; 
+          padding-right: 16px;
       }
 
       .rp-grid-wrapper::-webkit-scrollbar {
@@ -650,7 +612,7 @@
 
       .rp-data-row {
           justify-content: space-between; /* Align Label Left, Value Right */
-          text-align: right; 
+          text-align: right;
           padding: 3px 0; /* Tighter padding */
           min-height: 20px; /* Flexible height */
           font-size: 11px; /* Increased from 10px */
@@ -688,7 +650,7 @@
           align-items: center;
           justify-content: space-between;
       }
-      
+
       .rp-selected-text {
           white-space: nowrap;
           overflow: hidden;
@@ -702,7 +664,7 @@
           width: 100%;
           margin-top: 10px;
           padding: 8px 12px;
-          font-size: 10px; 
+          font-size: 10px;
       }
   }
 
@@ -723,7 +685,6 @@
           height: 160px;
       }
   }
-
 {% endstyle %}
 
 <div class="section-{{ section.id }}-padding">
@@ -736,135 +697,244 @@
     {%- endif -%}
 
     <div class="rp-grid-wrapper">
-        <!-- Labels Column (Desktop Only) -->
-        <div class="rp-labels-column">
-            <div class="rp-label">{{ section.settings.label_price }}</div>
-            <div class="rp-label">{{ section.settings.label_capacity }}</div>
-            <div class="rp-label">{{ section.settings.label_material }}</div>
-            <div class="rp-label">{{ section.settings.label_case_pack }}</div>
-            <div class="rp-label">{{ section.settings.label_use_case }}</div>
-        </div>
+      <!-- Labels Column (Desktop Only) -->
+      <div class="rp-labels-column">
+        <div class="rp-label">{{ section.settings.label_price }}</div>
+        <div class="rp-label">{{ section.settings.label_capacity }}</div>
+        <div class="rp-label">{{ section.settings.label_material }}</div>
+        <div class="rp-label">{{ section.settings.label_case_pack }}</div>
+        <div class="rp-label">{{ section.settings.label_use_case }}</div>
+      </div>
 
-        {%- for block in section.blocks -%}
-            <div class="rp-card {% if block.settings.highlight %}highlighted{% endif %}" {{ block.shopify_attributes }}>
-                
-                <div class="rp-image-container">
-                    {%- if block.settings.image != blank -%}
-                        {{ block.settings.image | image_url: width: 600 | image_tag: class: 'rp-image', loading: 'lazy' }}
-                    {%- else -%}
-                        <img src="{{ 'box.png' | asset_url }}" alt="Packaging Box" class="rp-image" loading: 'lazy' width="400" height="300">
-                    {%- endif -%}
-                    
-                    <div class="rp-badge-container">
+      {%- for block in section.blocks -%}
+        {%- assign block_product = block.settings.product -%}
+        <div class="rp-card {% if block.settings.highlight %}highlighted{% endif %}" {{ block.shopify_attributes }}>
+          <div class="rp-image-container">
+            {%- if block_product != blank and block_product.featured_image -%}
+              <img
+                src="{{ block_product.featured_image | image_url: width: 600 }}"
+                alt="{{ block_product.title | escape }}"
+                class="rp-image rp-card-image"
+                loading="lazy"
+                width="600"
+                height="450"
+              >
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'rp-image rp-card-image' }}
+            {%- endif -%}
 
-                        {%- if block.settings.badge_text_2 != blank -%}
-                            <div class="rp-badge grey">{{ block.settings.badge_text_2 }}</div>
-                        {%- endif -%}
-                    </div>
-                </div>
-
-                <div class="rp-dropdown-wrapper">
-                    <div class="rp-title" onclick="toggleDropdown(this)">
-                        <span class="rp-selected-text">{{ block.settings.title }}</span>
-                        <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg" class="rp-arrow">
-                            <path d="M1 1L6 6L11 1" stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <div class="rp-dropdown-menu">
-                        <div class="rp-search-container">
-                            <input type="text" class="rp-search-input" placeholder="{{ section.settings.search_placeholder }}" onkeyup="filterOptions(this)">
-                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="rp-search-icon">
-                                <path d="M7.33333 12.6667C10.2789 12.6667 12.6667 10.2789 12.6667 7.33333C12.6667 4.38781 10.2789 2 7.33333 2C4.38781 2 2 4.38781 2 7.33333C2 10.2789 4.38781 12.6667 7.33333 12.6667Z" stroke="#888888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M14 14L11.1 11.1" stroke="#888888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <ul class="rp-options-list">
-                            {%- assign options = block.settings.dropdown_options | default: "16oz\n24oz\n32oz" | newline_to_br | split: '<br />' -%}
-                            {%- for option in options -%}
-                                <li class="rp-option-item" onclick="selectOption(this)">{{ option | strip }}</li>
-                            {%- endfor -%}
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="rp-data-row price">
-                    <span class="rp-mobile-label">{{ section.settings.label_price }}</span> <span class="rp-value">{{ block.settings.price }}</span>
-                </div>
-                 <div class="rp-data-row">
-                    <span class="rp-mobile-label">{{ section.settings.label_capacity }}</span> <span class="rp-value">{{ block.settings.capacity }}</span>
-                </div>
-                 <div class="rp-data-row">
-                    <span class="rp-mobile-label">{{ section.settings.label_material }}</span> <span class="rp-value">{{ block.settings.material }}</span>
-                </div>
-                 <div class="rp-data-row">
-                    <span class="rp-mobile-label">{{ section.settings.label_case_pack }}</span> <span class="rp-value">{{ block.settings.case_pack }}</span>
-                </div>
-                 <div class="rp-data-row">
-                    <span class="rp-mobile-label">{{ section.settings.label_use_case }}</span> <span class="rp-value">{{ block.settings.best_use_case }}</span>
-                </div>
-
-                <a href="{{ block.settings.product_link | default: '#' }}" class="rp-add-btn">
-                    {{ section.settings.button_text }}
-                </a>
+            <div class="rp-badge-container">
+              {%- if block.settings.badge_text_2 != blank -%}
+                <div class="rp-badge grey">{{ block.settings.badge_text_2 }}</div>
+              {%- endif -%}
             </div>
-        {%- endfor -%}
+          </div>
+
+          <div class="rp-dropdown-wrapper">
+            <div class="rp-title" onclick="toggleDropdown(this)">
+              <span class="rp-selected-text">
+                {%- if block_product != blank %}{{ block_product.title }}{% else %}Select a product{% endif -%}
+              </span>
+              <svg
+                width="12"
+                height="7"
+                viewBox="0 0 12 7"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="rp-arrow"
+              >
+                <path d="M1 1L6 6L11 1" stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="rp-dropdown-menu">
+              <div class="rp-search-container">
+                <input
+                  type="text"
+                  class="rp-search-input"
+                  placeholder="{{ section.settings.search_placeholder }}"
+                  onkeyup="filterOptions(this)"
+                >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="rp-search-icon"
+                >
+                  <path d="M7.33333 12.6667C10.2789 12.6667 12.6667 10.2789 12.6667 7.33333C12.6667 4.38781 10.2789 2 7.33333 2C4.38781 2 2 4.38781 2 7.33333C2 10.2789 4.38781 12.6667 7.33333 12.6667Z" stroke="#888888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M14 14L11.1 11.1" stroke="#888888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <ul class="rp-options-list">
+                {%- for col_product in collections.all.products -%}
+                  {%- if col_product.available -%}
+                    <li
+                      class="rp-option-item"
+                      data-product-handle="{{ col_product.handle }}"
+                      onclick="selectOption(this)"
+                    >
+                      {{ col_product.title }}
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            </div>
+          </div>
+
+          <div class="rp-data-row price">
+            <span class="rp-mobile-label">{{ section.settings.label_price }}</span>
+            <span class="rp-value rp-card-price">
+              {%- if block_product != blank %}{{ block_product.price | money }}{% else %}-{% endif -%}
+            </span>
+          </div>
+          <div class="rp-data-row">
+            <span class="rp-mobile-label">{{ section.settings.label_capacity }}</span>
+            <span class="rp-value rp-card-capacity">
+              {%- if block_product != blank and block_product.metafields.custom.capacity != blank -%}
+                {{- block_product.metafields.custom.capacity.value -}}
+              {%- else -%}
+                -
+              {%- endif -%}
+            </span>
+          </div>
+          <div class="rp-data-row">
+            <span class="rp-mobile-label">{{ section.settings.label_material }}</span>
+            <span class="rp-value rp-card-material">
+              {%- if block_product != blank and block_product.metafields.custom.materials != blank -%}
+                {{- block_product.metafields.custom.materials.value -}}
+              {%- else -%}
+                -
+              {%- endif -%}
+            </span>
+          </div>
+          <div class="rp-data-row">
+            <span class="rp-mobile-label">{{ section.settings.label_case_pack }}</span>
+            <span class="rp-value rp-card-casepack">
+              {%- if block_product != blank and block_product.metafields.custom.box_size != blank -%}
+                {{- block_product.metafields.custom.box_size.value -}}
+              {%- else -%}
+                -
+              {%- endif -%}
+            </span>
+          </div>
+          <div class="rp-data-row">
+            <span class="rp-mobile-label">{{ section.settings.label_use_case }}</span>
+            <span class="rp-value rp-card-usecase">
+              {%- if block_product != blank and block_product.metafields.custom.ideal_for != blank -%}
+                {{- block_product.metafields.custom.ideal_for.value -}}
+              {%- else -%}
+                -
+              {%- endif -%}
+            </span>
+          </div>
+
+          <a
+            href="{% if block_product != blank %}{{ block_product.url }}{% else %}#{% endif %}"
+            class="rp-add-btn rp-card-link"
+          >
+            {{ section.settings.button_text }}
+          </a>
+        </div>
+      {%- endfor -%}
     </div>
   </div>
 </div>
 
-<script>
-    function toggleDropdown(element) {
-        // Close all other dropdowns
-        document.querySelectorAll('.rp-dropdown-menu').forEach(menu => {
-            if (menu.parentElement !== element.parentElement) {
-                menu.classList.remove('active');
-                menu.parentElement.querySelector('.rp-title').classList.remove('active');
-            }
-        });
-
-        const wrapper = element.parentElement;
-        const menu = wrapper.querySelector('.rp-dropdown-menu');
-        menu.classList.toggle('active');
-        element.classList.toggle('active');
-    }
-
-    function filterOptions(input) {
-        const filter = input.value.toLowerCase();
-        const list = input.closest('.rp-dropdown-menu').querySelector('.rp-options-list');
-        const items = list.querySelectorAll('.rp-option-item');
-
-        items.forEach(item => {
-            const text = item.textContent || item.innerText;
-            if (text.toLowerCase().indexOf(filter) > -1) {
-                item.style.display = "";
-            } else {
-                item.style.display = "none";
-            }
-        });
-    }
-
-    function selectOption(item) {
-        const text = item.textContent;
-        const wrapper = item.closest('.rp-dropdown-wrapper');
-        const titleText = wrapper.querySelector('.rp-selected-text');
-        
-        titleText.textContent = text;
-        
-        // Close dropdown
-        const menu = item.closest('.rp-dropdown-menu');
-        menu.classList.remove('active');
-        wrapper.querySelector('.rp-title').classList.remove('active');
-    }
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(event) {
-        if (!event.target.closest('.rp-dropdown-wrapper')) {
-            document.querySelectorAll('.rp-dropdown-menu').forEach(menu => {
-                menu.classList.remove('active');
-            });
-            document.querySelectorAll('.rp-title').forEach(title => {
-                title.classList.remove('active');
-            });
+<script type="application/json" id="rp-products-data">
+  {
+    {%- assign rp_first = true -%}
+    {%- for p in collections.all.products -%}
+      {%- if p.available -%}
+        {%- unless rp_first -%},{%- endunless -%}
+        {{ p.handle | json }}: {
+          "title": {{ p.title | json }},
+          "url": {{ p.url | json }},
+          "price": {{ p.price | money | json }},
+          "image": {% if p.featured_image %}{{ p.featured_image | image_url: width: 600 | json }}{% else %}""{% endif %},
+          "capacity": {% if p.metafields.custom.capacity != blank %}{{ p.metafields.custom.capacity.value | json }}{% else %}"-"{% endif %},
+          "material": {% if p.metafields.custom.materials != blank %}{{ p.metafields.custom.materials.value | json }}{% else %}"-"{% endif %},
+          "case_pack": {% if p.metafields.custom.box_size != blank %}{{ p.metafields.custom.box_size.value | json }}{% else %}"-"{% endif %},
+          "use_case": {% if p.metafields.custom.ideal_for != blank %}{{ p.metafields.custom.ideal_for.value | json }}{% else %}"-"{% endif %}
         }
+        {%- assign rp_first = false -%}
+      {%- endif -%}
+    {%- endfor -%}
+  }
+</script>
+
+<script>
+  // Parse pre-rendered product data
+  const rpProductsData = JSON.parse(document.getElementById('rp-products-data').textContent);
+
+  function toggleDropdown(element) {
+    document.querySelectorAll('.rp-dropdown-menu').forEach((menu) => {
+      if (menu.parentElement !== element.parentElement) {
+        menu.classList.remove('active');
+        menu.parentElement.querySelector('.rp-title').classList.remove('active');
+      }
     });
+    const wrapper = element.parentElement;
+    const menu = wrapper.querySelector('.rp-dropdown-menu');
+    menu.classList.toggle('active');
+    element.classList.toggle('active');
+  }
+
+  function filterOptions(input) {
+    const filter = input.value.toLowerCase();
+    const list = input.closest('.rp-dropdown-menu').querySelector('.rp-options-list');
+    const items = list.querySelectorAll('.rp-option-item');
+    items.forEach((item) => {
+      const text = item.textContent || item.innerText;
+      item.style.display = text.toLowerCase().indexOf(filter) > -1 ? '' : 'none';
+    });
+  }
+
+  function selectOption(item) {
+    const handle = item.getAttribute('data-product-handle');
+    const data = rpProductsData[handle];
+    if (!data) return;
+
+    const card = item.closest('.rp-card');
+
+    // Update image
+    const imgEl = card.querySelector('.rp-card-image');
+    if (imgEl) {
+      if (data.image) {
+        imgEl.src = data.image;
+        imgEl.alt = data.title;
+      }
+    }
+
+    // Update title in dropdown
+    card.querySelector('.rp-selected-text').textContent = data.title;
+
+    // Update data rows
+    card.querySelector('.rp-card-price').textContent = data.price;
+    card.querySelector('.rp-card-capacity').textContent = data.capacity;
+    card.querySelector('.rp-card-material').textContent = data.material;
+    card.querySelector('.rp-card-casepack').textContent = data.case_pack;
+    card.querySelector('.rp-card-usecase').textContent = data.use_case;
+
+    // Update Add to Cart link
+    const linkEl = card.querySelector('.rp-card-link');
+    if (linkEl) linkEl.href = data.url;
+
+    // Close dropdown
+    const menu = item.closest('.rp-dropdown-menu');
+    menu.classList.remove('active');
+    card.querySelector('.rp-title').classList.remove('active');
+  }
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function (event) {
+    if (!event.target.closest('.rp-dropdown-wrapper')) {
+      document.querySelectorAll('.rp-dropdown-menu').forEach((menu) => {
+        menu.classList.remove('active');
+      });
+      document.querySelectorAll('.rp-title').forEach((title) => {
+        title.classList.remove('active');
+      });
+    }
+  });
 </script>
