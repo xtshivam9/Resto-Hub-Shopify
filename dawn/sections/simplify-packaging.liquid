@@ -10,11 +10,10 @@
       "label": "Image (Upload)"
     },
     {
-       "type": "text",
-       "id": "image_filename",
-       "label": "Image Filename (Asset)",
-       "info": "Enter filename like 'simplify.svg' to use from assets.",
-       "default": "simplify.svg"
+      "type": "text",
+      "id": "image_filename",
+      "label": "Image Filename (Asset)",
+      "info": "Enter filename like 'simplify.svg' to use from assets."
     },
     {
       "type": "text",
@@ -40,16 +39,16 @@
       "label": "Button Link"
     },
     {
-       "type": "color",
-       "id": "bg_color",
-       "label": "Container Background Color",
-       "default": "#005F4B"
+      "type": "color",
+      "id": "bg_color",
+      "label": "Container Background Color",
+      "default": "#005F4B"
     },
     {
-       "type": "color",
-       "id": "text_color",
-       "label": "Text Color",
-       "default": "#ffffff"
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
     },
     {
       "type": "range",
@@ -101,7 +100,7 @@
     padding: 0 2rem 0 8rem;
     font-family: 'Rethink Sans', sans-serif;
   }
-  
+
   .simplify-container {
     background-color: {{ section.settings.bg_color }};
     border-radius: 20px;
@@ -137,7 +136,7 @@
     color: {{ section.settings.text_color }};
     opacity: 0.9;
   }
-  
+
   .simplify-button {
       display: inline-block;
       background-color: #ffffff;
@@ -153,7 +152,7 @@
       cursor: pointer;
       border: none;
   }
-  
+
   .simplify-button:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -178,10 +177,10 @@
     object-fit: cover;
     object-position: bottom right;
   }
-  
+
   /* Ensure SVG scales appropriately if used directly */
   .simplify-image-container img[src*=".svg"] {
-      height: auto; 
+      height: auto;
       width: 100%;
       max-height: 120%;
       object-fit: contain;
@@ -212,7 +211,7 @@
         min-height: auto;
         border-radius: 16px;
     }
-    
+
     .simplify-content {
         max-width: 100%;
         margin-bottom: 10px;
@@ -222,27 +221,27 @@
         font-size: 28px;
         margin-bottom: 10px;
     }
-    
+
     .simplify-subtext {
         margin-bottom: 16px;
         font-size: 16px;
     }
-    
+
     .simplify-image-container {
         position: relative;
         width: 100%;
         height: auto;
         justify-content: center;
     }
-    
+
     .simplify-image {
         width: 100%;
         height: auto;
         max-height: none;
     }
-    
+
     .simplify-image-container img[src*=".svg"] {
-      height: auto; 
+      height: auto;
       width: 100%;
     }
   }
@@ -265,11 +264,11 @@
         {%- if section.settings.heading != blank -%}
           <h2 class="simplify-heading">{{ section.settings.heading | escape }}</h2>
         {%- endif -%}
-        
+
         {%- if section.settings.subtext != blank -%}
           <p class="simplify-subtext">{{ section.settings.subtext | escape }}</p>
         {%- endif -%}
-        
+
         {%- if section.settings.button_label != blank -%}
           <a href="{{ section.settings.button_link | default: '#' }}" class="simplify-button">
             {{ section.settings.button_label | escape }}
@@ -279,20 +278,23 @@
 
       <div class="simplify-image-container">
         {%- if section.settings.image_filename != blank -%}
-           <img
-              src="{{ section.settings.image_filename | asset_url }}"
-              alt="{{ section.settings.heading | escape }}"
-              class="simplify-image"
-              loading="lazy"
-              width="600"
-              height="auto"
-            >
+          <img
+            src="{{ section.settings.image_filename | asset_url }}"
+            alt="{{ section.settings.heading | escape }}"
+            class="simplify-image"
+            loading="lazy"
+            width="600"
+            height="auto"
+          >
         {%- elsif section.settings.image != blank -%}
-          {{ section.settings.image | image_url: width: 1000 | image_tag: 
-            class: 'simplify-image',
-            loading: 'lazy',
-            width: section.settings.image.width,
-            height: section.settings.image.height
+          {{
+            section.settings.image
+            | image_url: width: 1000
+            | image_tag:
+              class: 'simplify-image',
+              loading: 'lazy',
+              width: section.settings.image.width,
+              height: section.settings.image.height
           }}
         {%- endif -%}
       </div>
