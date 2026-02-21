@@ -296,6 +296,36 @@
                 "heading": "Who We Serve"
             }
         },
+        "custom_video_carousel": {
+            "type": "custom-video-carousel",
+            "blocks": {
+                "video_1": {
+                    "type": "video_card"
+                },
+                "video_2": {
+                    "type": "video_card"
+                },
+                "video_3": {
+                    "type": "video_card"
+                },
+                "video_4": {
+                    "type": "video_card"
+                },
+                "video_5": {
+                    "type": "video_card"
+                }
+            },
+            "block_order": [
+                "video_1",
+                "video_2",
+                "video_3",
+                "video_4",
+                "video_5"
+            ],
+            "settings": {
+                "heading": "Trusted By Others"
+            }
+        },
         "why_choose_us": {
             "type": "why-choose-us",
             "blocks": {
@@ -426,6 +456,7 @@
         "new_arrivals",
         "promo_marquee",
         "who_we_serve",
+        "custom_video_carousel",
         "why_choose_us",
         "right_packaging",
         "eco_friendly"
