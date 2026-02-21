@@ -1,5 +1,8 @@
 {
   "sections": {
+    "breadcrumbs": {
+      "type": "breadcrumbs"
+    },
     "main": {
       "type": "main-page",
       "settings": {
@@ -58,6 +61,7 @@
     }
   },
   "order": [
+    "breadcrumbs",
     "main",
     "form",
     "map"
