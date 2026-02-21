@@ -1,584 +1,285 @@
-{{ 'form-image.css' | asset_url | stylesheet_tag }}
-
 {%- style -%}
-   .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
-  }
-   @media screen and (min-width: 576px) and (max-width: 749px){
-   .section-{{ section.id }}-padding {
+  .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
-   }
-
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
-
-  /* --- Layout: Descriptions --- */
-  .section.form-image .contact .description{margin-top:0;margin-bottom:0;}
-  .section.form-image .form-contact.form-with-image{   
-    display: flex;
-    align-content: center;                               
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 30px;
-  }
-
-  /* --- Layout: Image with Form --- */
-  .section.form-image .cont-img img{ height: 100%;display: flex;border-radius: var(--media-radius);width:100%;}
-  .section.form-image .form-contact.image-with-form .contact,
-  .section.form-image .form-contact.image-with-form .cont-img{width:calc(50% - 30px);}
-  .section.form-image .form-contact.image-with-form .cont-img svg.placeholder-svg{border-radius: var(--media-radius);}
-  .section.form-image .form-contact.image-with-form .map-contact-detail{width:100%;}
-
-  /* --- Layout: Map with Form --- */
-  .section.form-image .form-contact.map-with-form .contact{width:calc(50% - 40px);}
-  .section.form-image .form-contact.map-with-form .map-contact-detail{width:calc(50% - 40px);order:-1;margin:0;}
-  .section.form-image .form-contact.map-with-form .cont-img{width:100%; margin-top: 50px;}
-  .section.form-image .form-contact.image-with-form .map-contact-detail .collapsible_address-block .address-blocks li address{max-width:350px;margin:auto;}
-  .section.form-image .collapsible_address-block .address-blocks li .contact-icons-heading > span{display:none;}
-  .section.form-image .hours1{margin-bottom:10px;}
-  
-  ::-webkit-scrollbar-thumb {border-radius:var(--inputs-radius);background-clip: padding-box;}
-
-  /* --- Layout: Form with Icon --- */
-  .section.form-image .form-contact.form-with-icon .contact { width: 50%; }
-  .section.form-image .form-contact.form-with-icon .cont-img { width: 30%; }
-  .section.form-image .form-contact .cont-img { display: flex; flex-direction: column; gap: 70px; }
-  .section.form-image .form-contact.form-with-icon .map-contact-detail { width: 100%; }  
-  .section.form-image .form-contact.form-with-icon { align-items: flex-start; }
-
-  @media screen and (min-width:1200px){
-    .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-block-desc{max-width:600px;}
-  }
-  .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-block-desc { text-align: left; color: rgb(var(--caption-color)); line-height: var(--heading-line-height); }
-  .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-block-heading { margin-bottom: 25px; }
-
-  /* --- Professional Contact Card --- */
-  .section.form-image .contact {
-    background: rgb(var(--color-background));
-    border: 1px solid rgba(var(--color-foreground), 0.08);
-  }
-  .section.form-image .contact .contact-title.title { color: rgb(var(--color-foreground)); line-height: var(--heading-line-height); }
-  .section.form-image .contact p.contact-desc.description { text-transform: none; }
-
-  /* --- Icon Layout: Address Blocks --- */
-  .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-blocks { display: grid; grid-template-columns: repeat(1, 1fr); gap: 16px; }
-  .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-blocks li:not(:last-child) { margin-right: 10px; }
-  .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-blocks li .contact-icons-heading > span { display: block; font-weight: var(--font-heading-weight); font-size: var(--font-h5-size); text-transform: var(--text-upper); font-family: var(--font-heading-family); }
-  .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-blocks li .contact-icons-heading>h3 { margin-bottom: 1.5rem; }
-  .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-blocks .social-icons>h3 { margin-bottom: 1.5rem; }
-  .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-blocks li .contact-icons-heading { display: flex; flex-direction: column; justify-content: flex-start; gap: 0; align-items: flex-start; }
-  .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-blocks li { text-align: left; display: flex; flex-direction: row; gap: 16px; }
-  .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-blocks li a { margin: 0; }
-  .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-block-heading { text-align: left; }
-  .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-block-desc { text-align: left; }
-  .section.form-image .form-contact.form-with-icon .layout-contact-left { margin-top: 0; }
-  .section.form-image .form-contact.form-with-icon .map-contact-detail { margin-top: 0; }
-  .section.form-image .form-contact.form-with-icon ul.soicallist-icons { list-style: none; display: flex; gap: 0; padding: 0; }
-  .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-blocks li .contact-icons { margin-bottom: 0; }
-  .section.form-image .contact .title-wrapper-with-link { display: flex; gap: 8px; }
-
-  /* --- Desktop Layout --- */
-  @media(min-width:768px){
-    .section.form-image .form-contact.form-with-image { justify-content: space-between; } 
-    .section.form-image .form-contact { justify-content: space-between; }
-  }
-
-  /* --- Tablet Responsive --- */
-  @media(max-width:990px){
-    .section.form-image .contact .field { margin-bottom: 2.5rem; }
-    .section.form-image .contact__button { margin-top: 3rem; }
-    .section.form-image .form-contact.map-with-form .collapsible_address-block .address-blocks { grid-gap: 10px; }
-    .section.form-image .form-contact.form-with-icon .contact,
-    .section.form-image .form-contact.form-with-icon .cont-img { width: calc(50% - 15px); }
-    .section.form-image .form-contact.form-with-icon .map-contact-detail { width: 100%; } 
-    .section.form-image .form-contact.map-with-form .contact { width: calc(40% - 20px); }
-    .section.form-image .form-contact.map-with-form .map-contact-detail { width: calc(60% - 20px); }
-    .section.form-image .form-contact.form-with-icon .contact { width: 52%; }
-    .section.form-image .form-contact.form-with-icon .cont-img { width: 38%; }
-    .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-blocks { gap: 30px; }
-  }
-  
-  @media(max-width:990px){
-    .section.form-image .cont-img { padding: 0; margin-bottom: 60px; order: -1; }
-    .section.form-image .form-contact.image-with-form .contact,
-    .section.form-image .form-contact.image-with-form .cont-img { width: 100%; }
-    .section.form-image .form-contact.map-with-form .contact,
-    .section.form-image .form-contact.map-with-form .map-contact-detail { width: 100%; }  
-    .section.form-image .form-contact.map-with-form .collapsible_address-block .address-blocks { grid-template-columns: repeat(3, 1fr); margin-bottom: 30px; }  
-    .section.form-image .form-contact.form-with-icon .cont-img { padding: 0; margin-bottom: 0; order: 0; }
-  }
-
-  /* --- Small Tablet --- */
-  @media(max-width:786px){
-    .section.form-image .contact .title-wrapper-with-link { align-items: center; text-align: center; }
-    .section.form-image .newsletter-checkbox>label { width: 100%; align-items: center; justify-content: center; }
-    .section.form-image .form-contact.form-with-icon .cont-img { width: 100%; }
-    .section.form-image .form-contact.form-with-icon .contact { width: 100%; }
-    .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-blocks { display: grid; grid-template-columns: repeat(2, 1fr); }
-    .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-blocks li { flex-direction: column; text-align: center; }
-    .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-blocks li .contact-icons-heading { justify-content: center; align-items: center; }
-    .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-block-heading,
-    .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-block-desc { text-align: center; }
-    .section.form-image .form-contact.form-with-icon .social-icons { display: flex; justify-content: center; flex-direction: column; align-items: center; }
-    .section.form-image .form-contact.form-with-icon { row-gap: 50px; }
-    .section.form-image .cont-img { margin-bottom: 40px; }
-    .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-blocks { gap: 30px; }
-    .section.form-image .contact__button { margin-top: 2rem; }
-  }
-
-  @media(min-width:787px){
-    .section.form-image .form-contact.form-with-icon .grids { position: sticky; top: 0; }
-  }
-
-  /* --- Mobile --- */
-  @media(max-width:576px){
-    .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-blocks { display: grid; grid-template-columns: 1fr; }
-    .section.form-image .form-contact.form-with-icon ul.soicallist-icons { margin-left: 5px; }
-    .section.form-image .form-contact.form-with-icon .collapsible_address-block .address-blocks li .contact-icons-heading > span { font-size: calc(var(--font-h5-size) * .8); }
-  }
-  
 {%- endstyle -%}
-  <div class="color-{{ section.settings.color_scheme }} gradient ">
-  <div class="{% if section.settings.page_full_width %} page-full-width {% else %} page-width {% endif %} {% if section.settings.page_full_width_spacing %} page-full-width_spacing {% endif %}">
-    <div class="isolate">
-<div class="row">
-  <div class="section-{{ section.id }}-padding form-contact {{ section.settings.block_alignments }}  {%- if section.settings.enable_contact_img or section.settings.custom_liquid -%} form-with-image  {%- endif -%}">
-  {% if section.settings.enable_form %}
-   <div class="contact grids">
-    {%- unless section.settings.title == blank -%}
-      <div class="title-wrapper-with-link  title-wrapper--no-top-margin content-align--{{ section.settings.column_alignment }}">
-         {%- if section.settings.sub_heading != blank -%}  
-         <h6 class="sub-heading">{{ section.settings.sub_heading | escape }}</h6>
-         {%- endif -%} 
-         {%- if section.settings.title != blank -%}  
-          <h4 class="contact-title title  {{ section.settings.heading_size }}">
-            {{ section.settings.title | escape }}
-          </h4>
-          {%- endif -%} 
-          {%- if section.settings.description != blank -%}  
-          <p class="contact-desc description">{{ section.settings.description }}</p>
-          {%- endif -%}   
-          {%- if section.settings.button_label != blank -%}
-            <a {% if section.settings.button_link == blank %} role="link" aria-disabled="true"{% else %} href="{{ section.settings.button_link }}"{% endif %} class="button{% if section.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}">{{ section.settings.button_label | escape }}</a>
+
+{{ 'form-image.css' | asset_url | stylesheet_tag }}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="{% if section.settings.page_full_width %}page-full-width{% else %}page-width{% endif %} isolate">
+    <div class="section-{{ section.id }}-padding contact-form-section">
+      
+      {%- if section.settings.title != blank or section.settings.sub_heading != blank -%}
+      <div class="contact-header center">
+        {%- if section.settings.sub_heading != blank -%}
+          <p class="sub-heading">{{ section.settings.sub_heading }}</p>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h2 class="title {{ section.settings.heading_size }}">{{ section.settings.title }}</h2>
+        {%- endif -%}
+        {%- if section.settings.description != blank -%}
+          <p class="description">{{ section.settings.description }}</p>
+        {%- endif -%}
+      </div>
+      {%- endif -%}
+
+      <div class="contact-info-blocks">
+        <div class="info-block">
+          <div class="icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" class="icon-line"><path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 22V12H15V22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="info-text">
+            <p>{{ section.settings.address_line_1 }}</p>
+            <p>{{ section.settings.address_line_2 }}</p>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" class="icon-line"><path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 9H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 13H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="notification-dot">
+              <svg viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" fill="#e53e3e" stroke="white" stroke-width="1"/></svg>
+            </div>
+          </div>
+          <div class="info-text">
+            <p><a href="mailto:{{ section.settings.email_1 }}">{{ section.settings.email_1 }}</a></p>
+            <p><a href="mailto:{{ section.settings.email_2 }}">{{ section.settings.email_2 }}</a></p>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" class="icon-line"><path d="M22 16.92V19.92C22.0032 20.1986 21.9441 20.4735 21.8271 20.7245C21.7101 20.9754 21.5381 21.1962 21.324 21.3714C21.1098 21.5467 20.859 21.672 20.5896 21.7383C20.3201 21.8045 20.0388 21.81 19.76 21.75C16.6214 20.8315 13.7371 19.1678 11.37 16.92C9.11765 14.6546 7.53177 11.8906 6.74 8.85002C6.6806 8.57392 6.68656 8.29524 6.75738 8.02713C6.8282 7.75902 6.96272 7.50577 7.15423 7.28859C7.34574 7.07141 7.59107 6.8966 7.8785 6.77803C8.16593 6.65946 8.49002 6.59902 8.83 6.60002H11.83C12.295 6.59546 12.7483 6.76017 13.0886 7.05837C13.4289 7.35657 13.6269 7.7634 13.63 8.18002C13.6338 8.66317 13.7142 9.1415 13.86 9.58002C13.9928 9.99264 13.999 10.435 13.87 10.85L12.63 12.09C14.072 14.5168 15.9333 16.3781 18.36 17.82L19.6 16.58C19.96 16.22 20.43 16.03 20.92 16.06C21.3585 16.2058 21.8368 16.2862 22.32 16.29C22.793 16.29 23.242 16.47 23.57 16.81C23.9 17.15 24 17.6 24 18.06V21.06" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(-1.5, -1.5)"/></svg>
+          </div>
+          <div class="info-text">
+            <p><a href="tel:{{ section.settings.phone_1 }}">{{ section.settings.phone_1 }}</a></p>
+            <p><a href="tel:{{ section.settings.phone_2 }}">{{ section.settings.phone_2 }}</a></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form-layout">
+        <div class="contact-form-container">
+          {%- form 'contact', id: 'ContactForm', class: 'isolate' -%}
+            {%- if form.posted_successfully? -%}
+              <div class="form-status form-status-list form__message" tabindex="-1" autofocus>{% render 'icon-success' %} {{ 'templates.contact.form.post_success' | t }}</div>
+            {%- endif -%}
+            
+            <div class="field field--with-error">
+              <input class="field__input" autocomplete="name" type="text" id="ContactForm-name" name="contact[{{ 'templates.contact.form.name' | t }}]" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}" placeholder="{{ 'templates.contact.form.name' | t }}" required>
+              <label class="field__label visually-hidden" for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
+              <span class="asterisk">*</span>
+            </div>
+
+            <div class="field field--with-error">
+              <input autocomplete="email" type="email" id="ContactForm-email" class="field__input" name="contact[email]" spellcheck="false" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" aria-required="true" placeholder="{{ 'templates.contact.form.email' | t }}" required>
+              <label class="field__label visually-hidden" for="ContactForm-email">{{ 'templates.contact.form.email' | t }}</label>
+              <span class="asterisk">*</span>
+            </div>
+
+            <div class="field field--with-error comment-content">
+              <textarea rows="7" id="ContactForm-body" class="text-area field__input" name="contact[{{ 'templates.contact.form.comment' | t }}]" placeholder="{{ 'templates.contact.form.comment' | t }}" required>{{- form.body -}}</textarea>
+              <label class="form__label field__label visually-hidden" for="ContactForm-body">{{ 'templates.contact.form.comment' | t }}</label>
+              <span class="asterisk">*</span>
+            </div>
+
+            <div class="newsletter-checkbox">
+              <label>
+                <input type="checkbox" name="checkbox" id="agree" onclick="agreeTerms()" value="check">
+                <span>{{ section.settings.terms_text_prefix }} <a href="{{ section.settings.terms_link | default: '#' }}" class="term">{{ section.settings.terms_text_link }}</a></span>
+              </label>
+            </div> 
+
+            <div class="contact__button">
+              <button type="submit" class="button btn-style510" id="Subscribe" disabled>
+                {{ section.settings.button_label | default: 'SUBMIT NOW' }}
+              </button>
+            </div>
+          {%- endform -%}
+        </div>
+
+        <div class="contact-image-container">
+          {%- if section.settings.contact_image != blank -%}
+            <img 
+              src="{{ section.settings.contact_image | image_url: width: 1500 }}"
+              alt="{{ section.settings.contact_image.alt | escape }}"
+              loading="lazy"
+              width="{{ section.settings.contact_image.width }}"
+              height="{{ section.settings.contact_image.height }}"
+              class="contact-image"
+            >
+          {%- else -%}
+            {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg contact-image' }}
           {%- endif -%}
         </div>
-    {%- endunless -%}
-
-    
-    {%- form 'contact', id: 'ContactForm', class: 'isolate' -%}
-      {%- if form.posted_successfully? -%}
-        <div class="form-status form-status-list form__message" tabindex="-1" autofocus>{% render 'icon-success' %} {{ 'templates.contact.form.post_success' | t }}</div>
-      {%- endif -%}
-      <div class="contact__fields">
-        <div class="field field--with-error">
-          <input class="field__input" autocomplete="name" type="text" id="ContactForm-name" name="contact[{{ 'templates.contact.form.name' | t }}]" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}" placeholder="{{ 'templates.contact.form.name' | t }}" required>
-          <label class="field__label visually-hidden" for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
-        </div>
-       <div class="field field--with-error">
-        <input type="tel" id="ContactForm-phone" class="field__input" autocomplete="tel" name="contact[{{ 'templates.contact.form.form-phone' | t }}]" pattern="[0-9\-]*" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" placeholder="{{ 'templates.contact.form.form-phone' | t }}" required>
-        <label class="field__label visually-hidden" for="ContactForm-phone">{{ 'templates.contact.form.form-phone' | t }}</label>
-      </div>
       </div>
       
-    
-       <div class="field field--with-error">
-          <input
-            autocomplete="email"
-            type="email"
-            id="ContactForm-email"
-            class="field__input"
-            name="contact[email]"
-            spellcheck="false"
-            autocapitalize="off"
-            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
-            aria-required="true"
-            {% if form.errors contains 'email' %}
-              aria-invalid="true"
-              aria-describedby="ContactForm-email-error"
-            {% endif %}
-            placeholder="{{ 'templates.contact.form.email' | t }} " 
-            required
-          >
-          <label class="field__label visually-hidden" for="ContactForm-email">{{ 'templates.contact.form.email' | t }} <span aria-hidden="true">*</span></label>
-          {%- if form.errors contains 'email' -%}
-            <small class="contact__field-error visually-hidden" id="ContactForm-email-error">
-              <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
-              <span class="form__message">{% render 'icon-error' %}{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</span>
-            </small>
-          {%- endif -%}
-        </div>
-      <div class="field field--with-error comment-content">
-        <textarea
-          rows="10"
-          id="ContactForm-body" 
-          class="text-area field__input"
-          name="contact[{{ 'templates.contact.form.comment' | t }}]"
-          placeholder="{{ 'templates.contact.form.comment' | t }}"
-          required
-        >
-          {{- form.body -}}
-        </textarea>
-        <label class="form__label field__label visually-hidden" for="ContactForm-body">{{ 'templates.contact.form.comment' | t }}</label>
-      </div>
-   <div class="newsletter-checkbox">
-   <label> <input type="checkbox" name="checkbox" id="agree" onclick="agreeTerms()"   value="check">
-    <span>{{ 'templates.contact.form.contact_text' | t  }}</span> 
-      <span class="term" >
-      <a href= "#" id="underline-link">{{   'templates.contact.form.contact_text1' | t  }} </a> </span></label>
-     </div> 
-      <div class="contact__button">
-        <button type="submit" class="button btn-style510">
-          {{ 'templates.contact.form.send' | t }}
-        </button>
-      </div>
-    {%- endform -%}
-     
-  </div>
-    {% endif %}
-   
-  <div class="cont-img grids">
-    {% if section.settings.address_heading != blank or section.settings.address_desc != blank or section.settings.collapsible_address != blank and  section.settings.collapsible_contact_id != blank  and section.settings.collapsible_contact_no != blank %}
-      <div class="layout-contact-top">
-          <div class="collapsible_address-block">
-             {% if section.settings.address_heading != blank %}
-            <h2 class="title address-block-heading  {{ section.settings.heading_size }}">{{ section.settings.address_heading}}</h2>
-            {% endif %}  
-            {% if section.settings.address_desc != blank %}
-            <p class="address-block-desc">{{ section.settings.address_desc}}</p>
-            {% endif %}   
-            <ul class="address-blocks list-unstyled">
-        
-            {% if section.settings.collapsible_address != blank %}
-            <li class="address"> 
-            <span class="contact-icons">{%- render 'icon-location' -%}</span>
-            <span class="contact-icons-heading">    
-            <h3>{{ 'templates.contact.form.location' | t }}</h3>  
-            <address><h5>{{ section.settings.collapsible_address }}</h5></address>
-            </span>
-            </li>
-            {% endif %} 
-            {% if section.settings.collapsible_contact_no != blank %}
-            <li class="contact-phone">   
-              <span class="contact-icons">{%- render 'icon-phone' -%}</span>
-              <span class="contact-icons-heading">
-                 <h3>{{ 'templates.contact.form.phone' | t }}</h3>
-                 <a href="tel:{{ section.settings.collapsible_contact_no }}" class="link"><h5>{{ section.settings.collapsible_contact_no }}</h5></a>   
-                   <a href="mailto:{{ section.settings.collapsible_contact_id}}" class="link"> <span><h5>{{ section.settings.collapsible_contact_id }}</h5></span></a>    
-              </span>
-              
-            </li>
-            {% endif %}
-
-              
-                {%  if section.settings.social_icons and section.settings.block_alignments == 'form-with-icon'  %}
-             <div class="social-icons">   
-               <h3>{{ 'templates.contact.form.social-icon' | t }}</h3>
-             <ul class="soicallist-icons">
-               {% render 'social-icons' %}
-             </ul>
-            </div>
-                {% endif %} 
-
-              
-                 {% if section.settings.hours-1 and section.settings.hours-2 != blank %}
-            <li class="opening-hours">   
-              <span class="contact-icons">{%- render 'icon-phone' -%}</span>
-              <span class="contact-icons-heading">
-                 <h3>{{ 'templates.contact.form.opening-hours' | t }}</h3>
-              <div class="hours-content">
-                 <h5 class="hours1">  {{ section.settings.hours-1}}  </h5>
-                 <h5>{{ section.settings.hours-2}}</h5> 
-              </div>
-              </span>
-              
-            </li>
-            {% endif %}
-            </ul>
-          
-
-          
-          </div>
-     </div>
-   {% endif %}
-
-   {%- if section.settings.enable_contact_img -%}
-     <div class="layout-contact-bottom">
-   {%- if section.settings.phone_image != blank -%}
-   <img
-                    
-                      srcset="{%- if section.settings.phone_image.width >= 375 -%}{{ section.settings.phone_image | image_url: width: 375 }} 375w,{%- endif -%}
-                      {%- if section.settings.phone_image.width >= 550 -%}{{ section.settings.phone_image | image_url: width: 550 }} 550w,{%- endif -%}
-                      {%- if section.settings.phone_image.width >= 750 -%}{{ section.settings.phone_image | image_url: width: 750 }} 750w,{%- endif -%}
-                      {%- if section.settings.phone_image.width >= 1100 -%}{{ section.settings.phone_image | image_url: width: 1100 }} 1100w,{%- endif -%}
-                      {%- if section.settings.phone_image.width >= 1500 -%}{{ section.settings.phone_image | image_url: width: 1500 }} 1500w,{%- endif -%}
-                      {%- if section.settings.phone_image.width >= 1780 -%}{{ section.settings.phone_image | image_url: width: 1780 }} 1780w,{%- endif -%}
-                      {%- if section.settings.phone_image.width >= 2000 -%}{{ section.settings.phone_image | image_url: width: 2000 }} 2000w,{%- endif -%}
-                      {%- if section.settings.phone_image.width >= 3000 -%}{{ section.settings.phone_image | image_url: width: 3000 }} 3000w,{%- endif -%}
-                      {%- if section.settings.phone_image.width >= 3840 -%}{{ section.settings.phone_image | image_url: width: 3840 }} 3840w,{%- endif -%}
-                      {{ section.settings.phone_image | image_url: width: 1500 }} {{ section.settings.phone_image.width }}w"
-                      sizes="100vw"
-                      src="{{ section.settings.phone_image | image_url: width: 1500 }}"
-                      loading="lazy"              
-                      alt="{{ section.settings.phone_image.alt | escape }}"
-                      width="{{ section.settings.phone_image.width }}"
-                      height="{{ section.settings.phone_image.width | divided_by: section.settings.phone_image.aspect_ratio | round }}"
-                    >
-      {% else %}
-    {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
-    {% endif %}
     </div>
-   {%- endif -%}
   </div>
-    
 </div>
 
-<!-- map detail -->
-    <div class="map-contact-detail">
-  {% if section.settings.custom_liquid %}
-        <div class="layout-contact-right">
-        {{ section.settings.custom_liquid }}
-        </div>
-  {% endif %}
-  
-  </div>
-  <!--map detail end  -->
- 
-</div>
-</div>
-</div>
-</div>
- <script>
-              function agreeTerms() {
-              var submitBtn = document.getElementById("Subscribe");
-              var checkConds = document.getElementById("agree");
-              if (checkConds.checked == true) {
-              submitBtn.disabled = false;
-              } else {
-              submitBtn.disabled = true;
-              }
-              }
-            </script>
+<script>
+  function agreeTerms() {
+    var submitBtn = document.getElementById("Subscribe");
+    var checkConds = document.getElementById("agree");
+    if (checkConds.checked == true) {
+      submitBtn.disabled = false;
+    } else {
+      submitBtn.disabled = true;
+    }
+  }
+</script>
+
 {% schema %}
 {
-  "name": "t:sections.form-image.name",
+  "name": "Contact Form Match",
   "tag": "section",
   "class": "section form-image",
   "settings": [
     {
-      "type":"checkbox",
-      "id":"page_full_width",
-       "default": false,
-      "label": "t:sections.all.page_full_width.label"
+      "type": "checkbox",
+      "id": "page_full_width",
+      "default": false,
+      "label": "Full Width"
     },
     {
-      "type":"checkbox",
-      "id":"page_full_width_spacing",
-       "default": false,
-      "label": "t:sections.all.page_full_width_spacing.label"
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
     },
-      {
+    {
+      "type": "header",
+      "content": "Section Title (Optional)"
+    },
+    {
       "type": "text",
       "id": "title",
-      "default":"Heading",  
-      "label": "t:sections.all.title.label"
+      "label": "Heading"
     },
     {
       "type": "select",
       "id": "heading_size",
       "options": [
-        {
-          "value": "h3",
-          "label": "t:sections.all.heading_size.options__1.label"
-        },
-        {
-          "value": "h2",
-          "label": "t:sections.all.heading_size.options__2.label"
-        },
-        {
-          "value": "h1",
-          "label": "t:sections.all.heading_size.options__3.label"
-        }
+        { "value": "h3", "label": "Small" },
+        { "value": "h2", "label": "Medium" },
+        { "value": "h1", "label": "Large" }
       ],
       "default": "h1",
-      "label": "t:sections.all.heading_size.label"
+      "label": "Heading Size"
     },
     {
       "type": "text",
       "id": "sub_heading",
-      "label": "t:sections.all.sub_heading.label"
+      "label": "Sub Heading"
     },
-     {
+    {
       "type": "text",
       "id": "description",
-      "default": "Use This Text To Share The Information Which You Like!.",  
-      "label": "t:sections.all.description.label"
+      "label": "Description"
+    },
+    {
+      "type": "header",
+      "content": "Contact Info Blocks"
+    },
+    {
+      "type": "text",
+      "id": "address_line_1",
+      "label": "Address Line 1",
+      "default": "No: 58 A, East Madison Street,"
+    },
+    {
+      "type": "text",
+      "id": "address_line_2",
+      "label": "Address Line 2",
+      "default": "Baltimore, MD, USA 4508"
+    },
+    {
+      "type": "text",
+      "id": "email_1",
+      "label": "Email 1",
+      "default": "info@example.com"
+    },
+    {
+      "type": "text",
+      "id": "email_2",
+      "label": "Email 2",
+      "default": "support@example.com"
+    },
+    {
+      "type": "text",
+      "id": "phone_1",
+      "label": "Phone 1",
+      "default": "000 - 123 - 456789"
+    },
+    {
+      "type": "text",
+      "id": "phone_2",
+      "label": "Phone 2",
+      "default": "0000 1234 56789"
+    },
+    {
+      "type": "image_picker",
+      "id": "contact_image",
+      "label": "Contact Image"
+    },
+    {
+      "type": "header",
+      "content": "Form Text & Buttons"
+    },
+    {
+      "type": "text",
+      "id": "terms_text_prefix",
+      "label": "Terms Prefix Text",
+      "default": "I agree with the"
+    },
+    {
+      "type": "text",
+      "id": "terms_text_link",
+      "label": "Terms Link Text",
+      "default": "terms & conditions"
+    },
+    {
+      "type": "url",
+      "id": "terms_link",
+      "label": "Terms Link URL"
     },
     {
       "type": "text",
       "id": "button_label",
-      "label": "t:sections.all.button_label.label"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "t:sections.all.button_link.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "button_style_secondary",
-      "default": false,
-      "label": "t:sections.all.button_style_secondary.label"
-      },
-    {
-      "type": "select",
-      "id": "column_alignment",
-      "options": [
-        {
-          "value": "left",
-          "label": "t:sections.hotspot.settings.column_alignment.options__1.label"
-        },
-        {
-          "value": "center",
-          "label": "t:sections.hotspot.settings.column_alignment.options__2.label"
-        }
-      ],
-      "default": "center",
-      "label": "t:sections.hotspot.settings.column_alignment.label"
-    },
-    {
-          "type": "color_scheme",
-          "id": "color_scheme",
-          "label": "t:sections.all.colors.label",
-          "default": "scheme-1"
-    },
-     {
-      "type": "header",
-      "content": "t:sections.form-image.settings.contact_section_settings.content"
-    },
-    {
-      "type": "liquid",
-      "id": "custom_liquid",
-      "label": "t:sections.form-image.settings.custom_liquid.label",
-      "info": "t:sections.form-image.settings.custom_liquid.info"
-    },
-      {
-      "type":"checkbox",
-      "id":"enable_form",
-       "default": false,
-      "label": "t:sections.form-image.settings.enable_form.label"   
-    },
-      {
-      "type":"checkbox",
-      "id":"enable_contact_img",
-       "default": false,
-      "label": "t:sections.form-image.settings.enable_contact_img.label"   
-    },
-    {
-    "type": "image_picker",
-    "id": "phone_image",
-    "label": "t:sections.form-image.settings.phone_image.label"
-    },
-        {
-          "type": "text",
-          "id": "address_heading",
-          "label": "t:sections.form-image.settings.address_heading.label"
-        },
-      {
-          "type": "text",
-          "id": "address_desc",
-          "label": "t:sections.form-image.settings.address_desc.label"
-        },
-    
-    {
-        "type": "textarea",
-        "id": "collapsible_address",
-        "label": "t:sections.form-image.settings.collapsible_address.label"
-        },
-        {
-        "type": "text",
-        "id": "collapsible_contact_no",
-        "label": "t:sections.form-image.settings.collapsible_contact_no.label"
-        },
-         {
-        "type": "text",
-        "id": "collapsible_contact_id",
-        "label": "t:sections.form-image.settings.collapsible_contact_id.label"
-        },
-        {
-      "type":"checkbox",
-      "id":"social_icons",
-       "default": false,
-      "label": "t:sections.form-image.settings.social_icons.label",
-      "info": "t:sections.form-image.settings.social_icons.info"   
-    },
-   
-        {
-        "type": "text",
-        "id": "hours-1",
-        "label": "t:sections.form-image.settings.hours-1.label"
-        },
-     {
-        "type": "text",
-        "id": "hours-2",
-       "label": "t:sections.form-image.settings.hours-2.label"
-        },
-     {
-      "type": "select",
-      "id": "block_alignments",
-      "options": [
-        {
-          "value": "map-with-form",
-          "label": "t:sections.form-image.settings.block_alignments.options__1.label"
-        },
-        {
-          "value": "image-with-form",
-          "label": "t:sections.form-image.settings.block_alignments.options__2.label"
-        },
-       {
-          "value": "form-with-icon",
-          "label": "t:sections.form-image.settings.block_alignments.options__3.label"
-        } 
-      ],
-      "default": "image-with-form",
-      "label": "t:sections.form-image.settings.block_alignments.label",
-      "info": "if change block alignment - map with form if add the custom liquid(map location)" 
+      "label": "Button Label",
+      "default": "SUBMIT NOW"
     },
     {
       "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
+      "content": "Padding"
     },
-    
     {
       "type": "range",
       "id": "padding_top",
-      "min": 0,
-      "max": 160,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "label": "Padding Top",
       "default": 36
     },
     {
       "type": "range",
       "id": "padding_bottom",
-      "min": 0,
-      "max": 160,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
+      "min": 0, "max": 160, "step": 4, "unit": "px",
+      "label": "Padding Bottom",
       "default": 36
     }
   ],
   "presets": [
     {
-      "name": "t:sections.form-image.presets.name"
+      "name": "Contact Form Match"
     }
   ]
 }
