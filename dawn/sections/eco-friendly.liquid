@@ -240,30 +240,33 @@
 
   .eco-feature {
     display: flex;
-    align-items: stretch; /* Stretch bar to match text height */
-    gap: 14px; /* Reduced gap between bar and text */
-  }
-
-  .eco-feature-bar {
-    width: 6px; /* Thicker bar */
-    background-color: {{ section.settings.accent_color }};
-    border-radius: 4px;
-    flex-shrink: 0;
+    align-items: center; /* Center text vertically */
   }
 
   .eco-feature-text {
     font-family: 'Rethink Sans', sans-serif;
-    font-size: 20px; /* Increased feature text size for mobile */
+    font-size: 16px; /* Reduced feature text size for mobile */
     line-height: 1.2;
     font-weight: 600; /* Bold text */
     color: #ffffff;
-    align-self: center; /* Center text vertically with bar */
+    position: relative;
+    padding-left: 20px; /* Space for the line (6px width + 14px gap) */
+  }
+
+  .eco-feature-text::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px; /* Thicker bar */
+    background-color: {{ section.settings.accent_color }};
   }
 
   @media screen and (min-width: 990px) {
       .eco-feature-text {
-          font-size: 24px; /* Significantly increased for desktop */
-          line-height: 1.15; /* Tighter line height for 2-line look */
+          font-size: 20px; /* Adjusted for desktop */
+          line-height: 1.2; /* Tighter line height for 2-line look */
       }
 
       /* Specific widths to force 2-line layouts */
@@ -285,7 +288,7 @@
     justify-content: center;
     align-items: center;
     background-color: #ffffff;
-    color: {{ section.settings.bg_color }};
+    color: #000000;
     padding: 16px 32px;
     border-radius: 100px;
     font-family: 'Rethink Sans', sans-serif;
@@ -385,7 +388,6 @@
         <div class="eco-features">
           {%- for block in section.blocks -%}
             <div class="eco-feature" {{ block.shopify_attributes }}>
-              <div class="eco-feature-bar"></div>
               <div class="eco-feature-text">{{ block.settings.text | escape }}</div>
             </div>
           {%- endfor -%}

@@ -157,7 +157,7 @@
   .rp-container {
     max-width: 1440px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0; /* Reduced padding */
     font-family: 'Rethink Sans', sans-serif;
   }
 
@@ -195,7 +195,7 @@
 
   .rp-grid-wrapper {
       display: flex;
-      gap: 20px;
+      gap: 16px; /* balanced gap */
       align-items: center; /* Center cards in column */
       flex-direction: column; /* Stack on mobile */
       padding-bottom: 20px;
@@ -214,7 +214,7 @@
         align-items: flex-start;
       }
       .rp-card {
-          width: 280px; /* Fixed width for scrolling */
+          width: 340px; /* Reduced slightly */
           max-width: none;
       }
   }
@@ -248,7 +248,7 @@
   .rp-label {
       font-family: 'Rethink Sans', sans-serif; /* Explicitly set */
       font-weight: 700;
-      font-size: 15px; /* Increased from 13px */
+      font-size: 18px; /* Increased from 15px */
       color: #000000;
       height: 60px; /* Fixed height to match data rows */
       display: flex;
@@ -261,9 +261,9 @@
   .rp-card {
       background: #FFFFFF;
       border-radius: 12px;
-      padding: 20px;
-      min-width: 280px;
-      flex: 0 0 280px;
+      padding: 20px 12px; /* Restored slight padding reduction */
+      min-width: 340px;
+      flex: 0 0 340px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -544,8 +544,16 @@
       }
   }
 
+  .rp-divider {
+      width: 100%;
+      height: 1px;
+      background-color: #E8E8E8;
+      border: none;
+      margin: 20px 0 0 0;
+  }
+
   .rp-add-btn {
-      margin-top: 24px;
+      margin-top: 20px;
       width: 90%; /* Slightly smaller than container */
       background-color: #000000;
       color: #FFFFFF;
@@ -660,9 +668,13 @@
           display: block;
       }
 
+      .rp-divider {
+          margin: 12px 0 0 0;
+      }
+
       .rp-add-btn {
           width: 100%;
-          margin-top: 10px;
+          margin-top: 12px;
           padding: 8px 12px;
           font-size: 10px;
       }
@@ -836,6 +848,8 @@
               {%- endif -%}
             </span>
           </div>
+
+          <hr class="rp-divider">
 
           <a
             href="{% if block_product != blank %}{{ block_product.url }}{% else %}#{% endif %}"

@@ -1,7 +1,11 @@
 {
   "sections": {
-    "breadcrumbs": {
-      "type": "breadcrumbs"
+    "banner": {
+      "type": "about-banner",
+      "settings": {
+        "title": "CONTACT US",
+        "subtitle": "Get in touch with our team for any inquiries."
+      }
     },
     "main": {
       "type": "main-page",
@@ -61,7 +65,7 @@
     }
   },
   "order": [
-    "breadcrumbs",
+    "banner",
     "main",
     "form",
     "map"

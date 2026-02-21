@@ -1,11 +1,10 @@
 {
   "sections": {
-    "banner": {
-      "type": "main-collection-banner",
+    "custom_banner": {
+      "type": "about-banner",
       "settings": {
-        "show_collection_description": true,
-        "show_collection_image": false,
-        "color_scheme": "scheme-1"
+        "title": "ALL PRODUCTS",
+        "subtitle": "Discover our complete range of packaging solutions."
       }
     },
     "product-grid": {
@@ -30,7 +29,7 @@
     }
   },
   "order": [
-    "banner",
+    "custom_banner",
     "product-grid"
   ]
 }
