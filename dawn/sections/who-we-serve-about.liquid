@@ -49,10 +49,9 @@
           "default": "Service Name"
         },
         {
-           "type": "html",
-           "id": "svg_icon",
-           "label": "SVG Icon (Paste SVG code or filename)",
-           "info": "Enter the filename of the uploaded asset (e.g., 'we-serve1.svg') or paste SVG code."
+           "type": "image_picker",
+           "id": "icon_image",
+           "label": "Icon Image"
         }
       ]
     }
@@ -64,43 +63,37 @@
         {
           "type": "about_service_item",
           "settings": {
-            "title": "Restaurants & QSRs",
-            "svg_icon": "we-serve1.svg"
+            "title": "Restaurants & QSRs"
           }
         },
         {
           "type": "about_service_item",
           "settings": {
-            "title": "Cafés & Coffee Chains",
-            "svg_icon": "we-serve2.svg"
+            "title": "Cafés & Coffee Chains"
           }
         },
         {
           "type": "about_service_item",
           "settings": {
-            "title": "Catering Companies",
-            "svg_icon": "we-serve3.svg"
+            "title": "Catering Companies"
           }
         },
         {
           "type": "about_service_item",
           "settings": {
-            "title": "Food Trucks & Cloud Kitchens",
-            "svg_icon": "we-serve4.svg"
+            "title": "Food Trucks & Cloud Kitchens"
           }
         },
         {
           "type": "about_service_item",
           "settings": {
-            "title": "Event Planners & Venues",
-            "svg_icon": "we-serve5.svg"
+            "title": "Event Planners & Venues"
           }
         },
         {
           "type": "about_service_item",
           "settings": {
-            "title": "Franchise & Multi-Location Brands",
-            "svg_icon": "we-serve6.svg"
+            "title": "Franchise & Multi-Location Brands"
           }
         }
       ]
@@ -258,17 +251,17 @@
       {%- for block in section.blocks -%}
         <div class="serve-about-item" {{ block.shopify_attributes }}>
           <div class="serve-about-icon-wrapper">
-            {%- if block.settings.svg_icon contains '.svg' -%}
-              <img
-                src="{{ block.settings.svg_icon | asset_url }}"
-                alt="{{ block.settings.title | escape }}"
-                class="serve-about-icon"
-                loading="lazy"
-                width="120"
-                height="120"
-              >
+            {%- if block.settings.icon_image != blank -%}
+              {{
+                block.settings.icon_image
+                | image_url: width: 120
+                | image_tag:
+                  class: 'serve-about-icon',
+                  loading: 'lazy',
+                  alt: block.settings.title
+              }}
             {%- else -%}
-              {{ block.settings.svg_icon }}
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#149B77" stroke-width="1.5" class="serve-about-icon"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             {%- endif -%}
           </div>
           <p class="serve-about-title">{{ block.settings.title | escape }}</p>
