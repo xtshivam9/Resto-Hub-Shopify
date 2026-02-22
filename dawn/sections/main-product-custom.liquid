@@ -1,3 +1,4 @@
+{% comment %}theme-check-disable UnknownObject, AssetUrlFilters, DeprecatedFilter, ImgWidthAndHeight{% endcomment %}
 {{ 'main-product-custom.css' | asset_url | stylesheet_tag }}
 <!-- Main Product Custom Section -->
 
@@ -8,10 +9,12 @@
       <div class="main-image-container">
         {% if product.featured_image %}
           <img
-            src="{{ product.featured_image | img_url: 'master' }}"
+            src="{{ product.featured_image | image_url: width: 1200 }}"
             alt="{{ product.featured_image.alt | escape }}"
             class="main-image"
             id="MainImage"
+            width="{{ product.featured_image.width }}"
+            height="{{ product.featured_image.height }}"
           >
         {% else %}
           {{ 'product-1' | placeholder_svg_tag: 'main-image' }}
@@ -23,9 +26,15 @@
           {% for image in product.images limit: 4 %}
             <div
               class="thumbnail-item {% if forloop.first %}active{% endif %}"
-              onclick="changeImage('{{ image | img_url: 'master' }}', this)"
+              onclick="changeImage('{{ image | image_url: width: 1200 }}', this)"
             >
-              <img src="{{ image | img_url: 'medium' }}" alt="{{ image.alt | escape }}" class="thumbnail-image">
+              <img
+                src="{{ image | image_url: width: 400 }}"
+                alt="{{ image.alt | escape }}"
+                class="thumbnail-image"
+                width="{{ image.width }}"
+                height="{{ image.height }}"
+              >
             </div>
           {% endfor %}
         </div>
@@ -85,6 +94,8 @@
                 alt="{{ feature_labels[forloop.index0] | default: 'Feature' | escape }}"
                 class="feature-icon-img"
                 loading="lazy"
+                width="130"
+                height="130"
               >
               {% if feature_labels != blank and feature_labels[forloop.index0] != blank %}
                 <span class="feature-label">{{ feature_labels[forloop.index0] }}</span>
@@ -166,10 +177,12 @@
                 <div class="fbt-image-wrapper">
                   {% if col_product.featured_image %}
                     <img
-                      src="{{ col_product.featured_image | img_url: '200x200', crop: 'center' }}"
+                      src="{{ col_product.featured_image | image_url: width: 200, height: 200, crop: 'center' }}"
                       alt="{{ col_product.title | escape }}"
                       class="fbt-item-image"
                       loading="lazy"
+                      width="200"
+                      height="200"
                     >
                   {% else %}
                     {{ 'product-1' | placeholder_svg_tag: 'fbt-item-image' }}

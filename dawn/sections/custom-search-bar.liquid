@@ -12,12 +12,53 @@
         aria-label="{{ section.settings.placeholder_text }}"
       >
       <input type="hidden" name="type" value="product">
-      <button type="submit" class="custom-search-button" style="background-color: {{ section.settings.button_color }}; color: {{ section.settings.button_text_color }};">
+      <button
+        type="submit"
+        class="custom-search-button"
+        style="background-color: {{ section.settings.button_color }}; color: {{ section.settings.button_text_color }};"
+      >
         {{ section.settings.button_text }}
       </button>
     </form>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.querySelector('.custom-search-input');
+    if (!searchInput) return;
+
+    const originalPlaceholder =
+      searchInput.getAttribute('aria-label') || '{{ section.settings.placeholder_text | escape }}';
+    const chars = originalPlaceholder.split('');
+    let currentCharIndex = 0;
+
+    // Start empty
+    searchInput.setAttribute('placeholder', '');
+
+    function typeChars() {
+      if (currentCharIndex <= chars.length) {
+        const textToDisplay = chars.slice(0, currentCharIndex).join('');
+        searchInput.setAttribute('placeholder', textToDisplay);
+        currentCharIndex++;
+
+        if (currentCharIndex <= chars.length) {
+          setTimeout(typeChars, 60); // 60ms per character
+        } else {
+          // Restart after a pause
+          setTimeout(() => {
+            currentCharIndex = 0;
+            searchInput.setAttribute('placeholder', '');
+            setTimeout(typeChars, 500);
+          }, 3000); // 3 seconds pause before restart
+        }
+      }
+    }
+
+    // Start animation
+    setTimeout(typeChars, 500);
+  });
+</script>
 
 {% schema %}
 {

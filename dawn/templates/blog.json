@@ -1,5 +1,12 @@
 {
   "sections": {
+    "banner": {
+      "type": "about-banner",
+      "settings": {
+        "title": "OUR BLOG",
+        "subtitle": "Read the latest news, updates, and packaging insights."
+      }
+    },
     "main": {
       "type": "main-blog",
       "settings": {
@@ -14,6 +21,7 @@
     }
   },
   "order": [
+    "banner",
     "main"
   ]
 }

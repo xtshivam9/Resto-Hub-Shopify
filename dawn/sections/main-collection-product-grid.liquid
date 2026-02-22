@@ -1,3 +1,4 @@
+{{ 'new-arrivals.css' | asset_url | stylesheet_tag }}
 {{ 'template-collection.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
@@ -25,13 +26,27 @@
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 | plus: 145 }}px;
+  }
+
+  /* Override page-width padding to match New Arrivals */
+  .section-{{ section.id }}-padding.page-width,
+  .section-{{ section.id }}-padding .page-width {
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-bottom: {{ section.settings.padding_bottom | plus: 150 }}px;
+    }
+
+    .section-{{ section.id }}-padding.page-width,
+    .section-{{ section.id }}-padding .page-width {
+      padding-left: 80px;
+      padding-right: 80px;
+      max-width: 1600px; /* Match new arrivals max-width */
     }
   }
 {%- endstyle -%}
@@ -143,44 +158,80 @@
             class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
           >
             <div class="loading-overlay gradient"></div>
-            <ul
-              id="product-grid"
-              data-id="{{ section.id }}"
-              class="
-                grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
-                grid--{{ section.settings.columns_desktop }}-col-desktop
-                {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
-              "
-            >
-              {% assign skip_card_product_styles = false %}
+            <div class="new-arrivals-grid" id="product-grid" data-id="{{ section.id }}">
               {%- for product in collection.products -%}
-                {% assign lazy_load = false %}
-                {%- if forloop.index > 2 -%}
-                  {%- assign lazy_load = true -%}
-                {%- endif -%}
-                <li
-                  class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                <div
+                  class="na-product-card"
                   {% if settings.animations_reveal_on_scroll %}
-                    data-cascade
-                    style="--animation-order: {{ forloop.index }};"
+                    data-cascade style="--animation-order: {{ forloop.index }};"
                   {% endif %}
                 >
-                  {% render 'card-product',
-                    card_product: product,
-                    media_aspect_ratio: section.settings.image_ratio,
-                    image_shape: section.settings.image_shape,
-                    show_secondary_image: section.settings.show_secondary_image,
-                    show_vendor: section.settings.show_vendor,
-                    show_rating: section.settings.show_rating,
-                    lazy_load: lazy_load,
-                    skip_styles: skip_card_product_styles,
-                    quick_add: section.settings.quick_add,
-                    section_id: section.id
-                  %}
-                </li>
-                {%- assign skip_card_product_styles = true -%}
+                  <div class="na-image-wrapper">
+                    {%- if product.available == false -%}
+                      <span class="na-badge na-badge--sold-out">SOLD OUT</span>
+                    {%- elsif product.compare_at_price > product.price -%}
+                      <span class="na-badge">BEST SELLER</span>
+                    {%- endif -%}
+
+                    {%- if product.featured_image != blank -%}
+                      {{
+                        product.featured_image
+                        | image_url: width: 600
+                        | image_tag: class: 'na-product-image', loading: 'lazy', alt: product.title
+                      }}
+                    {%- else -%}
+                      {{ 'product-1' | placeholder_svg_tag: 'na-product-image placeholder-svg' }}
+                    {%- endif -%}
+                  </div>
+
+                  <div class="na-card-content">
+                    <div class="na-rating-row">
+                      <div class="na-stars">
+                        <span class="star filled">★</span>
+                        <span class="star filled">★</span>
+                        <span class="star filled">★</span>
+                        <span class="star filled">★</span>
+                        <span class="star filled">★</span>
+                      </div>
+                      <span class="na-reviews">25 Reviews</span>
+                    </div>
+
+                    <h3 class="na-product-title">
+                      <a href="{{ product.url }}">{{ product.title | escape }}</a>
+                    </h3>
+                    <p class="na-product-subtitle">{{ product.description | strip_html | truncate: 80 }}</p>
+
+                    <div class="na-price-row">
+                      <div class="price-group">
+                        <span class="na-price">{{ product.price | money }}</span>
+                        {%- if product.compare_at_price > product.price -%}
+                          <span class="na-compare-price">{{ product.compare_at_price | money }}</span>
+                        {%- endif -%}
+                      </div>
+                      {%- if product.metafields.custom.box_size != blank -%}
+                        <span class="na-unit-text">{{ product.metafields.custom.box_size }}</span>
+                      {%- endif -%}
+                    </div>
+
+                    <button
+                      class="na-add-btn"
+                      type="button"
+                      data-product-id="{{ product.id }}"
+                      data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                      {% unless product.available %}
+                        disabled
+                      {% endunless %}
+                    >
+                      {% if product.available -%}
+                        ADD TO CART
+                      {%- else -%}
+                        SOLD OUT
+                      {%- endif %}
+                    </button>
+                  </div>
+                </div>
               {%- endfor -%}
-            </ul>
+            </div>
 
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
@@ -233,7 +284,7 @@
           "label": "t:sections.main-collection-product-grid.settings.columns_mobile.options__2.label"
         }
       ]
-    },    
+    },
     {
       "type": "color_scheme",
       "id": "color_scheme",
@@ -408,3 +459,108 @@
   ]
 }
 {% endschema %}
+
+<script>
+  (function () {
+    // Add to cart functionality for collection page
+    document.addEventListener('click', function (e) {
+      var addBtn = e.target.closest('.na-add-btn');
+      if (!addBtn || addBtn.disabled) return;
+
+      e.preventDefault();
+
+      var variantId = addBtn.getAttribute('data-variant-id');
+      if (!variantId) return;
+
+      // Disable button and show loading state
+      addBtn.disabled = true;
+      var originalText = addBtn.textContent;
+      addBtn.textContent = 'ADDING...';
+
+      // Prepare form data with sections for proper cart drawer rendering
+      var formData = new FormData();
+      formData.append('id', variantId);
+      formData.append('quantity', 1);
+      formData.append('sections', 'cart-drawer,cart-icon-bubble');
+      formData.append('sections_url', window.location.pathname);
+
+      // Add to cart via Shopify Ajax API
+      fetch('/cart/add.js', {
+        method: 'POST',
+        body: formData,
+      })
+        .then(function (response) {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(function (data) {
+          // Success - show feedback
+          addBtn.textContent = 'ADDED ✓';
+          addBtn.classList.add('na-add-btn--added');
+
+          // Update cart drawer HTML if sections are returned
+          if (data.sections) {
+            // Update cart drawer content
+            if (data.sections['cart-drawer']) {
+              var cartDrawerElement = document.getElementById('CartDrawer');
+              if (cartDrawerElement) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(data.sections['cart-drawer'], 'text/html');
+                var newContent = doc.getElementById('CartDrawer');
+                if (newContent) {
+                  cartDrawerElement.innerHTML = newContent.innerHTML;
+                  var cartDrawer = document.querySelector('cart-drawer');
+                  if (cartDrawer) cartDrawer.classList.remove('is-empty');
+                  var cartDrawerItems = document.querySelector('cart-drawer-items');
+                  if (cartDrawerItems) cartDrawerItems.classList.remove('is-empty');
+                }
+              }
+            }
+
+            // Update cart count bubble
+            if (data.sections['cart-icon-bubble']) {
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(data.sections['cart-icon-bubble'], 'text/html');
+              var newCountBubble = doc.querySelector('.cart-count-bubble');
+              var currentButton = document.querySelector('#cart-icon-bubble');
+              if (currentButton) {
+                var currentCountBubble = currentButton.querySelector('.cart-count-bubble');
+                if (newCountBubble) {
+                  if (currentCountBubble) {
+                    currentCountBubble.innerHTML = newCountBubble.innerHTML;
+                  } else {
+                    currentButton.appendChild(newCountBubble.cloneNode(true));
+                  }
+                } else if (currentCountBubble) {
+                  currentCountBubble.remove();
+                }
+              }
+            }
+          }
+
+          // Open cart drawer
+          setTimeout(function () {
+            var cartIconBubble = document.querySelector('#cart-icon-bubble');
+            if (cartIconBubble) cartIconBubble.click();
+          }, 500);
+
+          // Reset button after 2 seconds
+          setTimeout(function () {
+            addBtn.disabled = false;
+            addBtn.classList.remove('na-add-btn--added');
+            addBtn.textContent = originalText;
+          }, 2000);
+        })
+        .catch(function (error) {
+          console.error('Error adding to cart:', error);
+          addBtn.textContent = 'ERROR';
+          setTimeout(function () {
+            addBtn.disabled = false;
+            addBtn.textContent = originalText;
+          }, 2000);
+        });
+    });
+  })();
+</script>

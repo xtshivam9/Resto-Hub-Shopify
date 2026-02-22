@@ -2,6 +2,8 @@
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 {{ 'component-search.css' | asset_url | stylesheet_tag }}
+{{ 'custom-search-bar.css' | asset_url | append: '?v=3' | stylesheet_tag }}
+{{ 'new-arrivals.css' | asset_url | stylesheet_tag }}
 
 {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
   {{ 'component-facets.css' | asset_url | stylesheet_tag }}
@@ -29,7 +31,7 @@
   }
 
   .template-search--empty {
-    padding-bottom: 18rem;
+    padding-bottom: 5rem;
   }
 
   @media screen and (min-width: 750px) {
@@ -55,10 +57,22 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
+  /* Override page-width padding to match New Arrivals/Customer Favourites */
+  .template-search .page-width {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .template-search .page-width {
+      padding-left: 80px;
+      padding-right: 80px;
+      max-width: 1600px; /* Match new arrivals max-width */
     }
   }
 {%- endstyle -%}
@@ -74,63 +88,22 @@
         {%- endif -%}
       </h1>
       <div class="template-search__search">
-        {%- if settings.predictive_search_enabled -%}
-          <predictive-search data-loading-text="{{ 'accessibility.loading' | t }}">
-        {%- endif -%}
-        <main-search>
-          <form action="{{ routes.search_url }}" method="get" role="search" class="search">
-            <div class="field">
-              <input
-                class="search__input field__input"
-                id="Search-In-Template"
-                type="search"
-                name="q"
-                value="{{ search.terms | escape }}"
-                placeholder="{{ 'general.search.search' | t }}"
-                {%- if settings.predictive_search_enabled -%}
-                  role="combobox"
-                  aria-expanded="false"
-                  aria-owns="predictive-search-results"
-                  aria-controls="predictive-search-results"
-                  aria-haspopup="listbox"
-                  aria-autocomplete="list"
-                  autocorrect="off"
-                  autocomplete="off"
-                  autocapitalize="off"
-                  spellcheck="false"
-                {%- endif -%}
-              >
-              <label class="field__label" for="Search-In-Template">{{ 'general.search.search' | t }}</label>
-              <input name="options[prefix]" type="hidden" value="last">
-
-              {%- if settings.predictive_search_enabled -%}
-                <div class="predictive-search predictive-search--search-template" tabindex="-1" data-predictive-search>
-                  {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
-                </div>
-
-                <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
-              {%- endif -%}
-
-              <button
-                type="reset"
-                class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}"
-                aria-label="{{ 'general.search.reset' | t }}"
-              >
-                <span class="svg-wrapper">
-                  {{- 'icon-reset.svg' | inline_asset_content -}}
-                </span>
-              </button>
-              <button type="submit" class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
-                <span class="svg-wrapper">
-                  {{- 'icon-search.svg' | inline_asset_content -}}
-                </span>
-              </button>
-            </div>
+        <div class="custom-search-container" style="background-color: #ffffff; margin: 0 auto; max-width: 800px;">
+          <form action="{{ routes.search_url }}" method="get" role="search" class="custom-search-form">
+            <input
+              type="text"
+              name="q"
+              value="{{ search.terms | escape }}"
+              placeholder="Search what you are looking for"
+              class="custom-search-input"
+              aria-label="Search what you are looking for"
+            >
+            <input name="options[prefix]" type="hidden" value="last">
+            <button type="submit" class="custom-search-button" style="background-color: #000000; color: #ffffff;">
+              SEARCH
+            </button>
           </form>
-        </main-search>
-        {%- if settings.predictive_search_enabled -%}
-          </predictive-search>
-        {%- endif -%}
+        </div>
       </div>
       {%- if search.performed -%}
         {%- unless section.settings.enable_filtering or section.settings.enable_sorting -%}
@@ -271,18 +244,71 @@
                   >
                     {%- case item.object_type -%}
                       {%- when 'product' -%}
-                        {%- capture product_settings -%}{%- if section.settings.product_show_vendor -%}vendor,{%- endif -%}title,price{%- endcapture -%}
-                        {% render 'card-product',
-                          card_product: item,
-                          media_aspect_ratio: section.settings.image_ratio,
-                          image_shape: section.settings.image_shape,
-                          show_secondary_image: section.settings.show_secondary_image,
-                          show_vendor: section.settings.show_vendor,
-                          show_rating: section.settings.show_rating,
-                          lazy_load: lazy_load,
-                          skip_styles: skip_card_product_styles
-                        %}
-                        {%- assign skip_card_product_styles = true -%}
+                        <div class="na-product-card" style="margin: 0;">
+                          <div class="na-image-wrapper">
+                            {%- if item.available == false -%}
+                              <span class="na-badge na-badge--sold-out">SOLD OUT</span>
+                            {%- elsif item.compare_at_price > item.price -%}
+                              <span class="na-badge">BEST SELLER</span>
+                            {%- endif -%}
+
+                            {%- if item.featured_image != blank -%}
+                              {{
+                                item.featured_image
+                                | image_url: width: 600
+                                | image_tag: class: 'na-product-image', loading: 'lazy', alt: item.title
+                              }}
+                            {%- else -%}
+                              {{ 'product-1' | placeholder_svg_tag: 'na-product-image placeholder-svg' }}
+                            {%- endif -%}
+                          </div>
+
+                          <div class="na-card-content">
+                            <div class="na-rating-row">
+                              <div class="na-stars">
+                                <span class="star filled">★</span>
+                                <span class="star filled">★</span>
+                                <span class="star filled">★</span>
+                                <span class="star filled">★</span>
+                                <span class="star filled">★</span>
+                              </div>
+                              <span class="na-reviews">25 Reviews</span>
+                            </div>
+
+                            <h3 class="na-product-title">
+                              <a href="{{ item.url }}">{{ item.title | escape }}</a>
+                            </h3>
+                            <p class="na-product-subtitle">{{ item.description | strip_html | truncate: 80 }}</p>
+
+                            <div class="na-price-row">
+                              <div class="price-group">
+                                <span class="na-price">{{ item.price | money }}</span>
+                                {%- if item.compare_at_price > item.price -%}
+                                  <span class="na-compare-price">{{ item.compare_at_price | money }}</span>
+                                {%- endif -%}
+                              </div>
+                              {%- if item.metafields.custom.box_size != blank -%}
+                                <span class="na-unit-text">{{ item.metafields.custom.box_size }}</span>
+                              {%- endif -%}
+                            </div>
+
+                            <button
+                              class="na-add-btn"
+                              type="button"
+                              data-product-id="{{ item.id }}"
+                              data-variant-id="{{ item.selected_or_first_available_variant.id }}"
+                              {% unless item.available %}
+                                disabled
+                              {% endunless %}
+                            >
+                              {% if item.available -%}
+                                ADD TO CART
+                              {%- else -%}
+                                SOLD OUT
+                              {%- endif %}
+                            </button>
+                          </div>
+                        </div>
                       {%- when 'article' -%}
                         {% render 'article-card',
                           article: item,
@@ -329,6 +355,146 @@
     {%- endif -%}
   </div>
 {% endpaginate %}
+
+<script>
+  (function () {
+    // Add to cart functionality for search results using new-arrivals styles
+    document.addEventListener('click', function (e) {
+      var addBtn = e.target.closest('.na-add-btn');
+      if (!addBtn || addBtn.disabled) return;
+
+      e.preventDefault();
+
+      var variantId = addBtn.getAttribute('data-variant-id');
+      if (!variantId) return;
+
+      // Disable button and show loading state
+      addBtn.disabled = true;
+      var originalText = addBtn.textContent;
+      addBtn.textContent = 'ADDING...';
+
+      // Prepare form data with sections for proper cart drawer rendering
+      var formData = new FormData();
+      formData.append('id', variantId);
+      formData.append('quantity', 1);
+      formData.append('sections', 'cart-drawer,cart-icon-bubble');
+      formData.append('sections_url', window.location.pathname);
+
+      // Add to cart via Shopify Ajax API
+      fetch('/cart/add.js', {
+        method: 'POST',
+        body: formData,
+      })
+        .then(function (response) {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(function (data) {
+          // Success - show feedback
+          addBtn.textContent = 'ADDED ✓';
+          addBtn.classList.add('na-add-btn--added');
+
+          // Update cart drawer HTML if sections are returned
+          if (data.sections) {
+            // Update cart drawer content
+            if (data.sections['cart-drawer']) {
+              var cartDrawerElement = document.getElementById('CartDrawer');
+              if (cartDrawerElement) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(data.sections['cart-drawer'], 'text/html');
+                var newContent = doc.getElementById('CartDrawer');
+                if (newContent) {
+                  cartDrawerElement.innerHTML = newContent.innerHTML;
+                  var cartDrawer = document.querySelector('cart-drawer');
+                  if (cartDrawer) cartDrawer.classList.remove('is-empty');
+                  var cartDrawerItems = document.querySelector('cart-drawer-items');
+                  if (cartDrawerItems) cartDrawerItems.classList.remove('is-empty');
+                }
+              }
+            }
+
+            // Update cart count bubble
+            if (data.sections['cart-icon-bubble']) {
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(data.sections['cart-icon-bubble'], 'text/html');
+              var newCountBubble = doc.querySelector('.cart-count-bubble');
+              var currentButton = document.querySelector('#cart-icon-bubble');
+              if (currentButton) {
+                var currentCountBubble = currentButton.querySelector('.cart-count-bubble');
+                if (newCountBubble) {
+                  if (currentCountBubble) {
+                    currentCountBubble.innerHTML = newCountBubble.innerHTML;
+                  } else {
+                    currentButton.appendChild(newCountBubble.cloneNode(true));
+                  }
+                } else if (currentCountBubble) {
+                  currentCountBubble.remove();
+                }
+              }
+            }
+          }
+
+          // Open cart drawer
+          setTimeout(function () {
+            var cartIconBubble = document.querySelector('#cart-icon-bubble');
+            if (cartIconBubble) cartIconBubble.click();
+          }, 500);
+
+          // Reset button after 2 seconds
+          setTimeout(function () {
+            addBtn.disabled = false;
+            addBtn.classList.remove('na-add-btn--added');
+            addBtn.textContent = originalText;
+          }, 2000);
+        })
+        .catch(function (error) {
+          console.error('Error adding to cart:', error);
+          addBtn.textContent = 'ERROR';
+          setTimeout(function () {
+            addBtn.disabled = false;
+            addBtn.textContent = originalText;
+          }, 2000);
+        });
+    });
+
+    // Typing animation for search input
+    document.addEventListener('DOMContentLoaded', function () {
+      const searchInput = document.querySelector('.custom-search-input');
+      if (!searchInput) return;
+
+      const originalPlaceholder = searchInput.getAttribute('aria-label') || 'Search what you are looking for';
+      const chars = originalPlaceholder.split('');
+      let currentCharIndex = 0;
+
+      // Start empty
+      searchInput.setAttribute('placeholder', '');
+
+      function typeChars() {
+        if (currentCharIndex <= chars.length) {
+          const textToDisplay = chars.slice(0, currentCharIndex).join('');
+          searchInput.setAttribute('placeholder', textToDisplay);
+          currentCharIndex++;
+
+          if (currentCharIndex <= chars.length) {
+            setTimeout(typeChars, 60); // 60ms per character
+          } else {
+            // Restart after a pause
+            setTimeout(() => {
+              currentCharIndex = 0;
+              searchInput.setAttribute('placeholder', '');
+              setTimeout(typeChars, 500);
+            }, 3000); // 3 seconds pause before restart
+          }
+        }
+      }
+
+      // Start animation
+      setTimeout(typeChars, 500);
+    });
+  })();
+</script>
 {% if section.settings.image_shape == 'arch' %}
   {{ 'mask-arch.svg' | inline_asset_content }}
 {%- endif -%}
@@ -363,7 +529,7 @@
           "label": "t:sections.main-search.settings.columns_mobile.options__2.label"
         }
       ]
-    },    
+    },
     {
       "type": "header",
       "content": "t:sections.main-search.settings.header__1.content"

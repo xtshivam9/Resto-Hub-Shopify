@@ -1,5 +1,12 @@
 {
   "sections": {
+    "banner": {
+      "type": "about-banner",
+      "settings": {
+        "title": "SEARCH RESULTS",
+        "subtitle": "Find the packaging solutions you need."
+      }
+    },
     "main": {
       "type": "main-search",
       "settings": {
@@ -21,6 +28,7 @@
     }
   },
   "order": [
+    "banner",
     "main"
   ]
 }

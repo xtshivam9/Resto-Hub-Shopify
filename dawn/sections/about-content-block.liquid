@@ -1,3 +1,5 @@
+{% comment %}theme-check-disable UnknownObject{% endcomment %}
+{% # theme-check-disable UnknownObject %}
 {% schema %}
 {
   "name": "About Content Block",
@@ -193,6 +195,25 @@
     max-width: 85%;
   }
 
+  .about-block__placeholder-{{ section.id }} {
+    width: 100%;
+    max-width: 85%;
+    margin: 0 auto;
+    aspect-ratio: 4 / 3;
+    border-radius: {{ section.settings.image_border_radius }}px;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #ccc;
+  }
+
+  .about-block__placeholder-{{ section.id }} svg {
+    width: 64px;
+    height: 64px;
+    opacity: 0.3;
+  }
+
   @media screen and (max-width: 990px) {
     .about-block__heading-{{ section.id }} {
       font-size: 32px;
@@ -275,6 +296,20 @@
               width: section.settings.image.width,
               height: section.settings.image.height
           }}
+        {%- else -%}
+          <div class="about-block__placeholder-{{ section.id }}">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+            </svg>
+          </div>
         {%- endif -%}
       </div>
 
@@ -321,6 +356,20 @@
               width: section.settings.image.width,
               height: section.settings.image.height
           }}
+        {%- else -%}
+          <div class="about-block__placeholder-{{ section.id }}">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+            </svg>
+          </div>
         {%- endif -%}
       </div>
     {% endif %}

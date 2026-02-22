@@ -1,4 +1,5 @@
 {
+    "name": "about",
     "sections": {
         "banner": {
             "type": "about-banner",

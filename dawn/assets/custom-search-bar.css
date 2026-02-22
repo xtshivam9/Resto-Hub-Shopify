@@ -42,6 +42,13 @@
     outline: none;
     font-family: 'Rethink Sans', sans-serif !important;
     padding-right: 10px;
+    box-shadow: none !important;
+}
+
+.custom-search-input:focus,
+.custom-search-input:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .custom-search-input::placeholder {

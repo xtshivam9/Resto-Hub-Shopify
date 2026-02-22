@@ -1,5 +1,12 @@
 {
   "sections": {
+    "banner": {
+      "type": "about-banner",
+      "settings": {
+        "title": "CONTACT US",
+        "subtitle": "Get in touch with our team for any inquiries."
+      }
+    },
     "main": {
       "type": "main-page",
       "settings": {
@@ -58,6 +65,7 @@
     }
   },
   "order": [
+    "banner",
     "main",
     "form",
     "map"

@@ -1,12 +1,11 @@
 {% comment %} {{ 'section-grid-tab.css' | asset_url | stylesheet_tag }} {% endcomment %}
 
 {%- style -%}
-
    .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.90 | round: 0 }}px;
   }
- 
+
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
@@ -54,37 +53,28 @@
   .contact-custom-tab .tabs_container {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 5rem;
-    padding: 0 8rem;
+    align-items: center;
+    margin-bottom: 3rem;
+    padding: 0;
   }
 
   .contact-custom-tab .tabs_container .title-wrapper-with-link {
     margin-bottom: 0;
+    flex-shrink: 0;
   }
 
   /* ===== Tab Title Row ===== */
   .contact-custom-tab .tabs_container .tab_title {
     display: flex;
-    gap: 80px;
-    justify-content: space-between;
+    gap: 30px;
+    justify-content: flex-end;
     align-items: center;
     position: relative;
-    margin-bottom: 1rem;
+    min-width: 250px;
   }
 
   .contact-custom-tab .tabs_container .tab_title:after {
-    content: '';
-    position: absolute;
-    top: auto;
-    bottom: -10px;
-    left: 0;
-    right: 0;
-    background: rgb(var(--color-foreground), 0.2);
-    width: 100%;
-    height: 1px;
-    display: flex;
-    align-items: center;
+      display: none;
   }
 
   /* ===== Tab Links ===== */
@@ -117,6 +107,32 @@
     content: '';
     opacity: 1;
     width: 100%;
+  }
+
+  /* ===== Typography ===== */
+  .contact-custom-tab .title-wrapper-with-link {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 0;
+  }
+  .contact-custom-tab .title {
+      font-size: clamp(4.5rem, 6vw, 7.5rem) !important;
+      font-weight: 300 !important;
+      line-height: 1.1 !important;
+      margin: 0;
+  }
+  .contact-custom-tab .description {
+      font-size: 1.6rem;
+      color: rgba(var(--color-foreground), 0.7);
+      margin: 0;
+  }
+  .contact-custom-tab .sub-heading {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: rgba(var(--color-foreground), 0.8);
+      margin: 0;
   }
 
   /* ===== Map Styling ===== */
@@ -313,76 +329,98 @@
     from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
   }
-
 {%- endstyle -%}
 
-  <div class="contact-custom-tab {{ section.settings.custom_class_name }} color-{{ section.settings.color_scheme }} gradient {% if section.settings.title == blank %} no-heading{% endif %}">
+<div class="contact-custom-tab {{ section.settings.custom_class_name }} color-{{ section.settings.color_scheme }} gradient {% if section.settings.title == blank %} no-heading{% endif %}">
   <div class="{% if section.settings.page_full_width %} page-full-width {% else %} page-width {% endif %} {% if section.settings.page_full_width_spacing %} page-full-width_spacing {% endif %}section-{{ section.id }}-padding isolate">
     <div class="row">
-   
-  <div class="tab-{{ section.id }}-js" id="tab-{{ section.id }}-js" data-tab-wrapper="tab-main-{{ section.id }}">
-  <div class="box_container">
-    <!-- Tab Links -->
-    <div class="grid dt-sc-column one-column tabs_container">
-
-       {%- unless section.settings.title == blank -%}
-      <div class="title-wrapper-with-link title-wrapper--self-padded-mobile title-wrapper--no-top-margin content-align--{{ section.settings.column_alignment }}">
-         {%- if section.settings.sub_heading != blank -%}  
-         <h6 class="sub-heading">{{ section.settings.sub_heading | escape }}</h6>
-         {%- endif -%} 
-         {%- if section.settings.title != blank -%}  
-          <h2 class="title {{ section.settings.heading_size }}">
-            {{ section.settings.title | escape }}
-          </h2>
-          {%- endif -%} 
-          {%- if section.settings.description != blank -%}  
-          <p class="description">{{ section.settings.description }}</p>
-          {%- endif -%}   
-          {%- if section.settings.button_label != blank -%}
-            <a {% if section.settings.button_link == blank %} role="link" aria-disabled="true"{% else %} href="{{ section.settings.button_link }}"{% endif %} class="button{% if section.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}">{{ section.settings.button_label | escape }}</a>
-          {%- endif -%}
+      <div class="tab-{{ section.id }}-js" id="tab-{{ section.id }}-js" data-tab-wrapper="tab-main-{{ section.id }}">
+        <div class="box_container">
+          <!-- Tab Links -->
+          <div class="grid dt-sc-column one-column tabs_container">
+            {%- unless section.settings.title == blank -%}
+              <div class="title-wrapper-with-link title-wrapper--self-padded-mobile title-wrapper--no-top-margin content-align--{{ section.settings.column_alignment }}">
+                {%- if section.settings.sub_heading != blank -%}
+                  <h6 class="sub-heading">{{ section.settings.sub_heading | escape }}</h6>
+                {%- endif -%}
+                {%- if section.settings.title != blank -%}
+                  <h2 class="title {{ section.settings.heading_size }}">
+                    {{ section.settings.title | escape }}
+                  </h2>
+                {%- endif -%}
+                {%- if section.settings.description != blank -%}
+                  <p class="description">{{ section.settings.description }}</p>
+                {%- endif -%}
+                {%- if section.settings.button_label != blank -%}
+                  <a
+                    {% if section.settings.button_link == blank %}
+                      role="link" aria-disabled="true"
+                    {% else %}
+                      href="{{ section.settings.button_link }}"
+                    {% endif %}
+                    class="button{% if section.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}"
+                  >
+                    {{- section.settings.button_label | escape -}}
+                  </a>
+                {%- endif -%}
+              </div>
+            {%- endunless -%}
+            <div class="tab_title">
+              {% assign active_index = 1 %}
+              {% for block in section.blocks %}
+                {% if block.settings.html != blank and block.settings.title != blank %}
+                  <h4
+                    class="tablinks link {% if active_index == 1 %}active{% endif %}"
+                    data-tab="tab-{{ active_index }}"
+                  >
+                    {{ block.settings.title }}
+                  </h4>
+                  {% assign active_index = active_index | plus: 1 %}
+                {% endif %}
+              {% endfor %}
+            </div>
           </div>
-    {%- endunless -%}
-       <div class="tab_title">
-      {% for block in section.blocks %}
-         {%  if block.settings.html != blank %}     
-      <h4 class="tablinks link" data-tab="tab-{{ forloop.index }}"> {{ block.settings.title }}</h4>
-    {% endif %}
-      {% endfor %}
-          </div>
-    </div>
 
-    <!-- Tab Contents -->
-    <div class="grid dt-sc-column one-column dt-sc-tabs-content">
-      {% for block in section.blocks %}
-        {%  if block.settings.html != blank %}
-        <div id="tab-{{ forloop.index }}" class="dt-sc-tabs-content-Details tabcontent">
-          <div id="map{{ forloop.index }}" class="map">
-             <div class="map-frame">{{ block.settings.html }}</div>
-            
-   <div class="map-content color-{{ section.settings.color_scheme }} gradient">
-          <div class="map__banner--text">
-                   {% if block.settings.address_desc != blank %}
-                    <p class="address-block-desc"><span>{{ block.settings.address_heading }}</span>{{ block.settings.address_desc }}</p>
-                  {% endif %}   
-                  {% if block.settings.phone_title != blank %}
-                        <span class="contact-icons-heading">
-                         <span>{{ block.settings.phone_title }}</span>
-                        <a href="tel:{{ block.settings.collapsible_contact_no }}" class="link">{{ block.settings.collapsible_contact_no }}</a>    
-                       </span>
-                  {% endif %}
-            </div>        
-       </div>
+          <!-- Tab Contents -->
+          <div class="grid dt-sc-column one-column dt-sc-tabs-content">
+            {% assign active_index = 1 %}
+            {% for block in section.blocks %}
+              {% if block.settings.html != blank and block.settings.title != blank %}
+                <div
+                  id="tab-{{ active_index }}"
+                  class="dt-sc-tabs-content-Details tabcontent {% if active_index == 1 %}active{% endif %}"
+                >
+                  <div id="map{{ active_index }}" class="map">
+                    <div class="map-frame">{{ block.settings.html }}</div>
+
+                    <div class="map-content color-{{ section.settings.color_scheme }} gradient">
+                      <div class="map__banner--text">
+                        {% if block.settings.address_desc != blank %}
+                          <p class="address-block-desc">
+                            <span>{{ block.settings.address_heading }}</span>{{ block.settings.address_desc }}
+                          </p>
+                        {% endif %}
+                        {% if block.settings.phone_title != blank %}
+                          <span class="contact-icons-heading">
+                            <span>{{ block.settings.phone_title }}</span>
+                            <a href="tel:{{ block.settings.collapsible_contact_no }}" class="link">
+                              {{- block.settings.collapsible_contact_no -}}
+                            </a>
+                          </span>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% assign active_index = active_index | plus: 1 %}
+              {% endif %}
+            {% endfor %}
           </div>
         </div>
-          {% endif %}
-      {% endfor %}
+      </div>
     </div>
   </div>
 </div>
-    </div>
-  </div>
-  </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
@@ -402,8 +440,12 @@
           var tabId = this.getAttribute('data-tab');
 
           // Remove active from all
-          tabLinks.forEach(function (l) { l.classList.remove('active'); });
-          tabContents.forEach(function (c) { c.classList.remove('active'); });
+          tabLinks.forEach(function (l) {
+            l.classList.remove('active');
+          });
+          tabContents.forEach(function (c) {
+            c.classList.remove('active');
+          });
 
           // Add active to clicked
           this.classList.add('active');
