@@ -43,7 +43,7 @@
       "type": "range",
       "id": "products_to_show",
       "min": 2,
-      "max": 12,
+      "max": 48,
       "step": 1,
       "label": "Products to Show",
       "default": 4
@@ -124,7 +124,9 @@
 
 {%- liquid
   assign products_to_display = null
-  if section.settings.content_source == 'collection' and section.settings.collection != blank
+  if template.name == 'collection' and collection != blank
+    assign products_to_display = collection.products
+  elsif section.settings.content_source == 'collection' and section.settings.collection != blank
     assign products_to_display = section.settings.collection.products
   elsif section.settings.content_source == 'products' and section.settings.product_list != blank
     assign products_to_display = section.settings.product_list

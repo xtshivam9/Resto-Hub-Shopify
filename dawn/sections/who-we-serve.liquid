@@ -31,10 +31,10 @@
       "default": 60
     },
     {
-       "type": "color",
-       "id": "bg_color",
-       "label": "Background Color",
-       "default": "#F9FDFB"
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#F9FDFB"
     }
   ],
   "blocks": [
@@ -49,27 +49,32 @@
           "default": "Service Name"
         },
         {
-           "type": "textarea",
-           "id": "description",
-           "label": "Description",
-           "default": "Durable containers built for high-heat and long-distance transport."
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Durable containers built for high-heat and long-distance transport."
         },
         {
-           "type": "html",
-           "id": "svg_icon",
-           "label": "SVG Image (Paste SVG code or filename)",
-           "info": "Enter the filename of the uploaded asset (e.g., 'serve1.svg')."
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card Image"
         },
         {
-            "type": "text",
-            "id": "link_label",
-            "label": "Link Label",
-            "default": "VIEW PRODUCTS →"
+          "type": "html",
+          "id": "svg_icon",
+          "label": "SVG Image (fallback)",
+          "info": "Used only if no Card Image is selected. Enter filename (e.g., 'serve1.svg') or paste SVG code."
         },
         {
-            "type": "url",
-            "id": "link_url",
-            "label": "Link URL"
+          "type": "text",
+          "id": "link_label",
+          "label": "Link Label",
+          "default": "VIEW PRODUCTS →"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link URL"
         }
       ]
     }
@@ -150,7 +155,7 @@
     font-size: 40px;
     font-weight: 600;
     margin-bottom: 2rem;
-    color: #000; 
+    color: #000;
     text-align: left;
   }
 
@@ -176,7 +181,7 @@
   }
 
   .who-we-serve-scroll-container::-webkit-scrollbar-track {
-    background: #E0E0E0; 
+    background: #E0E0E0;
     border-radius: 4px;
     margin: 0 2rem 0 0; /* Add margin to align with content */
   }
@@ -202,36 +207,49 @@
     object-fit: cover;
     display: block;
   }
-  
+
   /* Handle SVG content specifically */
   .serve-card-image svg {
     width: 100%;
     height: 100%;
   }
 
+  /* ---- Overlay: default = title only ---- */
   .serve-card-overlay {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%);
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0) 100%);
     padding: 20px;
     color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    height: 60%; /* Overlay height */
+    height: 35%; /* Smaller overlay by default */
+    transition: height 0.4s ease;
+  }
+
+  /* ---- On card hover, expand overlay ---- */
+  .serve-card:hover .serve-card-overlay {
+    height: 70%;
   }
 
   .serve-card-title {
     font-family: 'Rethink Sans', sans-serif !important;
     font-size: 20px;
     font-weight: 600;
-    margin: 0 0 8px 0;
+    margin: 0;
     color: #fff;
     text-align: left;
+    transition: margin 0.3s ease;
   }
 
+  .serve-card:hover .serve-card-title {
+    margin-bottom: 10px;
+  }
+
+  /* ---- Hidden by default ---- */
   .serve-card-description {
     font-family: 'Rethink Sans', sans-serif !important;
     font-size: 14px;
@@ -240,25 +258,43 @@
     color: #ddd;
     line-height: 1.4;
     text-align: left;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.35s ease 0.1s, max-height 0.4s ease;
+  }
+
+  .serve-card:hover .serve-card-description {
+    opacity: 1;
+    max-height: 200px;
   }
 
   .serve-card-link {
     font-family: 'Rethink Sans', sans-serif !important;
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 500;
     color: #fff;
-    text-decoration: none;
+    text-decoration: underline;
+    text-underline-offset: 4px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 1px solid rgba(255,255,255,0.5);
+    letter-spacing: 1.5px;
+    background: none;
+    border: none;
+    padding: 0;
     align-self: flex-start;
-    padding-bottom: 2px;
-    transition: all 0.3s ease;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.35s ease 0.15s, max-height 0.4s ease;
+  }
+
+  .serve-card:hover .serve-card-link {
+    opacity: 1;
+    max-height: 50px;
   }
 
   .serve-card-link:hover {
     color: #149B77;
-    border-bottom-color: #149B77;
   }
 
   @media screen and (max-width: 749px) {
@@ -300,37 +336,46 @@
     <div class="who-we-serve-scroll-container">
       {%- for block in section.blocks -%}
         <div class="serve-card" {{ block.shopify_attributes }}>
-            {%- if block.settings.svg_icon != blank -%}
-                {%- if block.settings.svg_icon contains '.svg' -%}
-                    <img
-                        src="{{ block.settings.svg_icon | asset_url }}"
-                        alt="{{ block.settings.title | escape }}"
-                        class="serve-card-image"
-                        loading="lazy"
-                        width="300"
-                        height="400"
-                    >
-                {%- else -%}
-                    <div class="serve-card-image">
-                       {{ block.settings.svg_icon }}
-                    </div>
-                {%- endif -%}
+          {%- if block.settings.image != blank -%}
+            <img
+              src="{{ block.settings.image | image_url: width: 600 }}"
+              alt="{{ block.settings.title | escape }}"
+              class="serve-card-image"
+              loading="lazy"
+              width="300"
+              height="400"
+            >
+          {%- elsif block.settings.svg_icon != blank -%}
+            {%- if block.settings.svg_icon contains '.svg' -%}
+              <img
+                src="{{ block.settings.svg_icon | asset_url }}"
+                alt="{{ block.settings.title | escape }}"
+                class="serve-card-image"
+                loading="lazy"
+                width="300"
+                height="400"
+              >
             {%- else -%}
-                 {{ 'image' | placeholder_svg_tag: 'serve-card-image' }}
+              <div class="serve-card-image">
+                {{ block.settings.svg_icon }}
+              </div>
+            {%- endif -%}
+          {%- else -%}
+            {{ 'image' | placeholder_svg_tag: 'serve-card-image' }}
+          {%- endif -%}
+
+          <div class="serve-card-overlay">
+            <h3 class="serve-card-title">{{ block.settings.title | escape }}</h3>
+            {%- if block.settings.description != blank -%}
+              <p class="serve-card-description">{{ block.settings.description | escape }}</p>
             {%- endif -%}
 
-            <div class="serve-card-overlay">
-                <h3 class="serve-card-title">{{ block.settings.title | escape }}</h3>
-                {%- if block.settings.description != blank -%}
-                    <p class="serve-card-description">{{ block.settings.description | escape }}</p>
-                {%- endif -%}
-                
-                {%- if block.settings.link_label != blank and block.settings.link_url != blank -%}
-                    <a href="{{ block.settings.link_url }}" class="serve-card-link">
-                        {{ block.settings.link_label | escape }}
-                    </a>
-                {%- endif -%}
-            </div>
+            {%- assign btn_label = block.settings.link_label | default: 'VIEW PRODUCTS →' -%}
+            {%- assign btn_url = block.settings.link_url | default: '#' -%}
+            <a href="{{ btn_url }}" class="serve-card-link">
+              {{ btn_label | escape }}
+            </a>
+          </div>
         </div>
       {%- endfor -%}
     </div>

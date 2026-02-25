@@ -1,0 +1,55 @@
+{
+    "sections": {
+        "banner": {
+            "type": "about-banner",
+            "settings": {
+                "title": "MOST POPULAR",
+                "subtitle": "Discover our customer favourites."
+            }
+        },
+        "customer_favourites": {
+            "type": "customer-favourites",
+            "settings": {
+                "heading": "",
+                "products_to_show": 12,
+                "padding_top": 36,
+                "padding_bottom": 36,
+                "bg_color": "#ffffff"
+            },
+            "blocks": {
+                "all_products": {
+                    "type": "category_pill",
+                    "settings": {
+                        "label": "All Favourites",
+                        "content_source": "collection"
+                    }
+                }
+            },
+            "block_order": [
+                "all_products"
+            ]
+        },
+        "main": {
+            "type": "main-collection-product-grid",
+            "settings": {
+                "products_per_page": 16,
+                "columns_desktop": 4,
+                "image_ratio": "adapt",
+                "image_shape": "default",
+                "show_secondary_image": false,
+                "show_vendor": false,
+                "show_rating": false,
+                "enable_filtering": false,
+                "enable_sorting": false,
+                "columns_mobile": "2",
+                "padding_top": 0,
+                "padding_bottom": 0
+            }
+        }
+    },
+    "order": [
+        "banner",
+        "customer_favourites",
+        "main"
+    ]
+}
