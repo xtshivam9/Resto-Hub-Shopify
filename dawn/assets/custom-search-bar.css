@@ -89,7 +89,7 @@
     }
 
     .custom-search-container {
-        padding: 8px 8px 8px 25px;
+        padding: 6px 6px 6px 20px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         max-width: 95%;
         /* Increased width */
@@ -109,7 +109,7 @@
         /* Increased font size */
         min-width: 0;
         padding-right: 15px;
-        height: 54px;
+        height: 44px;
         /* Ensure specific height for touch targets */
     }
 
@@ -121,7 +121,7 @@
     .custom-search-button {
         padding: 0 30px;
         /* Increased padding */
-        height: 54px;
+        height: 44px;
         font-size: 14px;
         /* Increased font size */
         flex-shrink: 0;
@@ -135,6 +135,10 @@
 
     .custom-search-container {
         padding: 6px 6px 6px 15px;
+    }
+
+    .custom-search-input {
+        height: 42px;
     }
 
     .custom-search-input::placeholder {
