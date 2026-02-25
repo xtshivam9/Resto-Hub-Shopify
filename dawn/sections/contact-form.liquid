@@ -73,6 +73,25 @@
               <div class="form-status form-status-list form__message" tabindex="-1" autofocus>{% render 'icon-success' %} {{ 'templates.contact.form.post_success' | t }}</div>
             {%- endif -%}
             
+            <div class="contact-inquiry" style="margin-bottom: 20px;">
+              <label class="form__label" for="ContactForm-inquiry" style="display: block; margin-bottom: 10px; font-weight: 600; font-size: 1.6rem;">How can we help?</label>
+              <div class="dropdown-field">
+                <select id="ContactForm-inquiry" class="custom-dropdown__select" name="contact[Inquiry Type]" required>
+                  <option value="Product Inquiry" selected>Product Inquiry</option>
+                  <option value="Order Status / Tracking">Order Status / Tracking</option>
+                  <option value="Return or Exchange Request">Return or Exchange Request</option>
+                  <option value="Report a Damaged Item">Report a Damaged Item</option>
+                  <option value="Billing or Payment Issue">Billing or Payment Issue</option>
+                  <option value="Bulk / Wholesale Request">Bulk / Wholesale Request</option>
+                  <option value="Shipping Question">Shipping Question</option>
+                  <option value="Other">Other</option>
+                </select>
+                <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
+                </svg>
+              </div>
+            </div>
+
             <div class="field field--with-error">
               <input class="field__input" autocomplete="name" type="text" id="ContactForm-name" name="contact[{{ 'templates.contact.form.name' | t }}]" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}" placeholder="{{ 'templates.contact.form.name' | t }}" required>
               <label class="field__label visually-hidden" for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
