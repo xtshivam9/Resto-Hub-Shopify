@@ -287,11 +287,11 @@
             height="auto"
           >
         {%- elsif section.settings.image != blank -%}
+          {%- assign image_class = 'about-block__image-' | append: section.id -%}
           {{
             section.settings.image
             | image_url: width: 800
-            | image_tag: class: 'about-block__image-'
-            | append: section.id,
+            | image_tag: class: image_class,
               loading: 'lazy',
               width: section.settings.image.width,
               height: section.settings.image.height
@@ -347,11 +347,11 @@
             height="auto"
           >
         {%- elsif section.settings.image != blank -%}
+          {%- assign image_class = 'about-block__image-' | append: section.id -%}
           {{
             section.settings.image
             | image_url: width: 800
-            | image_tag: class: 'about-block__image-'
-            | append: section.id,
+            | image_tag: class: image_class,
               loading: 'lazy',
               width: section.settings.image.width,
               height: section.settings.image.height
