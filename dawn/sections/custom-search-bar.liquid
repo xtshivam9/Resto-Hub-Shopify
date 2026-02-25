@@ -1,5 +1,18 @@
-{{ 'custom-search-bar.css' | asset_url | append: '?v=3' | stylesheet_tag }}
+{{ 'custom-search-bar.css' | asset_url | append: '?v=10' | stylesheet_tag }}
 
+{% style %}
+  #shopify-section-{{ section.id }} {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 0 !important;
+    width: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+  }
+{% endstyle %}
 <div class="custom-search-bar-section" style="background-color: {{ section.settings.section_background }};">
   <div class="custom-search-container" style="background-color: {{ section.settings.bar_background }};">
     <form action="{{ routes.search_url }}" method="get" role="search" class="custom-search-form">
