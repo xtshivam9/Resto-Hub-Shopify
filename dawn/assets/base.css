@@ -3613,3 +3613,80 @@ details-disclosure>details {
     overflow-x: clip;
   }
 }
+
+/* Custom Policy & Content Page Adjustments */
+/* Target Shopify auto-generated policy pages and standard main-page text containers */
+.shopify-policy__container,
+.page-width--narrow:has(.main-page-title) {
+  max-width: 90rem !important;
+  /* Make wider than default 72.6rem */
+  padding-top: 0 !important;
+  /* Remove top padding to sit closer below header */
+  padding-left: 2rem !important;
+  /* Reduce left/right padding */
+  padding-right: 2rem !important;
+  padding-bottom: 6rem !important;
+  /* Add bottom padding */
+}
+
+/* Slightly increase font size for the content */
+.shopify-policy__container .shopify-policy__body,
+.page-width--narrow:has(.main-page-title) .rte {
+  font-size: 1.08em;
+  line-height: 1.6;
+}
+
+@media screen and (min-width: 750px) {
+
+  .shopify-policy__container,
+  .page-width--narrow:has(.main-page-title) {
+    max-width: 100rem !important;
+    padding-left: 4rem !important;
+    padding-right: 4rem !important;
+    padding-bottom: 150px !important;
+    /* Exactly 150px bottom padding on desktop */
+  }
+}
+
+/* Green header for policy pages */
+.shopify-policy__title-container {
+  background-color: #1a9d6e;
+  color: #ffffff;
+  padding: 60px 2rem;
+  text-align: center;
+  margin-bottom: 40px;
+
+  /* Fallback safe full-width approach that prevents horizontal scrolling */
+  box-shadow: 0 0 0 100vmax #1a9d6e;
+  clip-path: inset(0 -100vmax);
+}
+
+#shopify-section-template--20554450698429__main {
+  padding-bottom: 145px !important;
+}
+
+@media screen and (min-width: 750px) {
+  #shopify-section-template--20554450698429__main {
+    padding-bottom: 150px !important;
+  }
+}
+
+.shopify-policy__title-container h1 {
+  color: #ffffff;
+  font-size: 48px;
+  font-weight: 700;
+  margin: 0;
+  text-transform: uppercase;
+  font-family: 'Rethink Sans', sans-serif;
+}
+
+@media screen and (max-width: 749px) {
+  .shopify-policy__title-container {
+    padding: 45px 1rem;
+    margin-bottom: 30px;
+  }
+
+  .shopify-policy__title-container h1 {
+    font-size: 32px;
+  }
+}

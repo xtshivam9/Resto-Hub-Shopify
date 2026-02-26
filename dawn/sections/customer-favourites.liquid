@@ -192,6 +192,7 @@
           {%- if products_to_display != null and products_to_display.size > 0 -%}
             {%- for product in products_to_display limit: products_limit -%}
               <div class="mo-product-card">
+                <a href="{{ product.url }}" class="mo-card-overlay" aria-label="{{ product.title | escape }}"></a>
                 <div class="mo-image-wrapper">
                   {%- if product.available == false -%}
                     <span class="mo-badge mo-badge--sold-out">SOLD OUT</span>
@@ -302,6 +303,19 @@
     {%- endfor -%}
   </div>
 </div>
+
+<script>
+  // Make entire product card clickable
+  document.addEventListener('click', function (e) {
+    var card = e.target.closest('.na-product-card, .mo-product-card');
+    if (!card) return;
+    if (e.target.closest('.na-add-btn, .mo-add-btn')) return;
+    var link = card.querySelector('.na-card-overlay, .mo-card-overlay, .na-product-title a, .mo-product-title a');
+    if (link && link.href) {
+      window.location.href = link.href;
+    }
+  });
+</script>
 
 <script>
   (function () {

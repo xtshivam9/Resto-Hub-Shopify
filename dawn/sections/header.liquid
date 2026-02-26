@@ -11,12 +11,21 @@
 <header class="header-wrapper">
   {% comment %} Left: Logo {% endcomment %}
   <div class="header-left">
-    {% render 'header-drawer' %}
+    {% render 'header-drawer', menu: section.settings.menu %}
     <a href="{{ routes.root_url }}" class="header-logo">
       {%- if section.settings.logo != blank -%}
-        {{ section.settings.logo | image_url: width: section.settings.logo_width | image_tag: loading: 'eager', alt: shop.name }}
+        {{
+          section.settings.logo
+          | image_url: width: section.settings.logo_width
+          | image_tag: loading: 'eager', alt: shop.name
+        }}
       {%- else -%}
-        <img src="{{ 'templogo.svg' | asset_url }}" alt="{{ shop.name }}" width="{{ section.settings.logo_width }}" height="auto">
+        <img
+          src="{{ 'templogo.svg' | asset_url }}"
+          alt="{{ shop.name }}"
+          width="{{ section.settings.logo_width }}"
+          height="auto"
+        >
       {%- endif -%}
     </a>
   </div>
@@ -26,36 +35,13 @@
     {%- if section.settings.menu != blank -%}
       <nav class="header-navigation">
         <ul class="header-menu">
+          {%- for link in section.settings.menu.links -%}
             <li class="header-menu-item">
-              <a href="/collections/all" class="header-menu-link">
-                Shop All
+              <a href="{{ link.url }}" class="header-menu-link">
+                {{ link.title }}
               </a>
             </li>
-            <li class="header-menu-item">
-              <a href="/collections" class="header-menu-link">
-                Categories
-              </a>
-            </li>
-            <li class="header-menu-item">
-              <a href="/collections/most-popular" class="header-menu-link">
-                Most Popular
-              </a>
-            </li>
-            <li class="header-menu-item">
-              <a href="/collections/new-arrivals" class="header-menu-link">
-                New Arrivals
-              </a>
-            </li>
-            <li class="header-menu-item">
-              <a href="/pages/about" class="header-menu-link">
-                About
-              </a>
-            </li>
-            <li class="header-menu-item">
-              <a href="/pages/contact" class="header-menu-link">
-                Contact
-              </a>
-            </li>
+          {%- endfor -%}
         </ul>
       </nav>
     {%- endif -%}

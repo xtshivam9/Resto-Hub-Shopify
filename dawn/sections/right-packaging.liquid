@@ -451,7 +451,7 @@
       list-style: none;
       padding: 0;
       margin: 0;
-      max-height: 180px;
+      max-height: 220px;
       overflow-y: auto;
       box-sizing: border-box;
 
@@ -481,11 +481,67 @@
       justify-content: space-between;
       align-items: center;
       box-sizing: border-box;
+      gap: 8px;
   }
 
   .rp-option-item:hover {
       background-color: #F2F2F2;
       color: #000;
+  }
+
+  .rp-option-item.selected {
+      background-color: #E8F5EE;
+      color: #0E8345;
+  }
+
+  .rp-option-checkbox {
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+  }
+
+  .rp-option-item.selected .rp-option-checkbox {
+      background-color: #0E8345;
+      border-color: #0E8345;
+  }
+
+  .rp-option-checkbox svg {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+  }
+
+  .rp-option-item.selected .rp-option-checkbox svg {
+      opacity: 1;
+  }
+
+  .rp-option-label {
+      flex: 1;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+  }
+
+  .rp-selected-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #0E8345;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      min-width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      padding: 0 6px;
+      margin-left: 8px;
   }
 
   .rp-arrow {
@@ -787,17 +843,30 @@
                 </svg>
               </div>
               <ul class="rp-options-list">
-                {%- for col_product in collections.all.products -%}
-                  {%- if col_product.available -%}
-                    <li
-                      class="rp-option-item"
-                      data-product-handle="{{ col_product.handle }}"
-                      onclick="selectOption(this)"
-                    >
-                      {{ col_product.title }}
-                    </li>
-                  {%- endif -%}
-                {%- endfor -%}
+                {%- paginate collections.all.products by 250 -%}
+                  {%- for col_product in collections.all.products -%}
+                    {%- if col_product.available -%}
+                      <li
+                        class="rp-option-item"
+                        data-product-handle="{{ col_product.handle }}"
+                        onclick="selectOption(this)"
+                      >
+                        <span class="rp-option-checkbox">
+                          <svg
+                            width="12"
+                            height="10"
+                            viewBox="0 0 12 10"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path d="M1 5L4.5 8.5L11 1.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </span>
+                        <span class="rp-option-label">{{ col_product.title }}</span>
+                      </li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endpaginate -%}
               </ul>
             </div>
           </div>
@@ -812,7 +881,8 @@
             <span class="rp-mobile-label">{{ section.settings.label_capacity }}</span>
             <span class="rp-value rp-card-capacity">
               {%- if block_product != blank and block_product.metafields.custom.capacity != blank -%}
-                {{- block_product.metafields.custom.capacity.value -}}
+                {%- capture rp_cap_html -%}{{ block_product.metafields.custom.capacity | metafield_tag }}{%- endcapture -%}
+                {{ rp_cap_html | strip_html | strip }}
               {%- else -%}
                 -
               {%- endif -%}
@@ -822,7 +892,8 @@
             <span class="rp-mobile-label">{{ section.settings.label_material }}</span>
             <span class="rp-value rp-card-material">
               {%- if block_product != blank and block_product.metafields.custom.materials != blank -%}
-                {{- block_product.metafields.custom.materials.value -}}
+                {%- capture rp_mat_html -%}{{ block_product.metafields.custom.materials | metafield_tag }}{%- endcapture -%}
+                {{ rp_mat_html | strip_html | strip }}
               {%- else -%}
                 -
               {%- endif -%}
@@ -832,7 +903,8 @@
             <span class="rp-mobile-label">{{ section.settings.label_case_pack }}</span>
             <span class="rp-value rp-card-casepack">
               {%- if block_product != blank and block_product.metafields.custom.box_size != blank -%}
-                {{- block_product.metafields.custom.box_size.value -}}
+                {%- capture rp_box_html -%}{{ block_product.metafields.custom.box_size | metafield_tag }}{%- endcapture -%}
+                {{ rp_box_html | strip_html | strip }}
               {%- else -%}
                 -
               {%- endif -%}
@@ -842,7 +914,8 @@
             <span class="rp-mobile-label">{{ section.settings.label_use_case }}</span>
             <span class="rp-value rp-card-usecase">
               {%- if block_product != blank and block_product.metafields.custom.ideal_for != blank -%}
-                {{- block_product.metafields.custom.ideal_for.value -}}
+                {%- capture rp_use_html -%}{{ block_product.metafields.custom.ideal_for | metafield_tag }}{%- endcapture -%}
+                {{ rp_use_html | strip_html | strip }}
               {%- else -%}
                 -
               {%- endif -%}
@@ -866,28 +939,43 @@
 <script type="application/json" id="rp-products-data">
   {
     {%- assign rp_first = true -%}
-    {%- for p in collections.all.products -%}
-      {%- if p.available -%}
-        {%- unless rp_first -%},{%- endunless -%}
-        {{ p.handle | json }}: {
-          "title": {{ p.title | json }},
-          "url": {{ p.url | json }},
-          "price": {{ p.price | money | json }},
-          "image": {% if p.featured_image %}{{ p.featured_image | image_url: width: 600 | json }}{% else %}""{% endif %},
-          "capacity": {% if p.metafields.custom.capacity != blank %}{{ p.metafields.custom.capacity.value | json }}{% else %}"-"{% endif %},
-          "material": {% if p.metafields.custom.materials != blank %}{{ p.metafields.custom.materials.value | json }}{% else %}"-"{% endif %},
-          "case_pack": {% if p.metafields.custom.box_size != blank %}{{ p.metafields.custom.box_size.value | json }}{% else %}"-"{% endif %},
-          "use_case": {% if p.metafields.custom.ideal_for != blank %}{{ p.metafields.custom.ideal_for.value | json }}{% else %}"-"{% endif %}
-        }
-        {%- assign rp_first = false -%}
-      {%- endif -%}
-    {%- endfor -%}
+    {%- paginate collections.all.products by 250 -%}
+      {%- for p in collections.all.products -%}
+        {%- if p.available -%}
+          {%- unless rp_first -%},{%- endunless -%}
+          {{ p.handle | json }}: {
+            "title": {{ p.title | json }},
+            "url": {{ p.url | json }},
+            "price": {{ p.price | money | json }},
+            "image": {% if p.featured_image %}{{ p.featured_image | image_url: width: 600 | json }}{% else %}""{% endif %},
+            "capacity": {% if p.metafields.custom.capacity != blank %}{%- capture rp_j_cap -%}{{ p.metafields.custom.capacity | metafield_tag }}{%- endcapture -%}{{ rp_j_cap | strip_html | strip | json }}{% else %}"-"{% endif %},
+            "material": {% if p.metafields.custom.materials != blank %}{%- capture rp_j_mat -%}{{ p.metafields.custom.materials | metafield_tag }}{%- endcapture -%}{{ rp_j_mat | strip_html | strip | json }}{% else %}"-"{% endif %},
+            "case_pack": {% if p.metafields.custom.box_size != blank %}{%- capture rp_j_box -%}{{ p.metafields.custom.box_size | metafield_tag }}{%- endcapture -%}{{ rp_j_box | strip_html | strip | json }}{% else %}"-"{% endif %},
+            "use_case": {% if p.metafields.custom.ideal_for != blank %}{%- capture rp_j_use -%}{{ p.metafields.custom.ideal_for | metafield_tag }}{%- endcapture -%}{{ rp_j_use | strip_html | strip | json }}{% else %}"-"{% endif %}
+          }
+          {%- assign rp_first = false -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endpaginate -%}
   }
 </script>
 
 <script>
   // Parse pre-rendered product data
   const rpProductsData = JSON.parse(document.getElementById('rp-products-data').textContent);
+
+  // Fisher-Yates shuffle for randomizing product order
+  function shuffleList(list) {
+    const items = Array.from(list.children);
+    for (let i = items.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      list.appendChild(items[j]);
+      items[j] = items[i];
+    }
+  }
+
+  // Shuffle all dropdown lists on page load
+  document.querySelectorAll('.rp-options-list').forEach(shuffleList);
 
   function toggleDropdown(element) {
     document.querySelectorAll('.rp-dropdown-menu').forEach((menu) => {
@@ -921,11 +1009,9 @@
 
     // Update image
     const imgEl = card.querySelector('.rp-card-image');
-    if (imgEl) {
-      if (data.image) {
-        imgEl.src = data.image;
-        imgEl.alt = data.title;
-      }
+    if (imgEl && data.image) {
+      imgEl.src = data.image;
+      imgEl.alt = data.title;
     }
 
     // Update title in dropdown

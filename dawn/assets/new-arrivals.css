@@ -73,6 +73,22 @@
     transition: all 0.3s ease;
     height: 100%;
     overflow: hidden;
+    cursor: pointer;
+}
+
+/* Full-card clickable overlay */
+.na-card-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.na-add-btn {
+    position: relative;
+    z-index: 2;
 }
 
 .na-product-card:hover {

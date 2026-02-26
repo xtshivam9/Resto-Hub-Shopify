@@ -21,10 +21,10 @@
       "default": "We provide a wide range of hospitality and food packaging essentials"
     },
     {
-        "type": "color",
-        "id": "text_color",
-        "label": "Text Color",
-        "default": "#ffffff"
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
     },
     {
       "type": "range",
@@ -55,10 +55,25 @@
 }
 {% endschema %}
 
-<div class="about-banner" style="background-color: {{ section.settings.background_color }}; color: {{ section.settings.text_color }}; padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
+{%- liquid
+  if collection != blank
+    assign banner_title = collection.title
+    assign banner_subtitle = collection.description | strip_html | strip
+  else
+    assign banner_title = section.settings.title
+    assign banner_subtitle = section.settings.subtitle
+  endif
+-%}
+
+<div
+  class="about-banner"
+  style="background-color: {{ section.settings.background_color }}; color: {{ section.settings.text_color }}; padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;"
+>
   <div class="page-width about-banner__content">
-    <h1 class="about-banner__title" style="color: {{ section.settings.text_color }};">{{ section.settings.title }}</h1>
-    <p class="about-banner__subtitle">{{ section.settings.subtitle }}</p>
+    <h1 class="about-banner__title" style="color: {{ section.settings.text_color }};">{{ banner_title }}</h1>
+    {%- if banner_subtitle != blank -%}
+      <p class="about-banner__subtitle">{{ banner_subtitle }}</p>
+    {%- endif -%}
   </div>
 </div>
 

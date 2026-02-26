@@ -40,7 +40,13 @@
       assign ratio = 1
     endif
   -%}
-  <div class="card-wrapper product-card-wrapper underline-links-hover">
+  <div class="card-wrapper product-card-wrapper underline-links-hover" style="position: relative;">
+    <a
+      href="{{ card_product.url }}"
+      class="full-unstyled-link"
+      aria-labelledby="title-{{ section_id }}-{{ card_product.id }}"
+      style="position: absolute; inset: 0; z-index: 1;"
+    ></a>
     <div
       class="
         card card--{{ settings.card_style }}
@@ -166,11 +172,14 @@
               <div class="caption-with-letter-spacing light">{{ card_product.vendor }}</div>
             {%- endif -%}
 
-            
+            <div
+              class="AirReviews-Widget AirReviews-Widget--Stars"
+              style="margin-top:0.7rem"
+              data-review-avg="{{ card_product.metafields.air_reviews_product.review_avg }}"
+              data-review-count="{{ card_product.metafields.air_reviews_product.review_count }}"
+            ></div>
 
-    <div class="AirReviews-Widget AirReviews-Widget--Stars" style="margin-top:0.7rem" data-review-avg="{{ card_product.metafields.air_reviews_product.review_avg }}" data-review-count="{{ card_product.metafields.air_reviews_product.review_count }}"></div>
-
-<span class="caption-large light">{{ block.settings.description | escape }}</span>
+            <span class="caption-large light">{{ block.settings.description | escape }}</span>
 
             {%- if show_rating and card_product.metafields.reviews.rating.value != blank -%}
               {% liquid
@@ -294,7 +303,7 @@
         </div>
         {% assign product_form_id = 'quick-add-' | append: section_id | append: card_product.id %}
         {% if quick_add == 'standard' %}
-          <div class="quick-add no-js-hidden">
+          <div class="quick-add no-js-hidden" style="position: relative; z-index: 2;">
             {%- liquid
               assign qty_rules = false
               if card_product.selected_or_first_available_variant.quantity_rule.min > 1 or card_product.selected_or_first_available_variant.quantity_rule.max != null or card_product.selected_or_first_available_variant.quantity_rule.increment > 1
@@ -395,6 +404,7 @@
         {% elsif quick_add == 'bulk' %}
           {% if card_product.variants_count == 1 %}
             <quick-add-bulk
+              style="position: relative; z-index: 2;"
               data-min="{{ card_product.selected_or_first_available_variant.quantity_rule.min }}"
               id="quick-add-bulk-{{ card_product.selected_or_first_available_variant.id }}-{{ section.id }}"
               class="quick-add-bulk"
@@ -420,7 +430,7 @@
               {% endif %}
             </quick-add-bulk>
           {% else %}
-            <div class="quick-add no-js-hidden">
+            <div class="quick-add no-js-hidden" style="position: relative; z-index: 2;">
               {%- liquid
                 assign product_form_id = 'quick-add-' | append: section_id | append: card_product.id
                 assign qty_rules = false
