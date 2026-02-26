@@ -18,7 +18,7 @@
 .custom-search-container {
     display: flex;
     align-items: center;
-    padding: 8px 10px 8px 40px;
+    padding: 6px 8px 6px 30px;
     border-radius: 60px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     /* Soft shadow for floating effect */
@@ -60,7 +60,7 @@
 
 .custom-search-button {
     border: none;
-    padding: 14px 45px;
+    padding: 12px 40px;
     border-radius: 40px;
     font-weight: 600;
     font-size: 16px;
@@ -89,7 +89,7 @@
     }
 
     .custom-search-container {
-        padding: 6px 6px 6px 20px;
+        padding: 4px 4px 4px 15px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         max-width: 95%;
         /* Increased width */
@@ -109,7 +109,7 @@
         /* Increased font size */
         min-width: 0;
         padding-right: 15px;
-        height: 44px;
+        height: 40px;
         /* Ensure specific height for touch targets */
     }
 
@@ -121,7 +121,7 @@
     .custom-search-button {
         padding: 0 30px;
         /* Increased padding */
-        height: 44px;
+        height: 40px;
         font-size: 14px;
         /* Increased font size */
         flex-shrink: 0;
