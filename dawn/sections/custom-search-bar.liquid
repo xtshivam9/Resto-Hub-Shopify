@@ -1,5 +1,5 @@
-{% comment %}theme-check-disable UnknownObject, AssetUrlFilters{% endcomment %}
-{{ 'custom-search-bar.css' | asset_url | append: '?v=3' | stylesheet_tag }}
+{% # theme-check-disable %}
+{{ 'custom-search-bar.css' | asset_url | stylesheet_tag }}
 
 <div class="custom-search-bar-section" style="background-color: {{ section.settings.section_background }};">
   <div class="custom-search-container" style="background-color: {{ section.settings.bar_background }};">

@@ -179,10 +179,13 @@
         >
           {%- liquid
             assign products_to_display = null
+            assign view_all_url = null
             if block.settings.content_source == 'collection' and block.settings.collection != blank
               assign products_to_display = block.settings.collection.products
+              assign view_all_url = block.settings.collection.url
             elsif block.settings.content_source == 'products' and block.settings.product_list != blank
               assign products_to_display = block.settings.product_list
+              assign view_all_url = routes.all_products_collection_url
             endif
           -%}
 
@@ -285,6 +288,15 @@
               </div>
             {%- endfor -%}
           {%- endif -%}
+        </div>
+        <div
+          class="cf-view-all-container cf-tab-content"
+          data-tab-index="{{ forloop.index0 }}"
+          style="{% unless forloop.first %}display:none;{% endunless %}"
+        >
+          <a href="{{ view_all_url | default: routes.all_products_collection_url }}" class="cf-view-all-btn"
+            >View all</a
+          >
         </div>
       {%- endunless -%}
     {%- endfor -%}

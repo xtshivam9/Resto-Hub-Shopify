@@ -4,6 +4,7 @@
     font-family: 'Rethink Sans', sans-serif;
     overflow: hidden;
     max-width: 100%;
+    margin-top: 40px;
 }
 
 .most-ordered-container {
@@ -61,6 +62,35 @@
     background-color: #2F2F2F;
     color: #FFFFFF;
     border-color: #2F2F2F;
+}
+
+/* View All Container and Button */
+.cf-view-all-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.cf-view-all-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    border: 2px solid #149B77;
+    border-radius: 25px;
+    color: #149B77;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: 'Rethink Sans', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.cf-view-all-btn:hover {
+    background-color: #149B77;
+    color: #FFFFFF;
 }
 
 /* Product Grid */

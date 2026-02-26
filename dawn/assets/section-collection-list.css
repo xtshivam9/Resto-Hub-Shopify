@@ -3,6 +3,23 @@
   margin-bottom: 0;
 }
 
+.collection-list.grid {
+  row-gap: 40px;
+  column-gap: 24px;
+  /* Override variables for Dawn's grid calculations */
+  --grid-desktop-vertical-spacing: 40px;
+  --grid-desktop-horizontal-spacing: 24px;
+  --grid-mobile-vertical-spacing: 24px;
+  --grid-mobile-horizontal-spacing: 16px;
+}
+
+@media screen and (max-width: 749px) {
+  .collection-list.grid {
+    row-gap: 24px;
+    column-gap: 16px;
+  }
+}
+
 .collection-list-title {
   margin: 0;
 }
@@ -36,6 +53,7 @@
 }
 
 @media screen and (min-width: 750px) and (max-width: 989px) {
+
   .slider.collection-list--1-items,
   .slider.collection-list--2-items,
   .slider.collection-list--3-items,

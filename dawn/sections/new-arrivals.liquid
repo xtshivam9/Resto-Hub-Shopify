@@ -124,18 +124,25 @@
 
 {%- liquid
   assign products_to_display = null
+  assign view_all_url = null
   if template.name == 'collection' and collection != blank
     assign products_to_display = collection.products
+    assign view_all_url = collection.url
   elsif section.settings.content_source == 'collection' and section.settings.collection != blank
     assign products_to_display = section.settings.collection.products
+    assign view_all_url = section.settings.collection.url
   elsif section.settings.content_source == 'products' and section.settings.product_list != blank
     assign products_to_display = section.settings.product_list
+    assign view_all_url = routes.all_products_collection_url
   endif
 -%}
 
 <div class="section-{{ section.id }}-padding new-arrivals-section">
   <div class="new-arrivals-container">
-    <h2 class="new-arrivals-heading">{{ section.settings.heading | escape }}</h2>
+    <div class="new-arrivals-header">
+      <h2 class="new-arrivals-heading">{{ section.settings.heading | escape }}</h2>
+      <a href="{{ view_all_url | default: routes.all_products_collection_url }}" class="na-view-all-btn">View all</a>
+    </div>
 
     <div class="new-arrivals-grid">
       {%- if products_to_display != null and products_to_display.size > 0 -%}

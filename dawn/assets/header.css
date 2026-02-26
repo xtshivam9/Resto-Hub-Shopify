@@ -23,6 +23,7 @@ body {
     border-bottom: 2px solid rgb(221, 221, 221);
     /* Lighter border */
     position: relative;
+    overflow: hidden;
 }
 
 .header-left {
