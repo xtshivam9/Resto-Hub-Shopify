@@ -75,6 +75,22 @@
       max-width: 1600px; /* Match new arrivals max-width */
     }
   }
+
+  .na-product-card {
+    cursor: pointer;
+  }
+
+  .na-card-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    cursor: pointer;
+  }
+
+  .na-add-btn {
+    position: relative;
+    z-index: 2;
+  }
 {%- endstyle -%}
 
 {% paginate search.results by 24 %}
@@ -245,6 +261,7 @@
                     {%- case item.object_type -%}
                       {%- when 'product' -%}
                         <div class="na-product-card" style="margin: 0;">
+                          <a href="{{ item.url }}" class="na-card-overlay" aria-label="{{ item.title | escape }}"></a>
                           <div class="na-image-wrapper">
                             {%- if item.available == false -%}
                               <span class="na-badge na-badge--sold-out">SOLD OUT</span>
@@ -355,6 +372,19 @@
     {%- endif -%}
   </div>
 {% endpaginate %}
+
+<script>
+  // Make entire product card clickable
+  document.addEventListener('click', function (e) {
+    var card = e.target.closest('.na-product-card, .mo-product-card');
+    if (!card) return;
+    if (e.target.closest('.na-add-btn, .mo-add-btn')) return;
+    var link = card.querySelector('.na-card-overlay, .mo-card-overlay, .na-product-title a, .mo-product-title a');
+    if (link && link.href) {
+      window.location.href = link.href;
+    }
+  });
+</script>
 
 <script>
   (function () {

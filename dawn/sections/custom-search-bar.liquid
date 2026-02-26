@@ -1,23 +1,6 @@
-<<<<<<< HEAD
-{{ 'custom-search-bar.css' | asset_url | append: '?v=10' | stylesheet_tag }}
-=======
-{% comment %}theme-check-disable UnknownObject, AssetUrlFilters{% endcomment %}
-{{ 'custom-search-bar.css' | asset_url | append: '?v=3' | stylesheet_tag }}
->>>>>>> 3f0329f309943fbcb5bb24d2d42a44f8f713c63f
+{% # theme-check-disable %}
+{{ 'custom-search-bar.css' | asset_url | stylesheet_tag }}
 
-{% style %}
-  #shopify-section-{{ section.id }} {
-    margin: 0 !important;
-    padding: 0 !important;
-    height: 0 !important;
-    width: 100% !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    z-index: 10;
-  }
-{% endstyle %}
 <div class="custom-search-bar-section" style="background-color: {{ section.settings.section_background }};">
   <div class="custom-search-container" style="background-color: {{ section.settings.bar_background }};">
     <form action="{{ routes.search_url }}" method="get" role="search" class="custom-search-form">

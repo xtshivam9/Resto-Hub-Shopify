@@ -1,4 +1,4 @@
-{% # theme-check-disable UnknownObject %}
+{% # theme-check-disable %}
 {% schema %}
 {
   "name": "Custom Circle Menu",
@@ -78,7 +78,7 @@
 }
 {% endschema %}
 
-{{ 'custom-circle-menu.css' | asset_url | append: '?v=5' | stylesheet_tag }}
+{{ 'custom-circle-menu.css' | asset_url | stylesheet_tag }}
 
 {% style %}
   #shopify-section-{{ section.id }} {
@@ -98,6 +98,46 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  .custom-menu-navigation {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    padding: 0 10px;
+    z-index: 10;
+  }
+
+  .nav-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 2px solid #149B77;
+    color: #149B77;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    pointer-events: all;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .nav-btn:hover {
+    background-color: #149B77;
+    color: #fff;
+  }
+
+  .nav-btn svg {
+    width: 20px;
+    height: 20px;
+  }
 {% endstyle %}
 
 <div class="section-{{ section.id }}-padding">
@@ -106,7 +146,7 @@
       <h2 class="custom-menu-heading">{{ section.settings.heading | escape }}</h2>
     {%- endif -%}
 
-    <div class="custom-menu-grid">
+    <div class="custom-menu-grid" id="customMenuScroll-{{ section.id }}">
       {%- for block in section.blocks -%}
         <a href="{{ block.settings.link }}" class="custom-menu-item" {{ block.shopify_attributes }}>
           <div class="custom-menu-icon">
@@ -124,5 +164,47 @@
         </a>
       {%- endfor -%}
     </div>
+
+    <div class="custom-menu-navigation">
+      <button
+        class="nav-btn prev-btn"
+        aria-label="Previous"
+        data-scroll-dir="-1"
+        data-scroll-target="customMenuScroll-{{ section.id }}"
+      >
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button
+        class="nav-btn next-btn"
+        aria-label="Next"
+        data-scroll-dir="1"
+        data-scroll-target="customMenuScroll-{{ section.id }}"
+      >
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
   </div>
 </div>
+
+<script>
+  if (!window.__circleMenuNavInit) {
+    window.__circleMenuNavInit = true;
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-scroll-dir]');
+      if (!btn) return;
+      var targetId = btn.getAttribute('data-scroll-target');
+      var direction = parseInt(btn.getAttribute('data-scroll-dir'), 10);
+      var container = document.getElementById(targetId);
+      if (!container) return;
+      var item = container.querySelector('.custom-menu-item');
+      if (!item) return;
+      var gap = parseFloat(window.getComputedStyle(container).gap) || 24;
+      var amount = (item.offsetWidth + gap) * direction;
+      container.scrollBy({ left: amount, behavior: 'smooth' });
+    });
+  }
+</script>

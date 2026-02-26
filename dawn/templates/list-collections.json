@@ -1,17 +1,27 @@
 {
   "sections": {
+    "banner": {
+      "type": "about-banner",
+      "settings": {
+        "title": "COLLECTIONS",
+        "subtitle": "Explore our wide range of categories."
+      }
+    },
     "main": {
       "type": "main-list-collections",
       "settings": {
-        "title": "Collections",
+        "title": "",
         "sort": "alphabetical",
         "image_ratio": "square",
         "columns_desktop": 3,
-        "columns_mobile": "2"
+        "columns_mobile": "2",
+        "padding_top": 65,
+        "padding_bottom": 150
       }
     }
   },
   "order": [
+    "banner",
     "main"
   ]
 }

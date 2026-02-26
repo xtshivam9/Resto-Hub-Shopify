@@ -14,10 +14,24 @@
   aria-expanded="false"
   aria-controls="SidebarDrawer"
 >
-  <svg class="icon-hamburger" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <svg
+    class="icon-hamburger"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    stroke-width="2"
+  >
     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
   </svg>
-  <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <svg
+    class="icon-close"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    stroke-width="2"
+  >
     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
   </svg>
 </button>
@@ -27,19 +41,16 @@
 
 {% comment %} ── Sidebar Drawer ── {% endcomment %}
 <aside class="sidebar-drawer" id="SidebarDrawer" aria-hidden="true">
-
   {% comment %} Header: Logo + Close {% endcomment %}
-
 
   {% comment %} Navigation {% endcomment %}
   <nav class="sidebar-drawer__nav" aria-label="Mobile navigation">
     <ul class="sidebar-drawer__menu">
-      <li><a href="/collections/all" class="sidebar-drawer__link">Shop All</a></li>
-      <li><a href="/collections" class="sidebar-drawer__link">Categories</a></li>
-      <li><a href="/collections/most-popular" class="sidebar-drawer__link">Most Popular</a></li>
-      <li><a href="/collections/new-arrivals" class="sidebar-drawer__link">New Arrivals</a></li>
-      <li><a href="/pages/about" class="sidebar-drawer__link">About</a></li>
-      <li><a href="/pages/contact" class="sidebar-drawer__link">Contact</a></li>
+      {%- for link in menu.links -%}
+        <li>
+          <a href="{{ link.url }}" class="sidebar-drawer__link">{{ link.title }}</a>
+        </li>
+      {%- endfor -%}
     </ul>
   </nav>
 
@@ -47,7 +58,13 @@
   {%- if shop.customer_accounts_enabled -%}
     <div class="sidebar-drawer__footer">
       <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
         </svg>
         {%- if customer -%}My Account{%- else -%}Log in{%- endif -%}
@@ -59,10 +76,10 @@
 {% comment %} ── Inline JS: open / close logic ── {% endcomment %}
 <script>
   (function () {
-    const toggle  = document.getElementById('SidebarToggle');
-    const drawer  = document.getElementById('SidebarDrawer');
+    const toggle = document.getElementById('SidebarToggle');
+    const drawer = document.getElementById('SidebarDrawer');
     const overlay = document.getElementById('SidebarOverlay');
-    const close   = document.getElementById('SidebarClose');
+    const close = document.getElementById('SidebarClose');
 
     function openSidebar() {
       drawer.classList.add('is-open');
@@ -89,7 +106,7 @@
     }
 
     if (toggle) toggle.addEventListener('click', toggleSidebar);
-    if (close)  close.addEventListener('click', closeSidebar);
+    if (close) close.addEventListener('click', closeSidebar);
     if (overlay) overlay.addEventListener('click', closeSidebar);
 
     // Close on Escape key
