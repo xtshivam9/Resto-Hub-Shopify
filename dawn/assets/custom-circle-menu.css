@@ -3,7 +3,8 @@
 .custom-menu-container {
     max-width: 1600px;
     margin: 0 auto;
-    padding: 80px 1.5rem 0;
+    padding: 50px 1.5rem 0;
+    /* Restored padding to clear 50% overlap of search bar */
     text-align: center;
     position: relative;
     z-index: 5;
@@ -148,7 +149,8 @@
     .custom-menu-container {
         padding-left: 16px;
         padding-right: 16px;
-        padding-top: 60px;
+        padding-top: 40px;
+        /* Restored padding to clear 50% overlap of search bar */
     }
 
     .custom-menu-grid {
@@ -172,7 +174,8 @@
 
 @media screen and (max-width: 480px) {
     .custom-menu-container {
-        padding-top: 50px;
+        padding-top: 35px;
+        /* Restored padding to clear 50% overlap of search bar */
     }
 
     .custom-menu-grid {

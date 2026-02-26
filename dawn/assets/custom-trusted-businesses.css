@@ -25,8 +25,7 @@
     color: #000000;
     margin: 0;
     /* padding-left removed to allow natural alignment */
-    max-width: 350px;
-    /* Force text to wrap */
+    max-width: 500px;
 }
 
 .trusted-grid-column {
@@ -96,6 +95,10 @@
     display: none;
 }
 
+.desktop-break {
+    display: inline;
+}
+
 @media screen and (max-width: 1024px) {
     .trusted-businesses-container {
         flex-direction: column;
@@ -159,6 +162,10 @@
 
     .mobile-break {
         display: inline;
+    }
+
+    .desktop-break {
+        display: none;
     }
 
     .trusted-item {

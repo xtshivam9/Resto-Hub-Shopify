@@ -92,13 +92,13 @@
   .promo-marquee-item {
     font-size: {{ section.settings.font_size }}px;
     font-weight: 500;
-    margin: 0 {{ section.settings.gap }}px; /* Adjust spacing between items */
+    margin: 0 {{ section.settings.gap | divided_by: 2 }}px; /* Half on each side for even spacing */
     display: inline-flex;
     align-items: center;
   }
   
   .promo-marquee-item .bullet {
-    margin: 0 {{ section.settings.gap }}px;
+    margin: 0 {{ section.settings.gap | divided_by: 2 }}px;
     font-size: 0.8em;
     opacity: 0.8;
   }
@@ -119,7 +119,8 @@
 
   @media screen and (max-width: 768px) {
     .promo-marquee-section {
-      padding: 10px 0;
+      padding: 5px 0 10px;
+      margin-top: 0 !important;
     }
 
     .promo-marquee-item {

@@ -224,6 +224,50 @@
     /* For textarea, keep it near top right */
 }
 
+/* --- Custom Dropdown Field --- */
+.dropdown-field {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.dropdown-field .custom-dropdown__select {
+    width: 100%;
+    height: 52px;
+    padding: 16px 40px 16px 20px;
+    border: 1px solid rgba(var(--color-foreground), 0.15);
+    background-color: transparent;
+    font-size: 1.4rem;
+    color: rgb(var(--color-foreground));
+    font-family: var(--font-body-family, sans-serif);
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    border-radius: 40px;
+    /* Pill shape */
+    box-shadow: none;
+    /* Remove theme default shadow */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dropdown-field .custom-dropdown__select:hover,
+.dropdown-field .custom-dropdown__select:focus-visible,
+.dropdown-field .custom-dropdown__select:focus {
+    border-color: rgba(var(--color-foreground), 0.5);
+    outline: none;
+    box-shadow: none;
+}
+
+.dropdown-field .icon-caret {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    pointer-events: none;
+    color: rgb(var(--color-foreground));
+}
+
 /* --- Setup Checkbox --- */
 .newsletter-checkbox {
     margin: 24px 0 32px 0;
