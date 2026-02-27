@@ -89,24 +89,37 @@
         <span class="unit-price-label">{{ product.metafields.custom.box_size.value }}</span>
       {% endif %}
 
-      {% assign feature_icons = product.metafields.custom.feature_icons.value %}
       {% assign feature_labels = product.metafields.custom.feature_labels.value %}
-      {% if feature_icons != blank and feature_icons.size > 0 %}
+      {% assign feature_icon_count = 0 %}
+      {% for i in (1..4) %}
+        {% assign icon_setting = 'feature_icon_' | append: i %}
+        {% if section.settings[icon_setting] != blank %}
+          {% assign feature_icon_count = feature_icon_count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+      {% if feature_icon_count > 0 %}
         <div class="feature-icons-grid">
-          {% for icon in feature_icons %}
-            <div class="feature-item">
-              <img
-                src="{{ icon | image_url: width: 130 }}"
-                alt="{{ feature_labels[forloop.index0] | default: 'Feature' | escape }}"
-                class="feature-icon-img"
-                loading="lazy"
-                width="130"
-                height="130"
-              >
-              {% if feature_labels != blank and feature_labels[forloop.index0] != blank %}
-                <span class="feature-label">{{ feature_labels[forloop.index0] }}</span>
-              {% endif %}
-            </div>
+          {% assign label_idx = 0 %}
+          {% for i in (1..4) %}
+            {% assign icon_setting = 'feature_icon_' | append: i %}
+            {% assign icon = section.settings[icon_setting] %}
+            {% if icon != blank %}
+              <div class="feature-item">
+                <img
+                  src="{{ icon | image_url: width: 200 }}"
+                  alt="{{ feature_labels[label_idx] | default: 'Feature' | escape }}"
+                  class="feature-icon-img"
+                    {% if label_idx == 0 %}style="width: 88px; height: 88px !important;"{% else %}style="width: 84px; height: 56px !important;"{% endif %}
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                >
+                {% if feature_labels != blank and feature_labels[label_idx] != blank %}
+                  <span class="feature-label">{{ feature_labels[label_idx] }}</span>
+                {% endif %}
+              </div>
+              {% assign label_idx = label_idx | plus: 1 %}
+            {% endif %}
           {% endfor %}
         </div>
       {% endif %}
@@ -288,6 +301,30 @@
       "id": "add_to_cart_text",
       "label": "Add to Cart Button Text",
       "default": "Add to Cart"
+    },
+    {
+      "type": "header",
+      "content": "Feature Icons"
+    },
+    {
+      "type": "image_picker",
+      "id": "feature_icon_1",
+      "label": "Feature Icon 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "feature_icon_2",
+      "label": "Feature Icon 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "feature_icon_3",
+      "label": "Feature Icon 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "feature_icon_4",
+      "label": "Feature Icon 4"
     },
     {
       "type": "header",
