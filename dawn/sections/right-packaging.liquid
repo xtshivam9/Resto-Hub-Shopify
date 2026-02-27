@@ -825,7 +825,14 @@
           endif
 
           if block_product == null or block_product == blank
-            assign block_product = rp_products_source.first
+            if template.name == 'product' and forloop.first
+              assign block_product = product
+            else
+              assign rp_seed = 'now' | date: '%s' | modulo: 997
+              assign rp_offset = forloop.index0 | times: 31
+              assign rp_random_index = rp_seed | plus: rp_offset | modulo: rp_products_source.size
+              assign block_product = rp_products_source[rp_random_index]
+            endif
           endif
         -%}
         <div
