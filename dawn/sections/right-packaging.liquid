@@ -333,17 +333,7 @@
       color: #000000; /* Black text */
   }
 
-  .rp-collection-label {
-      font-family: 'Rethink Sans', sans-serif;
-      font-weight: 700;
-      font-size: 12px;
-      color: #0E8345;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 8px;
-      width: 100%;
-      text-align: center;
-  }
+  /* .rp-collection-label removed: no longer needed */
 
   .rp-title {
       font-family: 'Rethink Sans', sans-serif;
@@ -863,13 +853,16 @@
             {%- endunless -%}
 
             <div class="rp-badge-container">
+              {%- if block.settings.badge_text_1 != blank -%}
+                <div class="rp-badge green">{{ block.settings.badge_text_1 }}</div>
+              {%- endif -%}
               {%- if block.settings.badge_text_2 != blank -%}
                 <div class="rp-badge grey">{{ block.settings.badge_text_2 }}</div>
               {%- endif -%}
             </div>
           </div>
 
-          <div class="rp-collection-label">{{ rp_col_title }}</div>
+          <!-- Collection label removed -->
 
           <div class="rp-dropdown-wrapper">
             <div class="rp-title" onclick="toggleDropdown(this)">
