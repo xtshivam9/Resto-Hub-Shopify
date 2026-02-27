@@ -1,5 +1,11 @@
 {% comment %}theme-check-disable UnknownObject, AssetUrlFilters, DeprecatedFilter, ImgWidthAndHeight{% endcomment %}
 {{ 'main-product-custom.css' | asset_url | stylesheet_tag }}
+<style>
+  :root {
+    --font-body-family: 'Rethink Sans', sans-serif !important;
+    --font-heading-family: 'Rethink Sans', sans-serif !important;
+  }
+</style>
 <!-- Main Product Custom Section -->
 
 <div class="main-product-custom">
