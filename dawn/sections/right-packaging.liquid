@@ -90,9 +90,10 @@
       "limit": 3,
       "settings": [
         {
-          "type": "product",
-          "id": "product",
-          "label": "Select Product"
+          "type": "url",
+          "id": "source_link",
+          "label": "Select Source",
+          "info": "Pick All Products, a Collection, or a single Product."
         },
         {
           "type": "checkbox",
@@ -292,7 +293,7 @@
       bottom: 0;
       width: 100%;
       height: 100%;
-      object-fit: fill;
+      object-fit: cover;
       object-position: center;
       display: block;
       margin: 0;
@@ -330,6 +331,18 @@
   .rp-badge.grey {
       background-color: #E8E8E8; /* Light grey bg */
       color: #000000; /* Black text */
+  }
+
+  .rp-collection-label {
+      font-family: 'Rethink Sans', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      color: #0E8345;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      width: 100%;
+      text-align: center;
   }
 
   .rp-title {
@@ -783,21 +796,64 @@
       </div>
 
       {%- for block in section.blocks -%}
-        {%- assign block_product = block.settings.product -%}
-        <div class="rp-card {% if block.settings.highlight %}highlighted{% endif %}" {{ block.shopify_attributes }}>
+        {%- liquid
+          assign rp_source_url = block.settings.source_link | default: ''
+          assign rp_products_source = collections.all.products
+          assign rp_col_handle = 'all'
+          assign rp_col_title = 'All Products'
+          assign block_product = null
+
+          if rp_source_url contains '/collections/'
+            assign rp_url_parts = rp_source_url | split: '/collections/'
+            assign rp_col_slug = rp_url_parts[1] | split: '/' | first | split: '?' | first
+            if rp_col_slug != blank and rp_col_slug != 'all'
+              assign rp_found_col = collections[rp_col_slug]
+              if rp_found_col != blank
+                assign rp_products_source = rp_found_col.products
+                assign rp_col_handle = rp_found_col.handle
+                assign rp_col_title = rp_found_col.title
+              endif
+            endif
+          endif
+
+          if rp_source_url contains '/products/'
+            assign rp_url_parts2 = rp_source_url | split: '/products/'
+            assign rp_prod_slug = rp_url_parts2[1] | split: '/' | first | split: '?' | first
+            if rp_prod_slug != blank
+              assign block_product = all_products[rp_prod_slug]
+            endif
+          endif
+
+          if block_product == null or block_product == blank
+            assign block_product = rp_products_source.first
+          endif
+        -%}
+        <div
+          class="rp-card {% if block.settings.highlight %}highlighted{% endif %}"
+          data-collection-handle="{{ rp_col_handle }}"
+          {{ block.shopify_attributes }}
+        >
           <div class="rp-image-container">
-            {%- if block_product != blank and block_product.featured_image -%}
-              <img
-                src="{{ block_product.featured_image | image_url: width: 600 }}"
-                alt="{{ block_product.title | escape }}"
-                class="rp-image rp-card-image"
-                loading="lazy"
-                width="600"
-                height="450"
-              >
-            {%- else -%}
-              {{ 'product-1' | placeholder_svg_tag: 'rp-image rp-card-image' }}
-            {%- endif -%}
+            {%- liquid
+              assign rp_block_img = null
+              if block_product != blank
+                assign rp_block_img = block_product.featured_image | default: block_product.images.first
+              endif
+            -%}
+            <img
+              src="{% if rp_block_img %}{{ rp_block_img | image_url: width: 600 }}{% endif %}"
+              alt="{{ block_product.title | default: 'Product' | escape }}"
+              class="rp-image rp-card-image"
+              loading="lazy"
+              width="600"
+              height="450"
+              {% unless rp_block_img %}
+                style="display:none;"
+              {% endunless %}
+            >
+            {%- unless rp_block_img -%}
+              {{ 'product-1' | placeholder_svg_tag: 'rp-image rp-card-placeholder' }}
+            {%- endunless -%}
 
             <div class="rp-badge-container">
               {%- if block.settings.badge_text_2 != blank -%}
@@ -805,6 +861,8 @@
               {%- endif -%}
             </div>
           </div>
+
+          <div class="rp-collection-label">{{ rp_col_title }}</div>
 
           <div class="rp-dropdown-wrapper">
             <div class="rp-title" onclick="toggleDropdown(this)">
@@ -843,30 +901,43 @@
                 </svg>
               </div>
               <ul class="rp-options-list">
-                {%- paginate collections.all.products by 250 -%}
-                  {%- for col_product in collections.all.products -%}
-                    {%- if col_product.available -%}
-                      <li
-                        class="rp-option-item"
-                        data-product-handle="{{ col_product.handle }}"
-                        onclick="selectOption(this)"
-                      >
-                        <span class="rp-option-checkbox">
-                          <svg
-                            width="12"
-                            height="10"
-                            viewBox="0 0 12 10"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path d="M1 5L4.5 8.5L11 1.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                          </svg>
-                        </span>
-                        <span class="rp-option-label">{{ col_product.title }}</span>
-                      </li>
-                    {%- endif -%}
-                  {%- endfor -%}
-                {%- endpaginate -%}
+                {%- if rp_col_handle == 'all' -%}
+                  {%- paginate collections.all.products by 250 -%}
+                    {%- for col_product in collections.all.products limit: 50 -%}
+                      {%- render 'rp-option-item', rp_product: col_product, collection_handle: 'all', is_selected: forloop.first -%}
+                    {%- endfor -%}
+                    {%- for col_product in collections.all.products limit: 50 offset: continue -%}
+                      {%- render 'rp-option-item', rp_product: col_product, collection_handle: 'all' -%}
+                    {%- endfor -%}
+                    {%- for col_product in collections.all.products limit: 50 offset: continue -%}
+                      {%- render 'rp-option-item', rp_product: col_product, collection_handle: 'all' -%}
+                    {%- endfor -%}
+                    {%- for col_product in collections.all.products limit: 50 offset: continue -%}
+                      {%- render 'rp-option-item', rp_product: col_product, collection_handle: 'all' -%}
+                    {%- endfor -%}
+                    {%- for col_product in collections.all.products limit: 50 offset: continue -%}
+                      {%- render 'rp-option-item', rp_product: col_product, collection_handle: 'all' -%}
+                    {%- endfor -%}
+                  {%- endpaginate -%}
+                {%- else -%}
+                  {%- paginate collections[rp_col_handle].products by 250 -%}
+                    {%- for col_product in collections[rp_col_handle].products limit: 50 -%}
+                      {%- render 'rp-option-item', rp_product: col_product, collection_handle: rp_col_handle, is_selected: forloop.first -%}
+                    {%- endfor -%}
+                    {%- for col_product in collections[rp_col_handle].products limit: 50 offset: continue -%}
+                      {%- render 'rp-option-item', rp_product: col_product, collection_handle: rp_col_handle -%}
+                    {%- endfor -%}
+                    {%- for col_product in collections[rp_col_handle].products limit: 50 offset: continue -%}
+                      {%- render 'rp-option-item', rp_product: col_product, collection_handle: rp_col_handle -%}
+                    {%- endfor -%}
+                    {%- for col_product in collections[rp_col_handle].products limit: 50 offset: continue -%}
+                      {%- render 'rp-option-item', rp_product: col_product, collection_handle: rp_col_handle -%}
+                    {%- endfor -%}
+                    {%- for col_product in collections[rp_col_handle].products limit: 50 offset: continue -%}
+                      {%- render 'rp-option-item', rp_product: col_product, collection_handle: rp_col_handle -%}
+                    {%- endfor -%}
+                  {%- endpaginate -%}
+                {%- endif -%}
               </ul>
             </div>
           </div>
@@ -938,44 +1009,80 @@
 
 <script type="application/json" id="rp-products-data">
   {
-    {%- assign rp_first = true -%}
-    {%- paginate collections.all.products by 250 -%}
-      {%- for p in collections.all.products -%}
-        {%- if p.available -%}
-          {%- unless rp_first -%},{%- endunless -%}
-          {{ p.handle | json }}: {
-            "title": {{ p.title | json }},
-            "url": {{ p.url | json }},
-            "price": {{ p.price | money | json }},
-            "image": {% if p.featured_image %}{{ p.featured_image | image_url: width: 600 | json }}{% else %}""{% endif %},
-            "capacity": {% if p.metafields.custom.capacity != blank %}{%- capture rp_j_cap -%}{{ p.metafields.custom.capacity | metafield_tag }}{%- endcapture -%}{{ rp_j_cap | strip_html | strip | json }}{% else %}"-"{% endif %},
-            "material": {% if p.metafields.custom.materials != blank %}{%- capture rp_j_mat -%}{{ p.metafields.custom.materials | metafield_tag }}{%- endcapture -%}{{ rp_j_mat | strip_html | strip | json }}{% else %}"-"{% endif %},
-            "case_pack": {% if p.metafields.custom.box_size != blank %}{%- capture rp_j_box -%}{{ p.metafields.custom.box_size | metafield_tag }}{%- endcapture -%}{{ rp_j_box | strip_html | strip | json }}{% else %}"-"{% endif %},
-            "use_case": {% if p.metafields.custom.ideal_for != blank %}{%- capture rp_j_use -%}{{ p.metafields.custom.ideal_for | metafield_tag }}{%- endcapture -%}{{ rp_j_use | strip_html | strip | json }}{% else %}"-"{% endif %}
-          }
-          {%- assign rp_first = false -%}
+    {%- assign rp_col_first = true -%}
+    {%- assign rp_needs_all = false -%}
+    {%- for block in section.blocks -%}
+      {%- assign rp_src = block.settings.source_link | default: '' -%}
+      {%- assign rp_is_collection = false -%}
+      {%- if rp_src contains '/collections/' -%}
+        {%- assign rp_j_parts = rp_src | split: '/collections/' -%}
+        {%- assign rp_j_slug = rp_j_parts[1] | split: '/' | first | split: '?' | first -%}
+        {%- if rp_j_slug != blank and rp_j_slug != 'all' -%}
+          {%- assign rp_j_col = collections[rp_j_slug] -%}
+          {%- if rp_j_col != blank -%}
+            {%- assign rp_is_collection = true -%}
+            {%- unless rp_col_first -%},{%- endunless -%}
+            {{ rp_j_col.handle | json }}: {
+              {%- paginate rp_j_col.products by 250 -%}
+                {%- capture rp_json_col_entries -%}
+                  {%- for p in rp_j_col.products limit: 50 -%}
+                    {%- render 'rp-product-json-entry', rp_product: p -%}
+                  {%- endfor -%}
+                  {%- for p in rp_j_col.products limit: 50 offset: continue -%}
+                    {%- render 'rp-product-json-entry', rp_product: p -%}
+                  {%- endfor -%}
+                  {%- for p in rp_j_col.products limit: 50 offset: continue -%}
+                    {%- render 'rp-product-json-entry', rp_product: p -%}
+                  {%- endfor -%}
+                  {%- for p in rp_j_col.products limit: 50 offset: continue -%}
+                    {%- render 'rp-product-json-entry', rp_product: p -%}
+                  {%- endfor -%}
+                  {%- for p in rp_j_col.products limit: 50 offset: continue -%}
+                    {%- render 'rp-product-json-entry', rp_product: p -%}
+                  {%- endfor -%}
+                {%- endcapture -%}
+                {{ rp_json_col_entries | remove_first: ',' }}
+              {%- endpaginate -%}
+            }
+            {%- assign rp_col_first = false -%}
+          {%- endif -%}
         {%- endif -%}
-      {%- endfor -%}
-    {%- endpaginate -%}
+      {%- endif -%}
+      {%- unless rp_is_collection -%}
+        {%- assign rp_needs_all = true -%}
+      {%- endunless -%}
+    {%- endfor -%}
+    {%- if rp_needs_all -%}
+      {%- unless rp_col_first -%},{%- endunless -%}
+      "all": {
+        {%- paginate collections.all.products by 250 -%}
+          {%- capture rp_json_all_entries -%}
+            {%- for p in collections.all.products limit: 50 -%}
+              {%- render 'rp-product-json-entry', rp_product: p -%}
+            {%- endfor -%}
+            {%- for p in collections.all.products limit: 50 offset: continue -%}
+              {%- render 'rp-product-json-entry', rp_product: p -%}
+            {%- endfor -%}
+            {%- for p in collections.all.products limit: 50 offset: continue -%}
+              {%- render 'rp-product-json-entry', rp_product: p -%}
+            {%- endfor -%}
+            {%- for p in collections.all.products limit: 50 offset: continue -%}
+              {%- render 'rp-product-json-entry', rp_product: p -%}
+            {%- endfor -%}
+            {%- for p in collections.all.products limit: 50 offset: continue -%}
+              {%- render 'rp-product-json-entry', rp_product: p -%}
+            {%- endfor -%}
+          {%- endcapture -%}
+          {{ rp_json_all_entries | remove_first: ',' }}
+        {%- endpaginate -%}
+      }
+    {%- endif -%}
   }
 </script>
 
 <script>
-  // Parse pre-rendered product data
+  // Parse pre-rendered product data (grouped by collection handle)
   const rpProductsData = JSON.parse(document.getElementById('rp-products-data').textContent);
-
-  // Fisher-Yates shuffle for randomizing product order
-  function shuffleList(list) {
-    const items = Array.from(list.children);
-    for (let i = items.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      list.appendChild(items[j]);
-      items[j] = items[i];
-    }
-  }
-
-  // Shuffle all dropdown lists on page load
-  document.querySelectorAll('.rp-options-list').forEach(shuffleList);
 
   function toggleDropdown(element) {
     document.querySelectorAll('.rp-dropdown-menu').forEach((menu) => {
@@ -1002,16 +1109,35 @@
 
   function selectOption(item) {
     const handle = item.getAttribute('data-product-handle');
-    const data = rpProductsData[handle];
+    const collectionHandle = item.getAttribute('data-collection-handle');
+
+    // Look up product data within the correct collection
+    const collectionData = rpProductsData[collectionHandle];
+    if (!collectionData) return;
+    const data = collectionData[handle];
     if (!data) return;
 
     const card = item.closest('.rp-card');
 
+    // Mark selected item
+    const list = item.closest('.rp-options-list');
+    list.querySelectorAll('.rp-option-item').forEach((opt) => opt.classList.remove('selected'));
+    item.classList.add('selected');
+
     // Update image
-    const imgEl = card.querySelector('.rp-card-image');
-    if (imgEl && data.image) {
+    const container = card.querySelector('.rp-image-container');
+    const imgEl = container.querySelector('img.rp-card-image');
+    const placeholder = container.querySelector('.rp-card-placeholder');
+
+    if (data.image && imgEl) {
       imgEl.src = data.image;
       imgEl.alt = data.title;
+      imgEl.style.display = '';
+      if (placeholder) placeholder.style.display = 'none';
+    } else if (imgEl) {
+      imgEl.src = '';
+      imgEl.style.display = 'none';
+      if (placeholder) placeholder.style.display = '';
     }
 
     // Update title in dropdown

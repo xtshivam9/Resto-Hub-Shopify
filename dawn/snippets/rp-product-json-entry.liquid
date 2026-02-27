@@ -1,0 +1,25 @@
+{% doc %}
+  Renders a JSON entry for a product in the right-packaging section data.
+  Always outputs a leading comma before the entry. The caller should strip
+  the first comma from the captured output.
+
+  @param {product} rp_product - The product to render JSON data for
+
+  @example
+  {% render 'rp-product-json-entry', rp_product: product %}
+{% enddoc %}
+
+{%- assign rp_json_img = rp_product.featured_image | default: rp_product.images.first -%}
+{%- if rp_json_img == blank and rp_product.media.size > 0 -%}
+  {%- assign rp_json_img = rp_product.media[0].preview_image -%}
+{%- endif -%}
+,{{ rp_product.handle | json }}: {
+  "title": {{ rp_product.title | json }},
+  "url": {{ rp_product.url | json }},
+  "price": {{ rp_product.price | money | json }},
+  "image": {% if rp_json_img %}{{ rp_json_img | image_url: width: 600 | json }}{% else %}""{% endif %},
+  "capacity": {% if rp_product.metafields.custom.capacity != blank %}{%- capture rp_j_cap -%}{{ rp_product.metafields.custom.capacity | metafield_tag }}{%- endcapture -%}{{ rp_j_cap | strip_html | strip | json }}{% else %}"-"{% endif %},
+  "material": {% if rp_product.metafields.custom.materials != blank %}{%- capture rp_j_mat -%}{{ rp_product.metafields.custom.materials | metafield_tag }}{%- endcapture -%}{{ rp_j_mat | strip_html | strip | json }}{% else %}"-"{% endif %},
+  "case_pack": {% if rp_product.metafields.custom.box_size != blank %}{%- capture rp_j_box -%}{{ rp_product.metafields.custom.box_size | metafield_tag }}{%- endcapture -%}{{ rp_j_box | strip_html | strip | json }}{% else %}"-"{% endif %},
+  "use_case": {% if rp_product.metafields.custom.ideal_for != blank %}{%- capture rp_j_use -%}{{ rp_product.metafields.custom.ideal_for | metafield_tag }}{%- endcapture -%}{{ rp_j_use | strip_html | strip | json }}{% else %}"-"{% endif %}
+}
