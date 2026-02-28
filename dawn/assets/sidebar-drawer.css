@@ -20,14 +20,14 @@
 
 /* ---------- Sidebar Panel ---------- */
 .sidebar-drawer {
-    position: absolute;
-    top: 100%;
-    left: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100vw;
     max-height: 85vh;
     background-color: #ffffff;
-    z-index: 1000;
-    transform: translateX(-50%) translateY(-10px);
+    z-index: 1001;
+    transform: translateY(-10px);
     transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
     display: flex;
     flex-direction: column;
@@ -41,7 +41,7 @@
 .sidebar-drawer.is-open {
     opacity: 1;
     visibility: visible;
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
 }
 
 /* ---------- Sidebar Header ---------- */
@@ -195,6 +195,4 @@
 }
 
 /* ---------- Prevent body scroll when open ---------- */
-body.sidebar-is-open {
-    overflow: hidden;
-}
+/* Scroll locking handled via JS to avoid breaking position:sticky */

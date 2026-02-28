@@ -17,7 +17,7 @@ body {
     position: -webkit-sticky;
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 1002;
 }
 
 .header-wrapper {
@@ -30,7 +30,6 @@ body {
     border-bottom: 2px solid rgb(221, 221, 221);
     /* Lighter border */
     position: relative;
-    overflow: hidden;
 }
 
 .header-left {
