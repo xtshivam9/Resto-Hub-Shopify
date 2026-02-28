@@ -114,7 +114,7 @@
 
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
+      padding-top: {{ section.settings.padding_top | plus: 60 }}px;
       padding-bottom: 150px;
     }
   }
@@ -157,7 +157,6 @@
   <div class="new-arrivals-container">
     <div class="new-arrivals-header">
       <h2 class="new-arrivals-heading">{{ section.settings.heading | escape }}</h2>
-      <a href="{{ view_all_url | default: routes.all_products_collection_url }}" class="na-view-all-btn">View all</a>
     </div>
 
     <div class="new-arrivals-grid">
@@ -263,6 +262,10 @@
           </div>
         {%- endfor -%}
       {%- endif -%}
+    </div>
+
+    <div class="na-view-all-btn-wrapper">
+      <a href="{{ view_all_url | default: routes.all_products_collection_url }}" class="na-view-all-btn">View all</a>
     </div>
   </div>
 </div>
