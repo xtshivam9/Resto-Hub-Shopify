@@ -135,7 +135,8 @@
 
 @media screen and (max-width: 768px) {
     .trusted-businesses-container {
-        padding: 25px 10px;
+        padding: 25px 6px;
+        margin-bottom: 6px;
     }
 
     .trusted-grid {
