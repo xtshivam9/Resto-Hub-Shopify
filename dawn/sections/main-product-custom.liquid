@@ -109,7 +109,11 @@
                   src="{{ icon | image_url: width: 200 }}"
                   alt="{{ feature_labels[label_idx] | default: 'Feature' | escape }}"
                   class="feature-icon-img"
-                    {% if label_idx == 0 %}style="width: 88px; height: 88px !important;"{% else %}style="width: 84px; height: 56px !important;"{% endif %}
+                  {% if label_idx == 0 %}
+                    style="width: 88px; height: 88px !important;"
+                  {% else %}
+                    style="width: 84px; height: 56px !important;"
+                  {% endif %}
                   loading="lazy"
                   width="200"
                   height="200"
@@ -260,28 +264,91 @@
   }
 
   function addFbtToCart(button) {
-    const variantId = button.getAttribute('data-variant-id');
-    const originalText = button.textContent;
+    var variantId = button.getAttribute('data-variant-id');
+    if (!variantId) return;
+
+    var originalText = button.textContent;
     button.textContent = 'Adding...';
     button.disabled = true;
 
+    // Use FormData with sections for proper cart drawer rendering
+    var formData = new FormData();
+    formData.append('id', variantId);
+    formData.append('quantity', 1);
+    formData.append('sections', 'cart-drawer,cart-icon-bubble');
+    formData.append('sections_url', window.location.pathname);
+
     fetch('/cart/add.js', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: [{ id: parseInt(variantId), quantity: 1 }] }),
+      body: formData,
     })
-      .then((response) => response.json())
-      .then((data) => {
+      .then(function (response) {
+        if (!response.ok) {
+          throw new Error('Failed to add to cart');
+        }
+        return response.json();
+      })
+      .then(function (data) {
         button.textContent = 'Added ✓';
-        setTimeout(() => {
+
+        // Update cart drawer HTML if sections are returned
+        if (data.sections) {
+          if (data.sections['cart-drawer']) {
+            var cartDrawerElement = document.getElementById('CartDrawer');
+            if (cartDrawerElement) {
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(data.sections['cart-drawer'], 'text/html');
+              var newContent = doc.getElementById('CartDrawer');
+              if (newContent) {
+                cartDrawerElement.innerHTML = newContent.innerHTML;
+                var cartDrawer = document.querySelector('cart-drawer');
+                if (cartDrawer) cartDrawer.classList.remove('is-empty');
+                var cartDrawerItems = document.querySelector('cart-drawer-items');
+                if (cartDrawerItems) cartDrawerItems.classList.remove('is-empty');
+              }
+            }
+          }
+
+          // Update cart count bubble
+          if (data.sections['cart-icon-bubble']) {
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(data.sections['cart-icon-bubble'], 'text/html');
+            var newCountBubble = doc.querySelector('.cart-count-bubble');
+            var currentButton = document.querySelector('#cart-icon-bubble');
+            if (currentButton) {
+              var currentCountBubble = currentButton.querySelector('.cart-count-bubble');
+              if (newCountBubble) {
+                if (currentCountBubble) {
+                  currentCountBubble.innerHTML = newCountBubble.innerHTML;
+                } else {
+                  currentButton.appendChild(newCountBubble.cloneNode(true));
+                }
+              } else if (currentCountBubble) {
+                currentCountBubble.remove();
+              }
+            }
+          }
+        }
+
+        // Open cart drawer
+        setTimeout(function () {
+          var cartIconBubble = document.querySelector('#cart-icon-bubble');
+          if (cartIconBubble) cartIconBubble.click();
+        }, 500);
+
+        // Reset button after 2 seconds
+        setTimeout(function () {
           button.textContent = originalText;
           button.disabled = false;
-        }, 1500);
+        }, 2000);
       })
-      .catch((error) => {
-        button.textContent = originalText;
-        button.disabled = false;
+      .catch(function (error) {
         console.error('Error adding to cart:', error);
+        button.textContent = 'ERROR';
+        setTimeout(function () {
+          button.textContent = originalText;
+          button.disabled = false;
+        }, 2000);
       });
   }
 </script>
