@@ -71,7 +71,7 @@
     overflow: hidden;
     white-space: nowrap;
     position: relative;
-    padding: 15px 0;
+    padding: 25px 0;
     font-family: 'Rethink Sans', sans-serif;
     z-index: 2;
   }
@@ -81,7 +81,7 @@
     animation: marquee {{ section.settings.speed }}s linear infinite;
     /* Determine width dynamically or ensure enough content */
     /* For method: translate -50%, we need content to be exactly doubled */
-    width: max-content; 
+    width: max-content;
   }
 
   .promo-marquee-content {
@@ -90,15 +90,15 @@
   }
 
   .promo-marquee-item {
-    font-size: {{ section.settings.font_size }}px;
+    font-size: 24px;
     font-weight: 500;
     margin: 0 {{ section.settings.gap | divided_by: 2 }}px; /* Half on each side for even spacing */
     display: inline-flex;
     align-items: center;
   }
-  
+
   .promo-marquee-item .bullet {
-    margin: 0 {{ section.settings.gap | divided_by: 2 }}px;
+    margin: 0px 29px;
     font-size: 0.8em;
     opacity: 0.8;
   }

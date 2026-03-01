@@ -101,202 +101,204 @@
 {% endschema %}
 
 {% style %}
-  @import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap');
+   @import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap');
 
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-    overflow: hidden; /* Prevent horizontal scroll if needed */
-  }
+   .section-{{ section.id }}-padding {
+     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+     overflow: hidden; /* Prevent horizontal scroll if needed */
+   }
+
+   @media screen and (min-width: 750px) {
+     .section-{{ section.id }}-padding {
+       padding-top: {{ section.settings.padding_top }}px;
+       padding-bottom: {{ section.settings.padding_bottom }}px;
+     }
+   }
+
+   .why-choose-container {
+     max-width: 1440px;
+     margin: 0 auto;
+     padding: 0 2rem;
+     display: flex;
+     flex-direction: column;
+     gap: 40px;
+     /* align-items: center; */ /* Can center vertically if desired */
+   }
+
+   @media screen and (min-width: 990px) {
+     .why-choose-container {
+       flex-direction: row;
+       align-items: center;
+       justify-content: space-between;
+       gap: 100px;
+       padding: 0 8rem;
+     }
+
+     .why-choose-content {
+       flex: 1.2;
+     }
+
+     .why-choose-image-wrapper {
+       flex: 0.8;
+     }
+   }
+
+   .why-choose-content {
+     /* flex: 1;  Removed as it's handled in media query now or defaults to block */
+     max-width: 100%;
+     margin-top: -173px;
+     display: flex;
+     flex-direction: column;
+   }
+
+   /* Mobile Reordering: Heading -> Image -> Benefits */
+   @media screen and (max-width: 989px) {
+       .why-choose-content {
+           display: contents; /* Unwrap content to let children participate in parent flex */
+       }
+
+       .why-choose-heading {
+           order: 1;
+       }
+
+       .why-choose-image-wrapper {
+           order: 2;
+       }
+
+       .benefits-grid {
+           order: 3;
+       }
+   }
+
+   .why-choose-heading {
+     font-family: 'Rethink Sans', sans-serif;
+     font-style: normal;
+     font-weight: 600;
+     font-size: 32px;
+     line-height: 120%;
+     color: #000000;
+     margin-bottom: 3rem;
+   }
+
+   @media screen and (min-width: 750px) {
+       .why-choose-heading {
+           font-size: 40px;
+       }
+   }
+
+   .benefits-grid {
+     display: grid;
+     grid-template-columns: 1fr;
+     gap: 32px;
+   }
 
   @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
+     .benefits-grid {
+       grid-template-columns: repeat(2, 1fr);
+       column-gap: 40px;
+       row-gap: 40px;
+     }
   }
 
-  .why-choose-container {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    /* align-items: center; */ /* Can center vertically if desired */
-  }
+   .benefit-item {
+     display: flex;
+     align-items: flex-start;
+     gap: 16px;
+   }
 
-  @media screen and (min-width: 990px) {
-    .why-choose-container {
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      gap: 100px;
-      padding: 0 8rem;
-    }
+   .benefit-icon {
+     width: 32px;
+     height: 32px;
+     flex-shrink: 0;
+     background-color: #248f6f;
+     border-radius: 50%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     color: white;
+     margin-top: 2px; /* Slight optical adjustment to align with text cap height */
+   }
 
-    .why-choose-content {
-      flex: 1.2;
-    }
+   .benefit-icon svg {
+       width: 18px;
+       height: 18px;
+       fill: currentColor;
+   }
 
-    .why-choose-image-wrapper {
-      flex: 0.8;
-    }
-  }
+   .benefit-text-content {
+     display: flex;
+     flex-direction: column;
+     gap: 8px;
+   }
 
-  .why-choose-content {
-    /* flex: 1;  Removed as it's handled in media query now or defaults to block */
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Mobile Reordering: Heading -> Image -> Benefits */
-  @media screen and (max-width: 989px) {
-      .why-choose-content {
-          display: contents; /* Unwrap content to let children participate in parent flex */
-      }
-      
-      .why-choose-heading {
-          order: 1;
-      }
-      
-      .why-choose-image-wrapper {
-          order: 2;
-      }
-      
-      .benefits-grid {
-          order: 3;
-      }
-  }
+   .benefit-title {
+     font-family: 'Rethink Sans', sans-serif;
+     font-weight: 700;
+     font-size: 21px; /* Slightly reduced to ensure single line */
+     line-height: 120%;
+     color: #000000;
+     margin: 0;
+   }
 
-  .why-choose-heading {
-    font-family: 'Rethink Sans', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 32px;
-    line-height: 120%;
-    color: #000000;
-    margin-bottom: 3rem;
-  }
-  
-  @media screen and (min-width: 750px) {
-      .why-choose-heading {
-          font-size: 40px;
-      }
-  }
+   .benefit-description {
+     font-family: 'Rethink Sans', sans-serif;
+     font-weight: 400;
+     font-size: 16px;
+     line-height: 150%;
+     color: #4A4A4A;
+     margin: 0;
+     max-width: 320px; /* Force wrapping to 2 lines */
+   }
 
-  .benefits-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
+   .why-choose-image-wrapper {
+     flex: 0.7;
+     width: 100%;
+     border-radius: 24px;
+     overflow: hidden;
+   }
 
- @media screen and (min-width: 750px) {
-    .benefits-grid {
-      grid-template-columns: repeat(2, 1fr);
-      column-gap: 40px;
-      row-gap: 40px;
-    }
- }
+   .why-choose-image {
+     width: 100%;
+     height: auto;
+     display: block;
+     object-fit: cover;
+     border-radius: 24px;
+   }
 
-  .benefit-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-  }
+   @media screen and (max-width: 749px) {
+     .why-choose-container {
+       padding: 0 1.5rem;
+       gap: 30px;
+     }
 
-  .benefit-icon {
-    width: 32px;
-    height: 32px;
-    flex-shrink: 0;
-    background-color: #248f6f;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    margin-top: 2px; /* Slight optical adjustment to align with text cap height */
-  }
-  
-  .benefit-icon svg {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-  }
+     .why-choose-heading {
+       font-size: 22px;
+       margin-bottom: 1.5rem;
+       text-align: center;
+     }
 
-  .benefit-text-content {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
+     .benefit-title {
+       font-size: 18px;
+     }
 
-  .benefit-title {
-    font-family: 'Rethink Sans', sans-serif;
-    font-weight: 700;
-    font-size: 21px; /* Slightly reduced to ensure single line */
-    line-height: 120%;
-    color: #000000;
-    margin: 0;
-  }
+     .benefit-description {
+       font-size: 16px;
+       max-width: 100%;
+     }
 
-  .benefit-description {
-    font-family: 'Rethink Sans', sans-serif;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 150%;
-    color: #4A4A4A;
-    margin: 0;
-    max-width: 320px; /* Force wrapping to 2 lines */
-  }
+     .benefits-grid {
+       gap: 24px;
+     }
 
-  .why-choose-image-wrapper {
-    flex: 0.7;
-    width: 100%;
-    border-radius: 24px;
-    overflow: hidden;
-  }
+     .why-choose-image-wrapper {
+       border-radius: 16px;
+     }
 
-  .why-choose-image {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
-    border-radius: 24px;
-  }
-
-  @media screen and (max-width: 480px) {
-    .why-choose-container {
-      padding: 0 1rem;
-      gap: 30px;
-    }
-
-    .why-choose-heading {
-      font-size: 26px;
-      margin-bottom: 1.5rem;
-    }
-
-    .benefit-title {
-      font-size: 16px;
-    }
-
-    .benefit-description {
-      font-size: 13px;
-      max-width: 100%;
-    }
-
-    .benefits-grid {
-      gap: 24px;
-    }
-
-    .why-choose-image-wrapper {
-      border-radius: 16px;
-    }
-
-    .why-choose-image {
-      border-radius: 16px;
-    }
-  }
+     .why-choose-image {
+       border-radius: 16px;
+     }
+   }
 {% endstyle %}
 
 <div class="section-{{ section.id }}-padding">
@@ -310,18 +312,20 @@
         {%- for block in section.blocks -%}
           <div class="benefit-item" {{ block.shopify_attributes }}>
             <div class="benefit-icon">
-                {%- if block.settings.custom_svg != blank -%}
-                    {{ block.settings.custom_svg }}
-                {%- else -%}
-                    <!-- Standard checkmark SVG -->
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                {%- endif -%}
+              {%- if block.settings.custom_svg != blank -%}
+                {{ block.settings.custom_svg }}
+              {%- else -%}
+                <!-- Standard checkmark SVG -->
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                </svg>
+              {%- endif -%}
             </div>
             <div class="benefit-text-content">
-                <h3 class="benefit-title">{{ block.settings.title | escape }}</h3>
-                {%- if block.settings.description != blank -%}
-                  <p class="benefit-description">{{ block.settings.description | escape }}</p>
-                {%- endif -%}
+              <h3 class="benefit-title">{{ block.settings.title | escape }}</h3>
+              {%- if block.settings.description != blank -%}
+                <p class="benefit-description">{{ block.settings.description | escape }}</p>
+              {%- endif -%}
             </div>
           </div>
         {%- endfor -%}
@@ -332,8 +336,15 @@
       {%- if section.settings.image != blank -%}
         {{ section.settings.image | image_url: width: 800 | image_tag: class: 'why-choose-image', loading: 'lazy' }}
       {%- else -%}
-         <!-- Fallback to asset if not selected in customizer -->
-         <img src="{{ 'choose.svg' | asset_url }}" alt="Why Choose Us" class="why-choose-image" loading="lazy" width="600" height="600">
+        <!-- Fallback to asset if not selected in customizer -->
+        <img
+          src="{{ 'choose.svg' | asset_url }}"
+          alt="Why Choose Us"
+          class="why-choose-image"
+          loading="lazy"
+          width="600"
+          height="600"
+        >
       {%- endif -%}
     </div>
   </div>

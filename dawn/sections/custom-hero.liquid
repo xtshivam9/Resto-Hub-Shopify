@@ -1,193 +1,252 @@
-{{ 'custom-hero.css' | asset_url | append: '?v=5' | stylesheet_tag }}
+{{ 'custom-hero.css' | asset_url | append: '?v=11' | stylesheet_tag }}
 
 {%- style -%}
-  #shopify-section-{{ section.id }} .custom-hero-section {
-    height: {{ section.settings.hero_height_desktop }}px;
-  }
-
-  @media screen and (max-width: 1540px) {
-    #shopify-section-{{ section.id }} .custom-hero-section {
-      height: {{ section.settings.hero_height_laptop }}px;
-    }
-  }
-
-  @media screen and (max-width: 990px) {
-    #shopify-section-{{ section.id }} .custom-hero-section {
-      height: {{ section.settings.hero_height_tablet }}px;
-    }
-  }
-
   @media screen and (max-width: 576px) {
-    #shopify-section-{{ section.id }} .custom-hero-section {
-      height: {{ section.settings.hero_height_mobile }}px;
-    }
-
     #shopify-section-{{ section.id }} .hero-arrow {
       display: none;
     }
   }
-
-  /* Per-slide background images */
-  {%- for block in section.blocks -%}
-    {%- if block.settings.background_image != blank -%}
-      #shopify-section-{{ section.id }} .hero-slide[data-index="{{ forloop.index0 }}"] {
-        background-image: url({{ block.settings.background_image | image_url: width: 2000 }});
-      }
-    {%- endif -%}
-
-    @media screen and (max-width: 576px) {
-      {%- if block.settings.mobile_background_image != blank -%}
-        #shopify-section-{{ section.id }} .hero-slide[data-index="{{ forloop.index0 }}"] {
-          background-image: url({{ block.settings.mobile_background_image | image_url: width: 1000 }});
-        }
-      {%- elsif block.settings.background_image != blank -%}
-        #shopify-section-{{ section.id }} .hero-slide[data-index="{{ forloop.index0 }}"] {
-          background-image: url({{ block.settings.background_image | image_url: width: 1000 }});
-        }
-      {%- endif -%}
-    }
-  {%- endfor -%}
 {%- endstyle -%}
 
-<div class="custom-hero-section" id="hero-slider-{{ section.id }}" data-autoplay="{{ section.settings.autoplay }}" data-speed="{{ section.settings.autoplay_speed }}">
+<div
+  class="custom-hero-section"
+  id="hero-slider-{{ section.id }}"
+  data-autoplay="{{ section.settings.autoplay }}"
+  data-speed="{{ section.settings.autoplay_speed }}"
+>
   <!-- Slides -->
-  {%- for block in section.blocks -%}
-    <div class="hero-slide {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
-      <div class="custom-hero-content">
-        {% if block.settings.heading != blank %}
-          <h1 class="custom-hero-heading" style="color: {{ block.settings.text_color }};">{{ block.settings.heading }}</h1>
-        {% endif %}
+  <div class="hero-slider-track">
+    {%- for block in section.blocks -%}
+      <div
+        class="hero-slide {% if forloop.first %}active{% endif %}"
+        data-index="{{ forloop.index0 }}"
+        {{ block.shopify_attributes }}
+      >
+        {%- comment -%} Slide background image using <picture> for mobile/desktop variants {%- endcomment -%}
+        {%- if block.settings.background_image != blank or block.settings.mobile_background_image != blank -%}
+          <picture>
+            {%- if block.settings.mobile_background_image != blank -%}
+              <source
+                media="(max-width: 576px)"
+                srcset="{{ block.settings.mobile_background_image | image_url: width: 1000 }}"
+              >
+            {%- endif -%}
+            {%- if block.settings.background_image != blank -%}
+              <img
+                class="hero-slide-bg"
+                src="{{ block.settings.background_image | image_url: width: 2000 }}"
+                alt="{{ block.settings.heading | default: 'Hero slide' }}"
+                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                width="2000"
+                height="1000"
+              >
+            {%- elsif block.settings.mobile_background_image != blank -%}
+              <img
+                class="hero-slide-bg"
+                src="{{ block.settings.mobile_background_image | image_url: width: 1000 }}"
+                alt="{{ block.settings.heading | default: 'Hero slide' }}"
+                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                width="1000"
+                height="1000"
+              >
+            {%- endif -%}
+          </picture>
+        {%- endif -%}
 
-        {% if block.settings.description != blank %}
-          <div class="custom-hero-description" style="color: {{ block.settings.text_color }};">{{ block.settings.description }}</div>
-        {% endif %}
+        <div class="custom-hero-content">
+          {%- if block.settings.show_heading and block.settings.heading != blank -%}
+            <h1 class="custom-hero-heading" style="color: {{ block.settings.text_color }};">
+              {{ block.settings.heading }}
+            </h1>
+          {%- endif -%}
 
-        <div class="custom-hero-buttons">
-          {% if block.settings.button_1_text != blank %}
-            <a href="{{ block.settings.button_1_link }}" class="custom-hero-btn btn-primary">{{ block.settings.button_1_text }}</a>
-          {% endif %}
+          {%- if block.settings.show_description and block.settings.description != blank -%}
+            <div class="custom-hero-description" style="color: {{ block.settings.text_color }};">
+              {{ block.settings.description }}
+            </div>
+          {%- endif -%}
 
-          {% if block.settings.button_2_text != blank %}
-            <a href="{{ block.settings.button_2_link }}" class="custom-hero-btn btn-secondary">{{ block.settings.button_2_text }}</a>
-          {% endif %}
-        </div>
-
-        <div class="custom-hero-features">
-          {%- for i in (1..3) -%}
-            {%- assign icon_key = 'feature_' | append: i | append: '_icon' -%}
-            {%- assign text_key = 'feature_' | append: i | append: '_text' -%}
-            {%- assign f_text = block.settings[text_key] -%}
-            {%- if f_text != blank -%}
-              <div class="custom-hero-feature-item">
-                {%- assign f_icon = block.settings[icon_key] -%}
-                {%- if f_icon != blank -%}
-                  <img src="{{ f_icon | image_url: width: 50 }}" alt="{{ f_text }}" width="40" height="40">
-                {%- else -%}
-                  {%- assign icon_name = 'float-icon' | append: i | append: '.svg' -%}
-                  <img src="{{ icon_name | asset_url }}" alt="{{ f_text }}" width="40" height="40">
+          {%- if block.settings.show_buttons -%}
+            {%- if block.settings.button_1_text != blank or block.settings.button_2_text != blank -%}
+              <div class="custom-hero-buttons">
+                {%- if block.settings.button_1_text != blank -%}
+                  <a href="{{ block.settings.button_1_link }}" class="custom-hero-btn btn-primary">
+                    {{- block.settings.button_1_text -}}
+                  </a>
                 {%- endif -%}
-                <span style="color: {{ block.settings.text_color }};">{{ f_text }}</span>
+
+                {%- if block.settings.button_2_text != blank -%}
+                  <a href="{{ block.settings.button_2_link }}" class="custom-hero-btn btn-secondary">
+                    {{- block.settings.button_2_text -}}
+                  </a>
+                {%- endif -%}
               </div>
             {%- endif -%}
-          {%- endfor -%}
+          {%- endif -%}
+
+          {%- if block.settings.show_features -%}
+            {%- assign has_any_feature = false -%}
+            {%- for i in (1..3) -%}
+              {%- assign text_key = 'feature_' | append: i | append: '_text' -%}
+              {%- if block.settings[text_key] != blank -%}
+                {%- assign has_any_feature = true -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- if has_any_feature -%}
+              <div class="custom-hero-features">
+                {%- for i in (1..3) -%}
+                  {%- assign icon_key = 'feature_' | append: i | append: '_icon' -%}
+                  {%- assign text_key = 'feature_' | append: i | append: '_text' -%}
+                  {%- assign f_text = block.settings[text_key] -%}
+                  {%- if f_text != blank -%}
+                    <div class="custom-hero-feature-item">
+                      {%- assign f_icon = block.settings[icon_key] -%}
+                      {%- if f_icon != blank -%}
+                        <img src="{{ f_icon | image_url: width: 50 }}" alt="{{ f_text }}" width="40" height="40">
+                      {%- endif -%}
+                      <span style="color: {{ block.settings.text_color }};">{{ f_text }}</span>
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          {%- endif -%}
         </div>
       </div>
-    </div>
-  {%- endfor -%}
+    {%- endfor -%}
+  </div>
+  <!-- end .hero-slider-track -->
 
   {%- if section.blocks.size > 1 -%}
     <!-- Dots -->
     <div class="hero-dots">
       {%- for block in section.blocks -%}
-        <button class="hero-dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}" aria-label="Go to slide {{ forloop.index }}"></button>
+        <button
+          class="hero-dot {% if forloop.first %}active{% endif %}"
+          data-index="{{ forloop.index0 }}"
+          aria-label="Go to slide {{ forloop.index }}"
+        ></button>
       {%- endfor -%}
     </div>
   {%- endif -%}
 </div>
 
 <script>
-(function() {
-  var slider = document.getElementById('hero-slider-{{ section.id }}');
-  if (!slider) return;
+  (function () {
+    var slider = document.getElementById('hero-slider-{{ section.id }}');
+    if (!slider) return;
 
-  var slides = slider.querySelectorAll('.hero-slide');
-  var dots = slider.querySelectorAll('.hero-dot');
-  var prevBtn = slider.querySelector('.hero-arrow--prev');
-  var nextBtn = slider.querySelector('.hero-arrow--next');
-  var total = slides.length;
-  if (total <= 1) return;
+    var track = slider.querySelector('.hero-slider-track');
+    var slides = slider.querySelectorAll('.hero-slide');
+    var dots = slider.querySelectorAll('.hero-dot');
+    var prevBtn = slider.querySelector('.hero-arrow--prev');
+    var nextBtn = slider.querySelector('.hero-arrow--next');
+    var total = slides.length;
+    if (total <= 1) return;
 
-  var current = 0;
-  var autoplay = slider.getAttribute('data-autoplay') === 'true';
-  var speed = parseInt(slider.getAttribute('data-speed'), 10) || 5000;
-  var interval = null;
-  var touchStartX = 0;
-  var touchEndX = 0;
+    var current = 0;
+    var autoplay = slider.getAttribute('data-autoplay') === 'true';
+    var speed = parseInt(slider.getAttribute('data-speed'), 10) || 5000;
+    var interval = null;
+    var touchStartX = 0;
+    var touchEndX = 0;
 
-  function goTo(index) {
-    if (index < 0) index = total - 1;
-    if (index >= total) index = 0;
-
-    slides[current].classList.remove('active');
-    if (dots[current]) dots[current].classList.remove('active');
-
-    current = index;
-
-    slides[current].classList.add('active');
-    if (dots[current]) dots[current].classList.add('active');
-  }
-
-  function next() { goTo(current + 1); }
-  function prev() { goTo(current - 1); }
-
-  function startAutoplay() {
-    if (autoplay && !interval) {
-      interval = setInterval(next, speed);
+    function updateHeight() {
+      slider.style.height = slides[current].scrollHeight + 'px';
     }
-  }
 
-  function stopAutoplay() {
-    if (interval) {
-      clearInterval(interval);
-      interval = null;
+    function goTo(index) {
+      if (index < 0) index = total - 1;
+      if (index >= total) index = 0;
+
+      if (dots[current]) dots[current].classList.remove('active');
+      current = index;
+      if (dots[current]) dots[current].classList.add('active');
+
+      track.style.transform = 'translateX(-' + current * 100 + '%)';
+      updateHeight();
     }
-  }
 
-  // Arrow clicks
-  if (nextBtn) nextBtn.addEventListener('click', function() { stopAutoplay(); next(); startAutoplay(); });
-  if (prevBtn) prevBtn.addEventListener('click', function() { stopAutoplay(); prev(); startAutoplay(); });
+    // Set initial height to first slide
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
 
-  // Dot clicks
-  dots.forEach(function(dot) {
-    dot.addEventListener('click', function() {
-      stopAutoplay();
-      goTo(parseInt(dot.getAttribute('data-index'), 10));
-      startAutoplay();
+    function next() {
+      goTo(current + 1);
+    }
+    function prev() {
+      goTo(current - 1);
+    }
+
+    function startAutoplay() {
+      if (autoplay && !interval) {
+        interval = setInterval(next, speed);
+      }
+    }
+
+    function stopAutoplay() {
+      if (interval) {
+        clearInterval(interval);
+        interval = null;
+      }
+    }
+
+    // Arrow clicks
+    if (nextBtn)
+      nextBtn.addEventListener('click', function () {
+        stopAutoplay();
+        next();
+        startAutoplay();
+      });
+    if (prevBtn)
+      prevBtn.addEventListener('click', function () {
+        stopAutoplay();
+        prev();
+        startAutoplay();
+      });
+
+    // Dot clicks
+    dots.forEach(function (dot) {
+      dot.addEventListener('click', function () {
+        stopAutoplay();
+        goTo(parseInt(dot.getAttribute('data-index'), 10));
+        startAutoplay();
+      });
     });
-  });
 
-  // Touch swipe
-  slider.addEventListener('touchstart', function(e) {
-    touchStartX = e.changedTouches[0].screenX;
-  }, { passive: true });
+    // Touch swipe
+    slider.addEventListener(
+      'touchstart',
+      function (e) {
+        touchStartX = e.changedTouches[0].screenX;
+      },
+      { passive: true }
+    );
 
-  slider.addEventListener('touchend', function(e) {
-    touchEndX = e.changedTouches[0].screenX;
-    var diff = touchStartX - touchEndX;
-    if (Math.abs(diff) > 50) {
-      stopAutoplay();
-      if (diff > 0) next(); else prev();
-      startAutoplay();
-    }
-  }, { passive: true });
+    slider.addEventListener(
+      'touchend',
+      function (e) {
+        touchEndX = e.changedTouches[0].screenX;
+        var diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+          stopAutoplay();
+          if (diff > 0) next();
+          else prev();
+          startAutoplay();
+        }
+      },
+      { passive: true }
+    );
 
-  // Pause on hover (desktop)
-  slider.addEventListener('mouseenter', stopAutoplay);
-  slider.addEventListener('mouseleave', startAutoplay);
+    // Pause on hover (desktop)
+    slider.addEventListener('mouseenter', stopAutoplay);
+    slider.addEventListener('mouseleave', startAutoplay);
 
-  // Start
-  startAutoplay();
-})();
+    // Start
+    startAutoplay();
+  })();
 </script>
 
 {% schema %}
@@ -297,6 +356,34 @@
           "id": "text_color",
           "label": "Text Color",
           "default": "#000000"
+        },
+        {
+          "type": "header",
+          "content": "Visibility Toggles"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_heading",
+          "label": "Show Heading",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_description",
+          "label": "Show Description",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_buttons",
+          "label": "Show Buttons",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_features",
+          "label": "Show Features",
+          "default": true
         },
         {
           "type": "header",
