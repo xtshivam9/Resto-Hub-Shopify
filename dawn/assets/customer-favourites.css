@@ -409,9 +409,17 @@
         max-height: 55px;
     }
 
-    .mo-product-subtitle {
+    .mo-product-subtitle,
+    .mo-product-description {
         font-size: 12px;
         margin-bottom: 10px;
+        white-space: normal;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        min-height: 44px;
     }
 
     .mo-price {

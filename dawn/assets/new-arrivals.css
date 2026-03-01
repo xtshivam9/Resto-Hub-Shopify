@@ -368,8 +368,12 @@
         font-size: 12px;
         margin-bottom: 10px;
         white-space: normal;
-        /* Allow subtitle to wrap if needed */
-        min-height: auto;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        min-height: 44px;
     }
 
     .na-price {
