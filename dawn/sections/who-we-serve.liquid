@@ -311,6 +311,22 @@
     .serve-card-title {
         font-size: 18px;
     }
+    
+    /* Ensure WebKit Scrollbar is active and visible on mobile */
+    .who-we-serve-scroll-container::-webkit-scrollbar {
+        -webkit-appearance: none;
+        display: block !important;
+        height: 5px !important; 
+    }
+    .who-we-serve-scroll-container::-webkit-scrollbar-track {
+        background: #E0E0E0 !important;
+        border-radius: 4px;
+        margin: 0 1.5rem 0 0;
+    }
+    .who-we-serve-scroll-container::-webkit-scrollbar-thumb {
+        background-color: #149B77 !important;
+        border-radius: 4px;
+    }
   }
 
   @media screen and (max-width: 480px) {

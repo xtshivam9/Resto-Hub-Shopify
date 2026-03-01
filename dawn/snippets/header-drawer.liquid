@@ -81,20 +81,46 @@
     const overlay = document.getElementById('SidebarOverlay');
     const close = document.getElementById('SidebarClose');
 
+    // Move drawer and overlay to body so they are outside the
+    // header's stacking context. This lets the header (z-index 1002)
+    // paint ON TOP of the drawer (z-index 1001).
+    if (drawer) document.body.appendChild(drawer);
+    if (overlay) document.body.appendChild(overlay);
+
+    // Prevent background scrolling without CSS overflow
+    // (CSS overflow:hidden breaks position:sticky)
+    function preventBgScroll(e) {
+      if (drawer.contains(e.target)) return; // allow scroll inside drawer
+      e.preventDefault();
+    }
+
     function openSidebar() {
+      // Position the drawer just below the sticky header
+      var headerWrapper = document.querySelector('.header-wrapper');
+      if (headerWrapper) {
+        var rect = headerWrapper.getBoundingClientRect();
+        drawer.style.top = rect.bottom + 'px';
+        drawer.style.maxHeight = 'calc(100vh - ' + rect.bottom + 'px)';
+      }
       drawer.classList.add('is-open');
       overlay.classList.add('is-active');
-      document.body.classList.add('sidebar-is-open');
       toggle.setAttribute('aria-expanded', 'true');
       drawer.setAttribute('aria-hidden', 'false');
+
+      // Lock background scroll via JS events
+      document.addEventListener('touchmove', preventBgScroll, { passive: false });
+      document.addEventListener('wheel', preventBgScroll, { passive: false });
     }
 
     function closeSidebar() {
       drawer.classList.remove('is-open');
       overlay.classList.remove('is-active');
-      document.body.classList.remove('sidebar-is-open');
       toggle.setAttribute('aria-expanded', 'false');
       drawer.setAttribute('aria-hidden', 'true');
+
+      // Unlock background scroll
+      document.removeEventListener('touchmove', preventBgScroll);
+      document.removeEventListener('wheel', preventBgScroll);
     }
 
     function toggleSidebar() {
