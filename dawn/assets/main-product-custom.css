@@ -108,12 +108,21 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 1px;
+  margin-bottom: 3px;
+}
+
+.stars {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
 }
 
 .star-icon {
   color: #F3D332;
-  font-size: 30px;
+  font-size: 24px;
+  width: 1em;
+  height: 1em;
 }
 
 .review-count {

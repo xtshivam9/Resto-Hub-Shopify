@@ -4,13 +4,13 @@
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: 55px !important;
-    padding-bottom: 145px !important;
+    padding-bottom: 245px !important;
   }
 
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top | default: 65 }}px;
-      padding-bottom: {{ section.settings.padding_bottom | default: 150 }}px;
+      padding-bottom: calc({{ section.settings.padding_bottom | default: 150 }}px + 120px);
     }
   }
 {%- endstyle -%}
