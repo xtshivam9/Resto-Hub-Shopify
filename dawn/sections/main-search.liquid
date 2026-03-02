@@ -260,12 +260,11 @@
                   >
                     {%- case item.object_type -%}
                       {%- when 'product' -%}
+                        {%- assign search_variant = item.selected_or_first_available_variant -%}
                         <div class="na-product-card" style="margin: 0;">
                           <a href="{{ item.url }}" class="na-card-overlay" aria-label="{{ item.title | escape }}"></a>
                           <div class="na-image-wrapper">
-                            {%- if item.available == false -%}
-                              <span class="na-badge na-badge--sold-out">SOLD OUT</span>
-                            {%- elsif item.compare_at_price > item.price -%}
+                            {%- if item.compare_at_price > item.price -%}
                               <span class="na-badge">BEST SELLER</span>
                             {%- endif -%}
 
@@ -313,16 +312,12 @@
                               class="na-add-btn"
                               type="button"
                               data-product-id="{{ item.id }}"
-                              data-variant-id="{{ item.selected_or_first_available_variant.id }}"
-                              {% unless item.available %}
-                                disabled
-                              {% endunless %}
+                              data-product-handle="{{ item.handle }}"
+                              data-variant-id="{{ search_variant.id }}"
+                              data-add-text="ADD TO CART"
+                              data-sold-text="SOLD OUT"
                             >
-                              {% if item.available -%}
-                                ADD TO CART
-                              {%- else -%}
-                                SOLD OUT
-                              {%- endif %}
+                              ADD TO CART
                             </button>
                           </div>
                         </div>

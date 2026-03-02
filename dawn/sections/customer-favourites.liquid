@@ -192,16 +192,10 @@
           {%- if products_to_display != null and products_to_display.size > 0 -%}
             {%- for product in products_to_display limit: products_limit -%}
               {%- assign card_variant = product.selected_or_first_available_variant -%}
-              {%- assign card_available = false -%}
-              {%- if card_variant.available -%}
-                {%- assign card_available = true -%}
-              {%- endif -%}
               <div class="mo-product-card">
                 <a href="{{ product.url }}" class="mo-card-overlay" aria-label="{{ product.title | escape }}"></a>
                 <div class="mo-image-wrapper">
-                  {%- if card_available == false -%}
-                    <span class="mo-badge mo-badge--sold-out">SOLD OUT</span>
-                  {%- elsif product.compare_at_price > product.price -%}
+                  {%- if product.compare_at_price > product.price -%}
                     <span class="mo-badge">BEST SELLER</span>
                   {%- endif -%}
 
@@ -249,16 +243,12 @@
                     class="mo-add-btn"
                     type="button"
                     data-product-id="{{ product.id }}"
+                    data-product-handle="{{ product.handle }}"
                     data-variant-id="{{ card_variant.id }}"
-                    {% unless card_available %}
-                      disabled
-                    {% endunless %}
+                    data-add-text="{{ section.settings.btn_text | escape }}"
+                    data-sold-text="{{ section.settings.sold_out_text | escape }}"
                   >
-                    {%- if card_available -%}
-                      {{- section.settings.btn_text -}}
-                    {%- else -%}
-                      {{- section.settings.sold_out_text -}}
-                    {%- endif %}
+                    {{- section.settings.btn_text -}}
                   </button>
                 </div>
               </div>

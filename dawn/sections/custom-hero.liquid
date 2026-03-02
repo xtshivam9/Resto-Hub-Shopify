@@ -1,18 +1,12 @@
-{{ 'custom-hero.css' | asset_url | append: '?v=12' | stylesheet_tag }}
+{{ 'custom-hero.css' | asset_url | append: '?v=13' | stylesheet_tag }}
 
-{%- style -%}
-  @media screen and (max-width: 576px) {
-    #shopify-section-{{ section.id }} .hero-arrow {
-      display: none;
-    }
-  }
-{%- endstyle -%}
+
 
 <div
   class="custom-hero-section"
   id="hero-slider-{{ section.id }}"
   data-autoplay="{{ section.settings.autoplay }}"
-  data-speed="{{ section.settings.autoplay_speed }}"
+  data-speed="{{ section.settings.autoplay_speed | times: 1000 }}"
 >
   <!-- Slides -->
   <div class="hero-slider-track">
@@ -39,7 +33,7 @@
                 class="hero-slide-bg"
                 src="{{ block.settings.background_image | image_url: width: 2000 }}"
                 alt="{{ block.settings.heading | default: 'Hero slide' }}"
-                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                loading="eager"
                 width="2000"
                 height="1000"
               >
@@ -48,7 +42,7 @@
                 class="hero-slide-bg"
                 src="{{ block.settings.mobile_background_image | image_url: width: 1000 }}"
                 alt="{{ block.settings.heading | default: 'Hero slide' }}"
-                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                loading="eager"
                 width="1000"
                 height="1000"
               >
@@ -126,6 +120,18 @@
   <!-- end .hero-slider-track -->
 
   {%- if section.blocks.size > 1 -%}
+    <!-- Prev / Next arrows -->
+    <button class="hero-arrow hero-arrow--prev" aria-label="Previous slide">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="hero-arrow hero-arrow--next" aria-label="Next slide">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
     <!-- Dots -->
     <div class="hero-dots">
       {%- for block in section.blocks -%}
@@ -157,12 +163,27 @@
     var touchEndX = 0;
     var isTransitioning = false;
 
+    function setHeightFromSlide(slide) {
+      slider.style.height = slide.scrollHeight + 'px';
+    }
+
     function updateHeight() {
-      /* Get all slides including clones */
       var allSlides = track.querySelectorAll('.hero-slide');
-      /* current index accounts for prepended clone */
-      if (allSlides[current]) {
-        slider.style.height = allSlides[current].scrollHeight + 'px';
+      var slide = allSlides[current];
+      if (!slide) return;
+      var img = slide.querySelector('.hero-slide-bg');
+      if (img && !img.complete) {
+        /* Image not yet loaded — apply height once it loads */
+        img.addEventListener('load', function () {
+          setHeightFromSlide(slide);
+        }, { once: true });
+        /* Also set immediately from natural dimensions if available */
+        if (img.naturalWidth > 0) {
+          var ratio = img.naturalHeight / img.naturalWidth;
+          slider.style.height = Math.round(slide.offsetWidth * ratio) + 'px';
+        }
+      } else {
+        setHeightFromSlide(slide);
       }
     }
 
@@ -245,6 +266,24 @@
         clearInterval(interval);
         interval = null;
       }
+    }
+
+    /* Arrow clicks */
+    var prevBtn = slider.querySelector('.hero-arrow--prev');
+    var nextBtn = slider.querySelector('.hero-arrow--next');
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function () {
+        stopAutoplay();
+        prev();
+        startAutoplay();
+      });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function () {
+        stopAutoplay();
+        next();
+        startAutoplay();
+      });
     }
 
     /* Dot clicks */
@@ -351,12 +390,12 @@
     {
       "type": "range",
       "id": "autoplay_speed",
-      "label": "Autoplay Speed (ms)",
-      "min": 2000,
-      "max": 9500,
-      "step": 500,
-      "unit": "ms",
-      "default": 5000
+      "label": "Slide Speed (seconds)",
+      "min": 1,
+      "max": 15,
+      "step": 1,
+      "unit": "s",
+      "default": 5
     }
   ],
   "blocks": [

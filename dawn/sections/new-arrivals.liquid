@@ -162,12 +162,11 @@
     <div class="new-arrivals-grid">
       {%- if products_to_display != null and products_to_display.size > 0 -%}
         {%- for product in products_to_display limit: products_limit -%}
+          {%- assign card_variant = product.selected_or_first_available_variant -%}
           <div class="na-product-card">
             <a href="{{ product.url }}" class="na-card-overlay" aria-label="{{ product.title | escape }}"></a>
             <div class="na-image-wrapper">
-              {%- if product.available == false -%}
-                <span class="na-badge na-badge--sold-out">SOLD OUT</span>
-              {%- elsif product.compare_at_price > product.price -%}
+              {%- if product.compare_at_price > product.price -%}
                 <span class="na-badge">BEST SELLER</span>
               {%- endif -%}
 
@@ -215,16 +214,12 @@
                 class="na-add-btn"
                 type="button"
                 data-product-id="{{ product.id }}"
-                data-variant-id="{{ product.selected_or_first_available_variant.id }}"
-                {% unless product.available %}
-                  disabled
-                {% endunless %}
+                data-product-handle="{{ product.handle }}"
+                data-variant-id="{{ card_variant.id }}"
+                data-add-text="{{ section.settings.btn_text | escape }}"
+                data-sold-text="{{ section.settings.sold_out_text | escape }}"
               >
-                {% if product.available -%}
-                  {{- section.settings.btn_text -}}
-                {%- else -%}
-                  {{- section.settings.sold_out_text -}}
-                {%- endif %}
+                {{- section.settings.btn_text -}}
               </button>
             </div>
           </div>

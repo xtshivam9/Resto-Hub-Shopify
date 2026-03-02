@@ -175,31 +175,38 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  background: rgba(255, 255, 255, 0.85);
-  border: none;
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
+  background-color: #fff;
+  border: 2px solid #149B77;
+  color: #149B77;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-  color: #222;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 0;
 }
 
 .hero-arrow:hover {
-  background: #fff;
-  transform: translateY(-50%) scale(1.08);
+  background-color: #149B77;
+  color: #fff;
+  transform: translateY(-50%);
+}
+
+.hero-arrow svg {
+  width: 16px;
+  height: 16px;
 }
 
 .hero-arrow--prev {
-  left: 18px;
+  left: 14px;
 }
 
 .hero-arrow--next {
-  right: 18px;
+  right: 14px;
 }
 
 /* ========== DOTS ========== */
@@ -331,8 +338,8 @@
 
   /* Arrows smaller on mobile */
   .hero-arrow {
-    width: 34px;
-    height: 34px;
+    width: 28px;
+    height: 28px;
   }
 
   .hero-arrow--prev {
@@ -344,8 +351,8 @@
   }
 
   .hero-arrow svg {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
   }
 
   /* Dots smaller on mobile */
