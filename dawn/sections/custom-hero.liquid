@@ -1,4 +1,4 @@
-{{ 'custom-hero.css' | asset_url | append: '?v=11' | stylesheet_tag }}
+{{ 'custom-hero.css' | asset_url | append: '?v=12' | stylesheet_tag }}
 
 {%- style -%}
   @media screen and (max-width: 576px) {
@@ -24,6 +24,9 @@
       >
         {%- comment -%} Slide background image using <picture> for mobile/desktop variants {%- endcomment -%}
         {%- if block.settings.background_image != blank or block.settings.mobile_background_image != blank -%}
+          {%- if block.settings.slide_link != blank -%}
+            <a href="{{ block.settings.slide_link }}" class="hero-slide-link">
+          {%- endif -%}
           <picture>
             {%- if block.settings.mobile_background_image != blank -%}
               <source
@@ -51,6 +54,9 @@
               >
             {%- endif -%}
           </picture>
+          {%- if block.settings.slide_link != blank -%}
+            </a>
+          {%- endif -%}
         {%- endif -%}
 
         <div class="custom-hero-content">
@@ -139,39 +145,87 @@
     if (!slider) return;
 
     var track = slider.querySelector('.hero-slider-track');
-    var slides = slider.querySelectorAll('.hero-slide');
+    var originalSlides = slider.querySelectorAll('.hero-slide');
     var dots = slider.querySelectorAll('.hero-dot');
-    var prevBtn = slider.querySelector('.hero-arrow--prev');
-    var nextBtn = slider.querySelector('.hero-arrow--next');
-    var total = slides.length;
+    var total = originalSlides.length;
     if (total <= 1) return;
 
-    var current = 0;
     var autoplay = slider.getAttribute('data-autoplay') === 'true';
     var speed = parseInt(slider.getAttribute('data-speed'), 10) || 5000;
     var interval = null;
     var touchStartX = 0;
     var touchEndX = 0;
+    var isTransitioning = false;
 
     function updateHeight() {
-      slider.style.height = slides[current].scrollHeight + 'px';
+      /* Get all slides including clones */
+      var allSlides = track.querySelectorAll('.hero-slide');
+      /* current index accounts for prepended clone */
+      if (allSlides[current]) {
+        slider.style.height = allSlides[current].scrollHeight + 'px';
+      }
+    }
+
+    /* ---- Infinite loop: clone first and last slides ---- */
+    var firstClone = originalSlides[0].cloneNode(true);
+    var lastClone = originalSlides[total - 1].cloneNode(true);
+    firstClone.classList.add('hero-slide-clone');
+    lastClone.classList.add('hero-slide-clone');
+    firstClone.removeAttribute('data-index');
+    lastClone.removeAttribute('data-index');
+    track.appendChild(firstClone);
+    track.insertBefore(lastClone, track.firstChild);
+
+    /* current = 1 because index 0 is now the lastClone prepended */
+    var current = 1;
+    track.style.transform = 'translateX(-' + current * 100 + '%)';
+
+    // Set initial height
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
+
+    function updateDots(realIndex) {
+      dots.forEach(function (d) {
+        d.classList.remove('active');
+      });
+      if (dots[realIndex]) dots[realIndex].classList.add('active');
+    }
+
+    function getRealIndex() {
+      /* total original slides, current is 1-based because of prepended clone */
+      return current - 1;
     }
 
     function goTo(index) {
-      if (index < 0) index = total - 1;
-      if (index >= total) index = 0;
-
-      if (dots[current]) dots[current].classList.remove('active');
+      if (isTransitioning) return;
+      isTransitioning = true;
       current = index;
-      if (dots[current]) dots[current].classList.add('active');
-
+      track.style.transition = 'transform 0.6s ease-in-out';
       track.style.transform = 'translateX(-' + current * 100 + '%)';
       updateHeight();
+
+      /* Update dots to the real index (clamped) */
+      var realIdx = current - 1;
+      if (realIdx < 0) realIdx = total - 1;
+      if (realIdx >= total) realIdx = 0;
+      updateDots(realIdx);
     }
 
-    // Set initial height to first slide
-    updateHeight();
-    window.addEventListener('resize', updateHeight);
+    /* When transition ends, silently jump if we're on a clone */
+    track.addEventListener('transitionend', function () {
+      isTransitioning = false;
+      if (current === 0) {
+        /* On last-clone (prepended) → jump to real last slide */
+        track.style.transition = 'none';
+        current = total;
+        track.style.transform = 'translateX(-' + current * 100 + '%)';
+      } else if (current === total + 1) {
+        /* On first-clone (appended) → jump to real first slide */
+        track.style.transition = 'none';
+        current = 1;
+        track.style.transform = 'translateX(-' + current * 100 + '%)';
+      }
+    });
 
     function next() {
       goTo(current + 1);
@@ -193,30 +247,17 @@
       }
     }
 
-    // Arrow clicks
-    if (nextBtn)
-      nextBtn.addEventListener('click', function () {
-        stopAutoplay();
-        next();
-        startAutoplay();
-      });
-    if (prevBtn)
-      prevBtn.addEventListener('click', function () {
-        stopAutoplay();
-        prev();
-        startAutoplay();
-      });
-
-    // Dot clicks
+    /* Dot clicks */
     dots.forEach(function (dot) {
       dot.addEventListener('click', function () {
         stopAutoplay();
-        goTo(parseInt(dot.getAttribute('data-index'), 10));
+        var dotIndex = parseInt(dot.getAttribute('data-index'), 10);
+        goTo(dotIndex + 1); /* +1 because of prepended clone */
         startAutoplay();
       });
     });
 
-    // Touch swipe
+    /* Touch swipe */
     slider.addEventListener(
       'touchstart',
       function (e) {
@@ -240,11 +281,11 @@
       { passive: true }
     );
 
-    // Pause on hover (desktop)
+    /* Pause on hover (desktop) */
     slider.addEventListener('mouseenter', stopAutoplay);
     slider.addEventListener('mouseleave', startAutoplay);
 
-    // Start
+    /* Start */
     startAutoplay();
   })();
 </script>
@@ -336,6 +377,15 @@
           "type": "image_picker",
           "id": "mobile_background_image",
           "label": "Background Image (Mobile)"
+        },
+        {
+          "type": "header",
+          "content": "Slide Link"
+        },
+        {
+          "type": "url",
+          "id": "slide_link",
+          "label": "Slide Link (redirect on click)"
         },
         {
           "type": "header",

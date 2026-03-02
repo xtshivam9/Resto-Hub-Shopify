@@ -106,20 +106,24 @@
             {% assign icon_setting = 'feature_icon_' | append: i %}
             {% assign icon = section.settings[icon_setting] %}
             {% if icon != blank %}
-              <div class="feature-item">
-                <img
-                  src="{{ icon | image_url: width: 200 }}"
-                  alt="{{ feature_labels[label_idx] | default: 'Feature' | escape }}"
-                  class="feature-icon-img"
-                    {% if label_idx == 0 %}style="width: 88px; height: 88px !important;"{% else %}style="width: 84px; height: 56px !important;"{% endif %}
-                  loading="lazy"
-                  width="200"
-                  height="200"
-                >
-                {% if feature_labels != blank and feature_labels[label_idx] != blank %}
-                  <span class="feature-label">{{ feature_labels[label_idx] }}</span>
-                {% endif %}
-              </div>
+              {% assign current_label = feature_labels[label_idx] %}
+              {% assign current_label_lower = current_label | downcase | strip %}
+              {% unless current_label_lower == 'n/a' %}
+                <div class="feature-item">
+                  <img
+                    src="{{ icon | image_url: width: 200 }}"
+                    alt="{{ current_label | default: 'Feature' | escape }}"
+                    class="feature-icon-img"
+                      {% if label_idx == 0 %}style="width: 88px; height: 88px !important;"{% else %}style="width: 84px; height: 56px !important;"{% endif %}
+                    loading="lazy"
+                    width="200"
+                    height="200"
+                  >
+                  {% if feature_labels != blank and current_label != blank %}
+                    <span class="feature-label">{{ current_label }}</span>
+                  {% endif %}
+                </div>
+              {% endunless %}
               {% assign label_idx = label_idx | plus: 1 %}
             {% endif %}
           {% endfor %}
@@ -169,9 +173,9 @@
           <div>
             <div class="shipping-text-primary">{{ section.settings.shipping_heading_2 }}</div>
             <div class="shipping-text-secondary">{{ section.settings.shipping_text_2 }}</div>
-            <a href="{{ section.settings.shipping_link_url_2 | default: '#' }}" class="shipping-link">
+            <button type="button" class="shipping-link" onclick="openStoreInfoPopup()">
               {{- section.settings.shipping_link_text_2 -}}
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -260,6 +264,26 @@
     if (value < 1) value = 1;
     input.value = value;
   }
+
+  function openStoreInfoPopup() {
+    var popup = document.getElementById('store-info-popup');
+    if (popup) {
+      popup.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeStoreInfoPopup() {
+    var popup = document.getElementById('store-info-popup');
+    if (popup) {
+      popup.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeStoreInfoPopup();
+  });
 
   function addFbtToCart(button) {
     var variantId = button.getAttribute('data-variant-id');
@@ -350,6 +374,61 @@
       });
   }
 </script>
+
+<!-- Store Info Popup -->
+<div id="store-info-popup" class="store-popup-overlay" onclick="closeStoreInfoPopup()" role="dialog" aria-modal="true" aria-label="Store Information">
+  <div class="store-popup-modal" onclick="event.stopPropagation()">
+    <button type="button" class="store-popup-close" onclick="closeStoreInfoPopup()" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+
+    <h2 class="store-popup-title">Store Information</h2>
+
+    <div class="store-popup-info-blocks">
+      {% if section.settings.store_address_line_1 != blank or section.settings.store_address_line_2 != blank %}
+        <div class="store-popup-info-row">
+          <div class="store-popup-icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 6.13401 7.02944 3 12 3C16.9706 3 21 6.13401 21 10Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+          <div class="store-popup-info-text">
+            {% if section.settings.store_address_line_1 != blank %}<p>{{ section.settings.store_address_line_1 }}</p>{% endif %}
+            {% if section.settings.store_address_line_2 != blank %}<p>{{ section.settings.store_address_line_2 }}</p>{% endif %}
+          </div>
+        </div>
+      {% endif %}
+
+      {% if section.settings.store_email_1 != blank or section.settings.store_email_2 != blank %}
+        <div class="store-popup-info-row">
+          <div class="store-popup-icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 6L12 13L2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="store-popup-info-text">
+            {% if section.settings.store_email_1 != blank %}<p><a href="mailto:{{ section.settings.store_email_1 }}">{{ section.settings.store_email_1 }}</a></p>{% endif %}
+            {% if section.settings.store_email_2 != blank %}<p><a href="mailto:{{ section.settings.store_email_2 }}">{{ section.settings.store_email_2 }}</a></p>{% endif %}
+          </div>
+        </div>
+      {% endif %}
+
+      {% if section.settings.store_phone_1 != blank or section.settings.store_phone_2 != blank %}
+        <div class="store-popup-info-row">
+          <div class="store-popup-icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 16.92V19.92C22.0032 20.4792 21.7931 21.0191 21.4135 21.4249C21.034 21.8307 20.5139 22.0727 19.96 22.1C16.4248 21.7856 13.0352 20.5342 10.12 18.47C7.40455 16.5791 5.11727 14.2919 3.22 11.58C1.14953 8.65124 0.897808 5.24284 0.59 1.69998C0.617693 1.14812 0.858218 0.629437 1.26219 0.249858C1.66616 -0.129721 2.20404 -0.339867 2.76 -0.32002H5.76C6.75067 -0.330267 7.59297 0.382738 7.76 1.36C7.89893 2.26454 8.1427 3.1497 8.48 4C8.75777 4.71674 8.57977 5.52684 8.03 6.07L6.79 7.30999C8.59064 10.1238 10.9162 12.4494 13.73 14.25L14.97 13.01C15.5152 12.4602 16.3253 12.2822 17.04 12.56C17.8903 12.8973 18.7755 13.1411 19.68 13.28C20.6726 13.4485 21.3909 14.3062 21.36 15.31L22 16.92Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(1, 1.5) scale(0.9)"/></svg>
+          </div>
+          <div class="store-popup-info-text">
+            {% if section.settings.store_phone_1 != blank %}<p><a href="tel:{{ section.settings.store_phone_1 }}">{{ section.settings.store_phone_1 }}</a></p>{% endif %}
+            {% if section.settings.store_phone_2 != blank %}<p><a href="tel:{{ section.settings.store_phone_2 }}">{{ section.settings.store_phone_2 }}</a></p>{% endif %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if section.settings.store_map_embed_html != blank %}
+      <div class="store-popup-map">
+        {{ section.settings.store_map_embed_html }}
+      </div>
+    {% endif %}
+  </div>
+</div>
 
 {% schema %}
 {
@@ -456,15 +535,53 @@
       "label": "Link URL 2"
     },
     {
-      "type": "header",
-      "content": "Frequently Bought Together"
+      "type": "header",      "content": "Store Information Popup"
+    },
+    {
+      "type": "text",
+      "id": "store_address_line_1",
+      "label": "Address Line 1",
+      "default": "349 Bowes Rd, Concord, ON"
+    },
+    {
+      "type": "text",
+      "id": "store_address_line_2",
+      "label": "Address Line 2"
+    },
+    {
+      "type": "text",
+      "id": "store_email_1",
+      "label": "Email 1"
+    },
+    {
+      "type": "text",
+      "id": "store_email_2",
+      "label": "Email 2"
+    },
+    {
+      "type": "text",
+      "id": "store_phone_1",
+      "label": "Phone 1"
+    },
+    {
+      "type": "text",
+      "id": "store_phone_2",
+      "label": "Phone 2"
+    },
+    {
+      "type": "html",
+      "id": "store_map_embed_html",
+      "label": "Map Embed HTML",
+      "info": "Paste the full iframe embed code from Google Maps (Share > Embed a map > Copy HTML)."
+    },
+    {
+      "type": "header",      "content": "Frequently Bought Together"
     },
     {
       "type": "text",
       "id": "fbt_heading",
       "label": "Frequently Bought Heading",
       "default": "Frequently Brought Together"
-    }
-  ]
+    }  ]
 }
 {% endschema %}

@@ -277,7 +277,9 @@
 
   .rp-image-container {
       width: 100%;
-      height: 180px; /* Taller image area */
+      height: 0;
+      padding-top: 100%;
+      aspect-ratio: 1 / 1;
       background-color: #f9f9f9;
       border-radius: 8px;
       overflow: hidden;
@@ -761,7 +763,7 @@
       }
 
       .rp-image-container {
-          height: 160px;
+          aspect-ratio: 1 / 1;
       }
 
       .rp-card {
@@ -822,9 +824,31 @@
             endif
           endif
 
+          if template.name == 'product' and rp_source_url == blank
+            assign rp_product_collection = product.collections | first
+            if rp_product_collection != blank
+              assign rp_products_source = rp_product_collection.products
+              assign rp_col_handle = rp_product_collection.handle
+              assign rp_col_title = rp_product_collection.title
+            endif
+          endif
+
           if block_product == null or block_product == blank
-            if template.name == 'product' and forloop.first
-              assign block_product = product
+            if template.name == 'product'
+              if forloop.first
+                assign block_product = product
+              else
+                assign rp_found_count = 0
+                for col_p in rp_products_source
+                  if col_p.handle != product.handle
+                    assign rp_found_count = rp_found_count | plus: 1
+                    if rp_found_count == forloop.index0
+                      assign block_product = col_p
+                      break
+                    endif
+                  endif
+                endfor
+              endif
             else
               assign rp_seed = 'now' | date: '%s' | modulo: 997
               assign rp_offset = forloop.index0 | times: 31
@@ -1062,28 +1086,56 @@
     {%- endfor -%}
     {%- if rp_needs_all -%}
       {%- unless rp_col_first -%},{%- endunless -%}
-      "all": {
-        {%- paginate collections.all.products by 250 -%}
-          {%- capture rp_json_all_entries -%}
-            {%- for p in collections.all.products limit: 50 -%}
-              {%- render 'rp-product-json-entry', rp_product: p -%}
-            {%- endfor -%}
-            {%- for p in collections.all.products limit: 50 offset: continue -%}
-              {%- render 'rp-product-json-entry', rp_product: p -%}
-            {%- endfor -%}
-            {%- for p in collections.all.products limit: 50 offset: continue -%}
-              {%- render 'rp-product-json-entry', rp_product: p -%}
-            {%- endfor -%}
-            {%- for p in collections.all.products limit: 50 offset: continue -%}
-              {%- render 'rp-product-json-entry', rp_product: p -%}
-            {%- endfor -%}
-            {%- for p in collections.all.products limit: 50 offset: continue -%}
-              {%- render 'rp-product-json-entry', rp_product: p -%}
-            {%- endfor -%}
-          {%- endcapture -%}
-          {{ rp_json_all_entries | remove_first: ',' }}
-        {%- endpaginate -%}
-      }
+      {%- if template.name == 'product' -%}
+        {%- assign rp_json_pc = product.collections | first -%}
+      {%- endif -%}
+      {%- if rp_json_pc != blank -%}
+        {{ rp_json_pc.handle | json }}: {
+          {%- paginate rp_json_pc.products by 250 -%}
+            {%- capture rp_json_pc_entries -%}
+              {%- for p in rp_json_pc.products limit: 50 -%}
+                {%- render 'rp-product-json-entry', rp_product: p -%}
+              {%- endfor -%}
+              {%- for p in rp_json_pc.products limit: 50 offset: continue -%}
+                {%- render 'rp-product-json-entry', rp_product: p -%}
+              {%- endfor -%}
+              {%- for p in rp_json_pc.products limit: 50 offset: continue -%}
+                {%- render 'rp-product-json-entry', rp_product: p -%}
+              {%- endfor -%}
+              {%- for p in rp_json_pc.products limit: 50 offset: continue -%}
+                {%- render 'rp-product-json-entry', rp_product: p -%}
+              {%- endfor -%}
+              {%- for p in rp_json_pc.products limit: 50 offset: continue -%}
+                {%- render 'rp-product-json-entry', rp_product: p -%}
+              {%- endfor -%}
+            {%- endcapture -%}
+            {{ rp_json_pc_entries | remove_first: ',' }}
+          {%- endpaginate -%}
+        }
+      {%- else -%}
+        "all": {
+          {%- paginate collections.all.products by 250 -%}
+            {%- capture rp_json_all_entries -%}
+              {%- for p in collections.all.products limit: 50 -%}
+                {%- render 'rp-product-json-entry', rp_product: p -%}
+              {%- endfor -%}
+              {%- for p in collections.all.products limit: 50 offset: continue -%}
+                {%- render 'rp-product-json-entry', rp_product: p -%}
+              {%- endfor -%}
+              {%- for p in collections.all.products limit: 50 offset: continue -%}
+                {%- render 'rp-product-json-entry', rp_product: p -%}
+              {%- endfor -%}
+              {%- for p in collections.all.products limit: 50 offset: continue -%}
+                {%- render 'rp-product-json-entry', rp_product: p -%}
+              {%- endfor -%}
+              {%- for p in collections.all.products limit: 50 offset: continue -%}
+                {%- render 'rp-product-json-entry', rp_product: p -%}
+              {%- endfor -%}
+            {%- endcapture -%}
+            {{ rp_json_all_entries | remove_first: ',' }}
+          {%- endpaginate -%}
+        }
+      {%- endif -%}
     {%- endif -%}
   }
 </script>
