@@ -383,7 +383,7 @@
     .na-add-btn {
         padding: 10px;
         font-size: 12px;
-        background-color: #000000;
+        background-color: rgba(56, 56, 56, 1);
         color: #FFFFFF;
         margin-top: auto;
         min-height: 44px;
