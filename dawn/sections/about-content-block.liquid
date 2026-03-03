@@ -119,8 +119,8 @@
     display: flex;
     align-items: center;
     gap: 40px;
-    {% if section.settings.image_position == 'left' %}
-      flex-direction: row;
+    {% if section.settings.image_position == 'right' %}
+      flex-direction: row-reverse;
     {% else %}
       flex-direction: row;
     {% endif %}
@@ -129,10 +129,10 @@
   .about-block__content-{{ section.id }} {
     flex: 1;
     text-align: left;
-    {% if section.settings.image_position == 'left' %}
-      padding-left: 20px;
-    {% else %}
+    {% if section.settings.image_position == 'right' %}
       padding-right: 20px;
+    {% else %}
+      padding-left: 20px;
     {% endif %}
   }
 
