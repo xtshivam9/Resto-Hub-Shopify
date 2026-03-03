@@ -210,33 +210,27 @@
         margin-bottom: 2rem;
     }
     .who-we-serve-about-grid {
-        display: flex;
+        display: grid;
         flex-wrap: nowrap;
-        overflow-x: auto;
-        gap: 20px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
         padding-bottom: 10px;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
-    .who-we-serve-about-grid::-webkit-scrollbar {
-        display: none;
     }
     .serve-about-item {
-        flex: 0 0 auto;
-        width: 110px;
+        flex: 1 1 30%;
         max-width: none;
+        align-items: center;
     }
     .serve-about-icon-wrapper {
-        width: 80px; 
-        height: 80px;
-        margin-bottom: 12px;
-        padding: 14px;
+        width: 70px; 
+        height: 70px;
+        margin-bottom: 8px;
+        padding: 10px;
         border-width: 2px;
     }
     .serve-about-title {
-        font-size: 13px;
-        line-height: 1.3;
+        font-size: 11px;
+        line-height: 1.2;
     }
   }
 {% endstyle %}
