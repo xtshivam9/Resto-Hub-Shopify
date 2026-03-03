@@ -234,7 +234,7 @@
       /* Adjusted for new alignment:
          Card Top Padding (20) + Image (180) + Img Margin (16) + Title (54) + Title Margin (20) = ~290px
       */
-      padding-top: 290px;
+      padding-top: 430px;
       gap: 0;
       min-width: 140px;
       margin-right: 10px;
@@ -287,6 +287,16 @@
       position: relative;
   }
 
+  .rp-image-link {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: block;
+      z-index: 1;
+  }
+
   .rp-image {
       position: absolute;
       top: 0;
@@ -311,13 +321,15 @@
       gap: 6px;
       flex-wrap: wrap;
       justify-content: flex-end;
+      z-index: 2;
+      pointer-events: none;
   }
 
   .rp-badge {
       padding: 6px 12px;
       border-radius: 50px; /* Pill shape */
       font-family: 'Rethink Sans', sans-serif;
-      font-size: 10px;
+      font-size: 7px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -740,8 +752,8 @@
       .rp-add-btn {
           width: 100%;
           margin-top: 12px;
-          padding: 8px 12px;
-          font-size: 10px;
+          /* padding: 8px 12px; */
+          font-size: 12px;
       }
   }
 
@@ -863,6 +875,7 @@
           {{ block.shopify_attributes }}
         >
           <div class="rp-image-container">
+            <a href="{% if block_product != blank %}{{ block_product.url }}{% else %}#{% endif %}" class="rp-image-link">
             {%- liquid
               assign rp_block_img = null
               if block_product != blank
@@ -883,6 +896,7 @@
             {%- unless rp_block_img -%}
               {{ 'product-1' | placeholder_svg_tag: 'rp-image rp-card-placeholder' }}
             {%- endunless -%}
+            </a>
 
             <div class="rp-badge-container">
               {%- if block.settings.badge_text_1 != blank -%}
@@ -1213,6 +1227,10 @@
     // Update Add to Cart link
     const linkEl = card.querySelector('.rp-card-link');
     if (linkEl) linkEl.href = data.url;
+
+    // Update image link
+    const imgLink = card.querySelector('.rp-image-link');
+    if (imgLink) imgLink.href = data.url;
 
     // Close dropdown
     const menu = item.closest('.rp-dropdown-menu');
