@@ -85,12 +85,23 @@
     margin-bottom: 20px;
     position: relative;
     background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.icon-circle:hover {
+    background-color: rgb(var(--color-foreground));
+    border-color: rgb(var(--color-foreground));
 }
 
 .icon-line {
     width: 36px;
     height: 36px;
     color: rgb(var(--color-foreground));
+    transition: color 0.3s ease;
+}
+
+.icon-circle:hover .icon-line {
+    color: rgb(var(--color-background));
 }
 
 .notification-dot {
