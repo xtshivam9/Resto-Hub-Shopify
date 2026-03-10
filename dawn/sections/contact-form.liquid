@@ -33,22 +33,37 @@
 
       <div class="contact-info-blocks">
         <div class="info-block">
-          <div class="icon-circle">
-            <svg viewBox="0 0 24 24" fill="none" class="icon-line"><path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 22V12H15V22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
+          {%- if section.settings.address_url != blank -%}
+            <a href="{{ section.settings.address_url }}" class="icon-circle-link" target="_blank" rel="noopener noreferrer">
+              <div class="icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" class="icon-line"><path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 22V12H15V22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+            </a>
+          {%- else -%}
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" fill="none" class="icon-line"><path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 22V12H15V22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          {%- endif -%}
           <div class="info-text">
-            <p>{{ section.settings.address_line_1 }}</p>
-            <p>{{ section.settings.address_line_2 }}</p>
+            {%- if section.settings.address_url != blank -%}
+              <p><a href="{{ section.settings.address_url }}" target="_blank" rel="noopener noreferrer">{{ section.settings.address_line_1 }}</a></p>
+              <p><a href="{{ section.settings.address_url }}" target="_blank" rel="noopener noreferrer">{{ section.settings.address_line_2 }}</a></p>
+            {%- else -%}
+              <p>{{ section.settings.address_line_1 }}</p>
+              <p>{{ section.settings.address_line_2 }}</p>
+            {%- endif -%}
           </div>
         </div>
 
         <div class="info-block">
-          <div class="icon-circle">
-            <svg viewBox="0 0 24 24" fill="none" class="icon-line"><path d="M4 7.00005L10.2 11.65C11.2667 12.45 12.7333 12.45 13.8 11.65L20 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <div class="notification-dot">
-              <svg viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" fill="#e53e3e" stroke="white" stroke-width="1"/></svg>
+          <a href="mailto:{{ section.settings.email_1 }}" class="icon-circle-link">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" fill="none" class="icon-line"><path d="M4 7.00005L10.2 11.65C11.2667 12.45 12.7333 12.45 13.8 11.65L20 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <div class="notification-dot">
+                <svg viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" fill="#e53e3e" stroke="white" stroke-width="1"/></svg>
+              </div>
             </div>
-          </div>
+          </a>
           <div class="info-text">
             <p><a href="mailto:{{ section.settings.email_1 }}">{{ section.settings.email_1 }}</a></p>
             <p><a href="mailto:{{ section.settings.email_2 }}">{{ section.settings.email_2 }}</a></p>
@@ -56,9 +71,11 @@
         </div>
 
         <div class="info-block">
-          <div class="icon-circle">
-            <svg viewBox="0 0 24 24" fill="none" class="icon-line"><path d="M22 16.92V19.92C22.0032 20.1986 21.9441 20.4735 21.8271 20.7245C21.7101 20.9754 21.5381 21.1962 21.324 21.3714C21.1098 21.5467 20.859 21.672 20.5896 21.7383C20.3201 21.8045 20.0388 21.81 19.76 21.75C16.6214 20.8315 13.7371 19.1678 11.37 16.92C9.11765 14.6546 7.53177 11.8906 6.74 8.85002C6.6806 8.57392 6.68656 8.29524 6.75738 8.02713C6.8282 7.75902 6.96272 7.50577 7.15423 7.28859C7.34574 7.07141 7.59107 6.8966 7.8785 6.77803C8.16593 6.65946 8.49002 6.59902 8.83 6.60002H11.83C12.295 6.59546 12.7483 6.76017 13.0886 7.05837C13.4289 7.35657 13.6269 7.7634 13.63 8.18002C13.6338 8.66317 13.7142 9.1415 13.86 9.58002C13.9928 9.99264 13.999 10.435 13.87 10.85L12.63 12.09C14.072 14.5168 15.9333 16.3781 18.36 17.82L19.6 16.58C19.96 16.22 20.43 16.03 20.92 16.06C21.3585 16.2058 21.8368 16.2862 22.32 16.29C22.793 16.29 23.242 16.47 23.57 16.81C23.9 17.15 24 17.6 24 18.06V21.06" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(-1.5, -1.5)"/></svg>
-          </div>
+          <a href="tel:{{ section.settings.phone_1 }}" class="icon-circle-link">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" fill="none" class="icon-line"><path d="M22 16.92V19.92C22.0032 20.1986 21.9441 20.4735 21.8271 20.7245C21.7101 20.9754 21.5381 21.1962 21.324 21.3714C21.1098 21.5467 20.859 21.672 20.5896 21.7383C20.3201 21.8045 20.0388 21.81 19.76 21.75C16.6214 20.8315 13.7371 19.1678 11.37 16.92C9.11765 14.6546 7.53177 11.8906 6.74 8.85002C6.6806 8.57392 6.68656 8.29524 6.75738 8.02713C6.8282 7.75902 6.96272 7.50577 7.15423 7.28859C7.34574 7.07141 7.59107 6.8966 7.8785 6.77803C8.16593 6.65946 8.49002 6.59902 8.83 6.60002H11.83C12.295 6.59546 12.7483 6.76017 13.0886 7.05837C13.4289 7.35657 13.6269 7.7634 13.63 8.18002C13.6338 8.66317 13.7142 9.1415 13.86 9.58002C13.9928 9.99264 13.999 10.435 13.87 10.85L12.63 12.09C14.072 14.5168 15.9333 16.3781 18.36 17.82L19.6 16.58C19.96 16.22 20.43 16.03 20.92 16.06C21.3585 16.2058 21.8368 16.2862 22.32 16.29C22.793 16.29 23.242 16.47 23.57 16.81C23.9 17.15 24 17.6 24 18.06V21.06" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(-1.5, -1.5)"/></svg>
+            </div>
+          </a>
           <div class="info-text">
             <p><a href="tel:{{ section.settings.phone_1 }}">{{ section.settings.phone_1 }}</a></p>
             <p><a href="tel:{{ section.settings.phone_2 }}">{{ section.settings.phone_2 }}</a></p>
@@ -220,6 +237,11 @@
       "id": "address_line_2",
       "label": "Address Line 2",
       "default": "Baltimore, MD, USA 4508"
+    },
+    {
+      "type": "url",
+      "id": "address_url",
+      "label": "Address Link (e.g. Google Maps URL)"
     },
     {
       "type": "text",
