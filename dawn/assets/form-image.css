@@ -74,6 +74,13 @@
     text-align: center;
 }
 
+.icon-circle-link {
+    text-decoration: none;
+    color: inherit;
+    display: inline-flex;
+    cursor: pointer;
+}
+
 .icon-circle {
     width: 70px;
     height: 70px;
@@ -114,6 +121,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    pointer-events: none;
+}
+
+.icon-circle-link .icon-circle {
+    cursor: pointer;
 }
 
 .notification-dot svg {
