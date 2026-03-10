@@ -107,9 +107,9 @@
                         {%- assign brand_image_height = settings.brand_image_width
                           | divided_by: settings.brand_image.aspect_ratio
                         -%}
-                        <div
+                        <a href="{{ routes.root_url }}"
                           class="footer-block__image-wrapper"
-                          style="max-width: min(100%, {{ settings.brand_image_width }}px);"
+                          style="max-width: min(100%, {{ settings.brand_image_width }}px); display: block;"
                         >
                           {{
                             settings.brand_image
@@ -120,7 +120,7 @@
                               height: brand_image_height,
                               width: settings.brand_image_width
                           }}
-                        </div>
+                        </a>
                       {%- endif -%}
                       {%- if settings.brand_headline != blank -%}
                         <h2 class="footer-block__heading rte">{{ settings.brand_headline }}</h2>
