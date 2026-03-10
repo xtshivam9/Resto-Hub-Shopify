@@ -365,27 +365,31 @@
                 {%- endif -%}
               </div>
             {%- endunless -%}
-            <div class="tab_title">
-              {% assign active_index = 1 %}
-              {% for block in section.blocks %}
-                {% if block.settings.html != blank and block.settings.title != blank %}
-                  <h4
-                    class="tablinks link {% if active_index == 1 %}active{% endif %}"
-                    data-tab="tab-{{ active_index }}"
-                  >
-                    {{ block.settings.title }}
-                  </h4>
-                  {% assign active_index = active_index | plus: 1 %}
-                {% endif %}
-              {% endfor %}
-            </div>
+            {% if section.blocks.size > 1 %}
+              <div class="tab_title">
+                {% assign active_index = 1 %}
+                {% for block in section.blocks %}
+                  {% if block.settings.html != blank %}
+                    {% if block.settings.title != blank %}
+                      <h4
+                        class="tablinks link {% if active_index == 1 %}active{% endif %}"
+                        data-tab="tab-{{ active_index }}"
+                      >
+                        {{ block.settings.title }}
+                      </h4>
+                    {% endif %}
+                    {% assign active_index = active_index | plus: 1 %}
+                  {% endif %}
+                {% endfor %}
+              </div>
+            {% endif %}
           </div>
 
           <!-- Tab Contents -->
           <div class="grid dt-sc-column one-column dt-sc-tabs-content">
             {% assign active_index = 1 %}
             {% for block in section.blocks %}
-              {% if block.settings.html != blank and block.settings.title != blank %}
+              {% if block.settings.html != blank %}
                 <div
                   id="tab-{{ active_index }}"
                   class="dt-sc-tabs-content-Details tabcontent {% if active_index == 1 %}active{% endif %}"
